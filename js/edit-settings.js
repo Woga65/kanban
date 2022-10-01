@@ -8,7 +8,7 @@ const tasks = [];
 const defaultPriorities = ["niedrig", "mittel", "hoch"];
 const priorities = [];
 
-const defaultPersons = []; // may be useful for testing
+const defaultPersons = ["Max", "Daniel", "Lukas", "Wolfgang"]; // may be useful for testing
 const inCharge = [];
 
 const defaultCategories = ["Management", "Marketing", "Frontend", "Backend", "Entwicklung", "Arbeit", "Hobby"]; // for testing
@@ -44,7 +44,7 @@ function editPriorities() {
 
 /** add, edit, remove categories */
 function editCategories() {
-    renderDataModal('Categories', defaultCategories);
+    renderDataModal('Categories', categories);
     openModal();
 }
 

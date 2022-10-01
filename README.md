@@ -31,8 +31,8 @@ To have a look at the group project, refer to the link given above.
 
 ## dependencies
 
-Vanilla JS, no libraries, no frameworks
-A PHP enabled web server is needed for the backend
+Vanilla JS, no libraries, no frameworks.
+A PHP enabled web server is needed for the backend.
 
 ## installation
 

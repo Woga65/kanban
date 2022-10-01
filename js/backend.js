@@ -3,7 +3,7 @@ import { backend, setURL, downloadFromServer, jsonFromServer } from "../smallest
 
 /** set backend URL and read data from server */
 async function initBackend() {
-    setURL('https://wolfgang-siebert.de/kanban/smallest_backend_ever');
+    setURL('https://wolfgang-siebert.de/projects/kanban/smallest_backend_ever');
     await downloadFromServer();
 }
 
@@ -70,14 +70,22 @@ function writeColumns(columns) {
 function writeRemovedColumns(removedColumns) {
     backend.startTransaction();
     backend.setItem('removedColumns', JSON.stringify(removedColumns));
+    console.log(JSON.parse(backend.getItem('removedColumns')));
     console.log("removed columns queued for write");
 }
 
 
 /** write queued data to backend */
 async function writeCommit() {
+    const payload = JSON.stringify(jsonFromServer).length;
+    if (payload > 50000) {
+        console.log(`${payload} chars exceed the maximum payload!`)
+        await backend.rollback();
+        return false;
+    }    
     await backend.commit();
-    console.log("changes written to backend");
+    console.log(`${payload} bytes written to backend`);
+    return true;
 } 
 
 
