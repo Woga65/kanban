@@ -1,11 +1,6 @@
 import { backend, setURL, downloadFromServer, jsonFromServer } from "../smallest_backend_ever/mini_backend_module.js";
 
 
-const defaultPriorities = ["niedrig", "mittel", "hoch"];
-const defaultPersons = ["Max", "Daniel", "Lukas", "Wolfgang"];
-const defaultCategories = ["Management", "Marketing", "Frontend", "Backend", "Entwicklung", "Arbeit", "Hobby"];
-
-
 /** set backend URL and read data from server */
 async function initBackend() {
     setURL('https://wolfgang-siebert.de/kanban/smallest_backend_ever');
