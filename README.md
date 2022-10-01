@@ -38,7 +38,7 @@ A PHP enabled web server is needed for the backend
 
 Change the line 
 
-`setURL('https://your-domain.xyz/smallest_backend_ever');` in the file `js/main.js` 
+`setURL('https://your-domain.xyz/smallest_backend_ever');` in the file `js/backend.js` 
 
 according to your needs then, just copy the project's files / folders to your web server.
 

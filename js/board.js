@@ -1,20 +1,16 @@
 'use strict'
 
-import { initColumns, addColumn, removeColumn, readColumnsFromBackend } from "./columns.js";
-import { addTask, removeTask, showTasks, euDateToUtc, tasks, readAllTasksFromBackend } from "./tasks.js";
-import { priorities, inCharge } from "./tasks.js";
-import { backend, setURL, downloadFromServer } from "../smallest_backend_ever/mini_backend_module.js";
+import { initColumns, addColumn, removeColumn } from "./columns.js";
+import { addTask, removeTask, showTasks, euDateToUtc, readAllTasksFromBackend } from "./tasks.js";
+import { initBackend } from "./backend.js";
 import { setupModal, getSettings, editPersons, editPriorities, editCategories } from "./edit-settings.js";
+//import { priorities, inCharge } from "./tasks.js";
 
 
 //-----for debugging-----
-window.debugMode = true; 
+window.debugMode = true;
 debug();
 
-
-//-----backend for educational purpose-----
-setURL('https://wolfgang-siebert.de/kanban/smallest_backend_ever');
-setURL('https://wolfgang-siebert.developerakademie.net/kanban/refactor-this/smallest_backend_ever');
 
 //-----for reference-----
 // const priorities = ["hoch", "mittel", "niedrig"];
@@ -24,9 +20,6 @@ setURL('https://wolfgang-siebert.developerakademie.net/kanban/refactor-this/smal
 (function main() {
 
     init();
-    getSettings();
-    setupModal();
-    //editCategories();
 
 
     /***************************
@@ -61,10 +54,14 @@ setURL('https://wolfgang-siebert.developerakademie.net/kanban/refactor-this/smal
 
 
 async function init() {
-    await downloadFromServer();
+    await initBackend();
     readAllTasksFromBackend();
     initColumns();
     showTasks();
+
+    getSettings();
+    setupModal();
+    //editCategories();
 }
 
 

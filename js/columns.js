@@ -3,9 +3,8 @@ import { dragOver, dragLeave, drop } from "./dragdrop/mouse.js";
 import { startDragging, stopDragging, dragging } from "./dragdrop/mouse.js";
 import { touchStart, touchMove, touchEnd, touchCancel, } from "./dragdrop/touch.js";
 import { findTasksByColumn, moveTaskToColumn, showTasks, columnFooterClicked } from "./tasks.js";
-import { backend, setURL, downloadFromServer, jsonFromServer } from "../smallest_backend_ever/mini_backend_module.js";
 import { attachAddColumnListeners } from "./column-user-func.js";
-
+import { readColumns, readRemovedColumns, writeColumns, writeRemovedColumns, writeCommit } from "./backend.js";
 
 
 const userAddedColumn = `
@@ -274,12 +273,12 @@ function removeColumnListener(colId, e) {
 
 
 function readColumnsFromBackend() {
-    return JSON.parse(backend.getItem('columns'));
+    return readColumns();
 }
 
 
 function readRemovedColumnsFromBackend() {
-    const removedCols = JSON.parse(backend.getItem('removedColumns')) || [];
+    const removedCols = readRemovedColumns() || [];
     removedCols.forEach(rc => {
         const col = new Column(rc.column.id, rc.column.title, rc.column.color, rc.column.minimized);
         col.listeners = columnListeners;
@@ -287,18 +286,14 @@ function readRemovedColumnsFromBackend() {
         col.protected = rc.column.protected || false;
         removedColumns.push({ index: rc.index, column: col });
     });
-    console.log("removed columns read from backend");
 }
 
 
 async function writeAllColumnsToBackend() {
-    backend.startTransaction();
-    backend.setItem('columns', JSON.stringify(columns));
-    backend.setItem('removedColumns', JSON.stringify(removedColumns));
-    await backend.commit();
-    console.log("columns written to backend");
+    writeColumns(columns);
+    writeRemovedColumns(removedColumns);
+    await writeCommit();
 }
-
 
 
 export { columns, columnListeners, currentlyDraggedColumn,};

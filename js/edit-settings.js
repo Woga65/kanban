@@ -1,4 +1,4 @@
-import { backend, setURL, downloadFromServer, jsonFromServer } from "../smallest_backend_ever/mini_backend_module.js";
+import { readSettings } from "./backend.js";
 
 const columns = [];
 const removedColumns = [];
@@ -8,10 +8,10 @@ const tasks = [];
 const defaultPriorities = ["niedrig", "mittel", "hoch"];
 const priorities = [];
 
-const defaultPersons = ["Max", "Daniel", "Lukas", "Wolfgang"];
+const defaultPersons = []; // may be useful for testing
 const inCharge = [];
 
-const defaultCategories = ["Management", "Marketing", "Frontend", "Backend", "Entwicklung", "Arbeit", "Hobby"];
+const defaultCategories = ["Management", "Marketing", "Frontend", "Backend", "Entwicklung", "Arbeit", "Hobby"]; // for testing
 const categories = [];
 
 
@@ -20,9 +20,11 @@ const categories = [];
 function getSettings() {
     priorities.splice(0, priorities.length);
     inCharge.splice(0, inCharge.length);
+    categories.splice(0, categories.length);
     const settings = readSettings();
-    settings.priorities.forEach(p => priorities.push(p));
-    settings.persons.forEach(p => inCharge.push(p));
+    (settings.priorities || defaultPriorities).forEach(p => priorities.push(p));
+    (settings.persons || []).forEach(p => inCharge.push(p));
+    (settings.categories || defaultCategories).forEach(p => categories.push(p));
 }
 
 
@@ -170,12 +172,12 @@ function modalDataItemTemplate(index, data) {
 
 
 /** will be moved to a separate module */
-function readSettings() {
+/*function readSettings() {
     return {
         priorities: JSON.parse(backend.getItem('priorities')) || (defaultPriorities),
         persons: JSON.parse(backend.getItem('inCharge')) || (defaultPersons)
     }
-}
+}*/
 
 
 export { setupModal, editPersons, editPriorities, editCategories, getSettings };

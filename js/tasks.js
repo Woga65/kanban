@@ -1,6 +1,7 @@
 import { touchStart, touchMove, touchEnd, touchCancel, } from "./dragdrop/touch.js";
 import { startDragging, stopDragging, dragging } from "./dragdrop/mouse.js";
 import { backend, setURL, downloadFromServer, jsonFromServer } from "../smallest_backend_ever/mini_backend_module.js";
+import { readSettings, readTasks, writeSettings, writeTasks, writeCommit } from "./backend.js";
 
 
 const tasks = [];
@@ -10,7 +11,8 @@ const defaultPriorities = ["niedrig", "mittel", "hoch"];
 const priorities = [];
 const defaultPersons = ["Wolfgang", "Max", "Daniel", "Lukas"];
 const inCharge = [];
-const defaultCategories = ["Management", "Marketing", "Frontend", "Backend", "Entwicklung", "Arbeit", "Hobby"];
+const defaultCategories = ["Management", "Marketing", "Frontend", "Backend", "Entwicklung", "Arbeit", "Hobby"]; // for testing
+//const defaultCategories = [];
 const categories = [];
 
 const taskListeners = [
@@ -459,43 +461,38 @@ function setEditedTasksValues(taskElement, taskIndex) {
 
 function readAllTasksFromBackend() {
     readTaskSettingsFromBackend();
-    const tasksData = JSON.parse(backend.getItem('tasks')) || [];
+    const tasksData = readTasks() || [];
     tasksData.forEach(task => {
         const taskData = convertForeignData(task);
         const tasksIndex = findTasksIndex(taskData.id);
         (tasksIndex < 0) ? tasks.push(taskData) : tasks.splice(tasksIndex, 1, taskData);
     });
-    console.log("tasks read from backend");
     showTasks();
 }
 
 
 function readTaskSettingsFromBackend() {
-    const priorityData = JSON.parse(backend.getItem('priorities')) || (defaultPriorities);
-    const personsData = JSON.parse(backend.getItem('inCharge')) || (defaultPersons);
+    const settings = readSettings();
+    const priorityData = settings.priorities || (defaultPriorities);
+    const personsData = settings.persons || [];
+    const categoryData = settings.categories || (defaultCategories);
     priorityData.forEach(p => priorities.push(p));
     personsData.forEach(p => inCharge.push(p));
-    console.log("tasks settings read from backend");
+    categoryData.forEach(p => categories.push(p));
     writeTaskSettingsToBackend();
 }
 
 
 function writeAllTasksToBackend() {
-    tasks.forEach(task => task.assignedTo = task.inCharge); // match different field name used somewhere outside
-    backend.startTransaction();
-    backend.setItem('tasks', JSON.stringify(tasks));
-    console.log("tasks queued for write");
+    tasks.forEach(task => task.assignedTo = task.inCharge); // match different field name used by co-workers
+    writeTasks(tasks);
     writeTaskSettingsToBackend();
 }
 
 
 async function writeTaskSettingsToBackend() {
-    backend.startTransaction();                         // it does not hurt, if the transaction has already been started before
-    backend.setItem('priorities', JSON.stringify(priorities));
-    backend.setItem('inCharge', JSON.stringify(inCharge));
-    console.log("tasks settings queued for write");
-    await backend.commit();
-    console.log("changes written to backend");
+    writeSettings({ priorities: priorities, persons: inCharge, categories: categories });
+    await writeCommit();
 }
 
 
