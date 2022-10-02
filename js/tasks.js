@@ -9,10 +9,9 @@ const currentlyDraggedTask = { id: "", sourceColumn: "" };
 
 const defaultPriorities = ["niedrig", "mittel", "hoch"];
 const priorities = [];
-const defaultPersons = ["Wolfgang", "Max", "Daniel", "Lukas"];
+const defaultPersons = ["Wolfgang", "Max", "Daniel", "Lukas"]; // for testing
 const inCharge = [];
 const defaultCategories = ["Management", "Marketing", "Frontend", "Backend", "Entwicklung", "Arbeit", "Hobby"]; // for testing
-//const defaultCategories = [];
 const categories = [];
 
 const taskListeners = [
@@ -508,7 +507,7 @@ function convertForeignData(data) {
 
 
 
-export { tasks, priorities, inCharge, currentlyDraggedTask, parseEuDate, euDateToUtc };
+export { tasks, priorities, inCharge, categories, currentlyDraggedTask, parseEuDate, euDateToUtc };
 export { findTaskById, findTasksIndex, findTasksByColumn, removeTaskFromColumn };
 export { moveTaskToColumn, showTasks, addTask, removeTask, taskTemplate, taskClicked };
 export { readAllTasksFromBackend, writeAllTasksToBackend };

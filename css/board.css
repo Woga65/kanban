@@ -64,6 +64,13 @@ body {
     user-select: none;
 }
 
+#users {
+    font-family: 'IcoFont';
+    padding: calc(var(--font-size) * .5) calc(var(--font-size) * 1.0);
+    cursor: pointer;
+    user-select: none;
+}
+
 #settings {
     font-family: 'IcoFont';
     padding: calc(var(--font-size) * .5) calc(var(--font-size) * 1.0);

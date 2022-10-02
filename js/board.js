@@ -58,10 +58,6 @@ async function init() {
     readAllTasksFromBackend();
     initColumns();
     showTasks();
-
-    getSettings();
-    setupModal();
-    //editCategories();
 }
 
 

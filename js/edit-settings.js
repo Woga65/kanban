@@ -1,18 +1,19 @@
-import { readSettings } from "./backend.js";
+import { readSettings, writeSettings, writeCommit } from "./backend.js";
+import { tasks, priorities, inCharge, categories } from "./tasks.js"
 
 const columns = [];
 const removedColumns = [];
 
-const tasks = [];
+//const tasks = [];
 
 const defaultPriorities = ["niedrig", "mittel", "hoch"];
-const priorities = [];
+//const priorities = [];
 
 const defaultPersons = ["Max", "Daniel", "Lukas", "Wolfgang"]; // may be useful for testing
-const inCharge = [];
+//const inCharge = [];
 
 const defaultCategories = ["Management", "Marketing", "Frontend", "Backend", "Entwicklung", "Arbeit", "Hobby"]; // for testing
-const categories = [];
+//const categories = [];
 
 
 
@@ -30,6 +31,7 @@ function getSettings() {
 
 /** add, edit, remove team members */
 function editPersons() {
+    getSettings();
     renderDataModal('Team members', inCharge);
     openModal();
 }
@@ -37,6 +39,7 @@ function editPersons() {
 
 /** add, edit, remove priorities */
 function editPriorities() {
+    getSettings();
     renderDataModal('Priorities', priorities);
     openModal();
 }
@@ -44,6 +47,7 @@ function editPriorities() {
 
 /** add, edit, remove categories */
 function editCategories() {
+    getSettings();
     renderDataModal('Categories', categories);
     openModal();
 }
@@ -93,17 +97,20 @@ function removeModalListeners() {
 /** open modal data dialog */
 function openModal() {
     const modal = document.getElementById('modal-container');
-    modal.style.display = "flex";
-    modal.style.opacity = "1";
+    modal.style.display = "flex";   
+    setTimeout(() => modal.style.opacity = "1", 0);
 }
 
 
 /** event listener - close modal data dialog */
-function closeModal(e) {
+async function closeModal(e) {
     const modal = document.getElementById('modal-container');
     modal.style.opacity = "";
     setTimeout(() => modal.style.display = "", 400);
     removeModalListeners();
+    writeSettings({ priorities: priorities, persons: inCharge, categories: categories });
+    await writeCommit();
+    //readTaskSettingsFromBackend();
 }
 
 

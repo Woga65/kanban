@@ -5,6 +5,7 @@ import { touchStart, touchMove, touchEnd, touchCancel, } from "./dragdrop/touch.
 import { findTasksByColumn, moveTaskToColumn, showTasks, columnFooterClicked } from "./tasks.js";
 import { attachAddColumnListeners } from "./column-user-func.js";
 import { readColumns, readRemovedColumns, writeColumns, writeRemovedColumns, writeCommit } from "./backend.js";
+import { setupModal, getSettings, editPersons } from "./edit-settings.js";
 
 
 const userAddedColumn = `
@@ -146,17 +147,23 @@ function moveColumn(sourceColumn, targetColumn) {
 }
 
 
-/** initialize the kanban board's columns/lists
- *  uses either the data read fron the backend or the default data */
+/** initialize the kanban board's columns/lists and UI
+ *  uses either the data read from the backend or the default data */
 function initColumns() {
     const columnsData = readColumnsFromBackend() || defaultColumns;
-    console.log("columns read from backend");
     columnsData.forEach(column => addColumn(column.id, column.title, column.color, column.minimized || false, column.protected || false, column.board || "board"));
     readRemovedColumnsFromBackend();
     window.addEventListener("resize", resizeViewportListener);
     window.addEventListener("scroll", resizeViewportListener);
     attachAddColumnListeners();
+    setupUI();
+}
+
+
+/** setup the board's user interface and related elements */
+function setupUI() {
     setupMenuIconBar();
+    setupModal();
 }
 
 
@@ -166,6 +173,7 @@ function setupMenuIconBar() {
     const menuCol = document.createElement("div");
     menuCol.classList.add("menu-icon-bar");
     setupUndoIcon(menuCol);
+    setupUsersIcon(menuCol);
     setupSettingsIcon(menuCol);
     parent.appendChild(menuCol);
 }
@@ -179,6 +187,17 @@ function setupUndoIcon(parent) {
     undo.style.color = (removedColumns.length) ? "black" : "grey";
     parent.appendChild(undo);
     undo.addEventListener("click", restoreColumn.bind(null, -1));
+}
+
+
+/** setup the users icon */
+function setupUsersIcon(parent) {
+    const users = document.createElement("div");
+    users.id = "users";
+    users.innerHTML = "&#xed01;";
+    users.style.color = "black";
+    parent.appendChild(users);
+    users.addEventListener("click", editPersons);
 }
 
 

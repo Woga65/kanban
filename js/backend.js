@@ -70,7 +70,6 @@ function writeColumns(columns) {
 function writeRemovedColumns(removedColumns) {
     backend.startTransaction();
     backend.setItem('removedColumns', JSON.stringify(removedColumns));
-    console.log(JSON.parse(backend.getItem('removedColumns')));
     console.log("removed columns queued for write");
 }
 
