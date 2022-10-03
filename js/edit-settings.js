@@ -132,7 +132,7 @@ function clickedOutside(e) {
  */
 function addData(heading, data, e) {
     const modalInput = document.getElementById('modal-input');
-    if (modalInput.value) data.push(modalInput.value);
+    if (modalInput.value) data.push(modalInput.value.trim());
     removeModalListeners();
     renderDataModal(heading, data);
 }

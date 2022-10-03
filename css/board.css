@@ -380,6 +380,7 @@ body {
 
 .task-header .task-priority {
     font-size: calc(var(--font-size) * .75);
+    text-align: center;
     margin: 0px calc(var(--font-size) * .3);
     background-color: #dedede;
     padding: calc(var(--font-size) * .05) calc(var(--font-size) * .3);
