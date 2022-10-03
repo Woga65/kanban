@@ -1,9 +1,8 @@
 'use strict'
 
-import { initColumns, addColumn, removeColumn } from "./columns.js";
+import { initColumns, addColumn, removeColumn, columns } from "./columns.js";
 import { addTask, removeTask, showTasks, euDateToUtc, readAllTasksFromBackend } from "./tasks.js";
 import { initBackend } from "./backend.js";
-import { setupModal, getSettings, editPersons, editPriorities, editCategories } from "./edit-settings.js";
 //import { priorities, inCharge } from "./tasks.js";
 
 
@@ -24,13 +23,14 @@ debug();
 
     /***************************
      **      examples         **
-     *************************** 
+     ***************************
+
+    // addColumn(columnId, columnTitle, colors, minimized, protected, parentElement, insertBeforeElement)
+    // addTask(columnId, taskTitle, taskDetails, taskCategory, taskPriority, dueDate, assignedTo)
     
     let task, col;
-    col = addColumn("neuespalte", "neue Spalte", { title: "black", accent: "darksalmon", text: "black", background: "white" }, false, "board", false);
-    task = addTask("todo", "Büro Aufräumen", "Text 4", "Hausarbeit", 2, euDateToUtc("31.12.2022"), inCharge[2]);
-    addTask("neuespalte", "Fluggerät testen", "Text 3", "Hobby", 1, euDateToUtc("15.05.2022"), inCharge[0]);
-
+    col = addColumn("neuespalte", "neue Spalte", { title: "black", accent: "darksalmon", text: "black", background: "white" }, false, true, "board", "todo");
+    task = addTask("neuespalte", "Fluggerät nochmal testen", "Text 3", "Hobby", 1, euDateToUtc("15.05.2022"), "Müllers Kuh");
     showTasks();
 
     setTimeout(function () {
@@ -41,6 +41,7 @@ debug();
         console.log(removeColumn("neuespalte"));
     }, 10000);
 
+/*
     addTask("inprogress", "Frontend programmieren", "Task's description goes here", "Entwicklung", 0, euDateToUtc("30.04.2022"), inCharge[0]);
     addTask("complete", "Überbrückungshilfe beantragen", "Text 2", "Arbeit", 0, euDateToUtc("25.03.2022"), inCharge[0]);
     addTask("complete", "Tanzstunde vorbereiten", "Text 5", "Arbeit", 0, euDateToUtc("15.01.22"), inCharge[0]);

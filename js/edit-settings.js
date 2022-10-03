@@ -1,4 +1,4 @@
-import { readSettings, writeSettings, writeCommit } from "./backend.js";
+import { readSettings, writeSettings, readTasks, writeTasks, writeCommit } from "./backend.js";
 import { tasks, priorities, inCharge, categories } from "./tasks.js"
 
 const columns = [];
@@ -110,7 +110,6 @@ async function closeModal(e) {
     removeModalListeners();
     writeSettings({ priorities: priorities, persons: inCharge, categories: categories });
     await writeCommit();
-    //readTaskSettingsFromBackend();
 }
 
 

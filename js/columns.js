@@ -68,7 +68,7 @@ function addColumn(colId, title, color, minimized, protectedCol, boardId, before
     col.protected = protectedCol || false;
     col.appendTo(boardId || "board", beforeCol);
     if (col.protected && !col.minimized) document.getElementById(`${col.id}-close`).classList.add("disabled");
-    (columns.length && columns[columns.length - 1].id == "add-column") ? columns.splice(columns.length -1, 0, col) : columns.push(col);
+    (columns.length && columns[columns.length - 1].id == "add-column") ? columns.splice(columns.length - 1, 0, col) : columns.push(col);
     return columns[columns.findIndex(column => column.id == colId)] || "";
 }
 
@@ -81,9 +81,9 @@ function addColumn(colId, title, color, minimized, protectedCol, boardId, before
  */
 function removeColumn(colId) {
     const colIndex = findColumnsIndex(colId);
-    const toRemove = columns[colIndex] || "";
-    if (toRemove && !toRemove.protected) {
-        backupRemovedColumn(toRemove, colIndex);
+    const toRemove = columns[colIndex] || "";                               // if this function has been called despite the column being 
+    if (toRemove) {                                                         // protected, this happened not because of a user interaction.
+        if (!toRemove.protected) backupRemovedColumn(toRemove, colIndex);   // If so, we do not push the column to the undo-stack.
         toRemove.removeFrom(toRemove.board);
         columns.splice(colIndex, 1);
         getColumnsProperties();

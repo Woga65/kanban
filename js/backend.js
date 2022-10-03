@@ -42,6 +42,7 @@ function readSettings() {
 
 /** queue tasks for write */
 function writeTasks(tasks) {
+    tasks.forEach(task => task.assignedTo = task.inCharge); // match different field name used by co-workers
     backend.startTransaction();
     backend.setItem('tasks', JSON.stringify(tasks));
     console.log("tasks queued for write");

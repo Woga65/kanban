@@ -221,6 +221,13 @@ body {
 
 .column .title-regular .disabled {
     opacity: .3;
+    cursor: grab;
+}
+
+.column .title-regular .disabled:hover {
+    opacity: .3;
+    cursor: grab;
+    font-size: calc(var(--font-size) * 1);
 }
 
 .column .title-left,

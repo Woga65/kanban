@@ -483,7 +483,7 @@ function readTaskSettingsFromBackend() {
 
 
 function writeAllTasksToBackend() {
-    tasks.forEach(task => task.assignedTo = task.inCharge); // match different field name used by co-workers
+    //tasks.forEach(task => task.assignedTo = task.inCharge); // match different field name used by co-workers
     writeTasks(tasks);
     writeTaskSettingsToBackend();
 }
