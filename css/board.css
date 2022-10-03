@@ -49,6 +49,7 @@ body {
     justify-content: flex-start;
     min-height: inherit;
     max-height: 100vh;
+    max-width: calc(var(--font-size) * 4);
     position: fixed;
     top: 0;
     bottom: 0;
@@ -73,6 +74,17 @@ body {
     padding: calc(var(--font-size) * .5) calc(var(--font-size) * 1.0);
     cursor: pointer;
     user-select: none;
+}
+
+#priorities {
+    font-family: 'IcoFont';
+    padding: calc(var(--font-size) * .5) calc(var(--font-size) * 1.0);
+    cursor: pointer;
+    user-select: none;
+}
+
+#priorities img {
+    width: calc(var(--font-size) * 2.5);
 }
 
 #add-list {

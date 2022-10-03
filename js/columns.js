@@ -5,7 +5,7 @@ import { touchStart, touchMove, touchEnd, touchCancel, } from "./dragdrop/touch.
 import { findTasksByColumn, moveTaskToColumn, showTasks, columnFooterClicked } from "./tasks.js";
 import { attachAddColumnListeners } from "./column-user-func.js";
 import { readColumns, readRemovedColumns, writeColumns, writeRemovedColumns, writeCommit } from "./backend.js";
-import { setupModal, getSettings, editPersons } from "./edit-settings.js";
+import { setupModal, getSettings, editPersons, editPriorities } from "./edit-settings.js";
 
 
 const userAddedColumn = `
@@ -174,6 +174,7 @@ function setupMenuIconBar() {
     menuCol.classList.add("menu-icon-bar");
     setupUndoIcon(menuCol);
     setupUsersIcon(menuCol);
+    setupPrioritiesIcon(menuCol);
     setupListIcon(menuCol);
     setupSettingsIcon(menuCol);
     parent.appendChild(menuCol);
@@ -199,6 +200,17 @@ function setupUsersIcon(parent) {
     users.style.color = "black";
     parent.appendChild(users);
     users.addEventListener("click", editPersons);
+}
+
+
+/** setup the priorties icon */
+function setupPrioritiesIcon(parent) {
+    const prio = document.createElement("div");
+    prio.id = "priorities";
+    prio.innerHTML = `<img src="./img/priority.svg">`;
+    prio.style.color = "black";
+    parent.appendChild(prio);
+    prio.addEventListener("click", editPriorities);
 }
 
 
