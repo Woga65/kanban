@@ -66,6 +66,7 @@ function addColumn(colId, title, color, minimized, protectedCol, boardId, before
     col.listeners = columnListeners;
     col.protected = protectedCol || false;
     col.appendTo(boardId || "board", beforeCol);
+    if (col.protected && !col.minimized) document.getElementById(`${col.id}-close`).classList.add("disabled");
     (columns.length && columns[columns.length - 1].id == "add-column") ? columns.splice(columns.length -1, 0, col) : columns.push(col);
     return columns[columns.findIndex(column => column.id == colId)] || "";
 }
@@ -304,7 +305,7 @@ function findRemovedColumnsIndex(colId) {
  * @param { object } e - event object 
  */
 function removeColumnListener(colId, e) {
-    if (e.target.id == colId + "-close") {
+    if (e.target.id == colId + "-close" && ![...e.target.classList].includes('disabled')) {
         e.stopPropagation();
         const tasks = removeColumn(colId);
         writeAllColumnsToBackend();

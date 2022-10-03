@@ -219,6 +219,10 @@ body {
     cursor: grab;
 }
 
+.column .title-regular .disabled {
+    opacity: .3;
+}
+
 .column .title-left,
 .column .title-right {
     width: calc(var(--font-size) * 1.1);
