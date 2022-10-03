@@ -477,6 +477,7 @@ body {
     background-color: #e0e0e0f0;
     color: #1a1a1a;
     border-radius: calc(var(--font-size) * .1);
+    cursor: default;
 }
 
 .modal-data ul {
@@ -494,8 +495,13 @@ body {
 
 .modal-data li div:last-child {
     font-family: 'LineAwesome';
+    cursor: pointer;
 }
 
-li input, li button {
+.modal-data button {
+    cursor: pointer;
+}
+
+.modal-data li input, .modal-data li button {
     margin-bottom: calc(var(--font-size) * 1.0);
 }

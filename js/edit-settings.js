@@ -76,10 +76,12 @@ function renderDataModal(heading, data) {
 function addModalListeners(heading, data) {
     const modalAdd = document.getElementById('modal-add');
     const modalClose = document.getElementById('modal-close');
+    const modalContainer = document.getElementById('modal-container');
     const deleteIcons = document.querySelectorAll('.modal-data li div:last-child');
     modalAdd.addEventListener('click', addData.bind(null, heading, data));
     modalClose.addEventListener('click', closeModal);
     deleteIcons.forEach(di => di.addEventListener('click', deleteData.bind(null, heading, data)));
+    modalContainer.addEventListener('click', clickedOutside);
 }
 
 
@@ -110,6 +112,14 @@ async function closeModal(e) {
     removeModalListeners();
     writeSettings({ priorities: priorities, persons: inCharge, categories: categories });
     await writeCommit();
+}
+
+
+/** event listener - clicked on backdrop */
+function clickedOutside(e) {
+    if (e.target.id && e.target.id == 'modal-container') {
+        closeModal(e);
+    }
 }
 
 
