@@ -31,6 +31,7 @@ const defaultColumns = [
 
 const columns = [];
 const removedColumns = [];
+const maximumRemovedColumns = 8;
 const currentlyDraggedColumn = { id: "", placeholder: {} };
 
 const columnListeners = [
@@ -94,6 +95,8 @@ function removeColumn(colId) {
 
 /**
  * store a column on top of the undo-stack
+ * remove a column from the bottom of the
+ * undo-stack, if the max lenght is exceeded
  * 
  * @param { object } column - the column object to be stored on top of the undo-stack 
  * @param { number } index  - the index where the column was stored in the column's array
@@ -101,6 +104,7 @@ function removeColumn(colId) {
  */
 function backupRemovedColumn(column, index) {
     document.getElementById("undo").style.color = "black";
+    if (removedColumns.length >= maximumRemovedColumns) removedColumns.shift();
     return (column.id != "add-column") ? removedColumns.push({ index: index, column: column }) : false;
 }
 
