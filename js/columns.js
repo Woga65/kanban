@@ -174,6 +174,7 @@ function setupMenuIconBar() {
     menuCol.classList.add("menu-icon-bar");
     setupUndoIcon(menuCol);
     setupUsersIcon(menuCol);
+    setupListIcon(menuCol);
     setupSettingsIcon(menuCol);
     parent.appendChild(menuCol);
 }
@@ -198,6 +199,20 @@ function setupUsersIcon(parent) {
     users.style.color = "black";
     parent.appendChild(users);
     users.addEventListener("click", editPersons);
+}
+
+
+/** setup the add list icon */
+function setupListIcon(parent) {
+    const list = document.createElement("div");
+    list.id = "add-list";
+    list.innerHTML = `<img src="./img/icons8-add-properies-26.png">`;
+    list.style.color = "black";
+    parent.appendChild(list);
+    list.addEventListener("click", () => {
+        document.getElementById('add-column-link').click();
+        document.getElementById('add-column-input').focus();
+    });
 }
 
 

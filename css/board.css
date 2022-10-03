@@ -57,6 +57,10 @@ body {
     border-right: 1px solid lightgray;
 }
 
+.menu-icon-bar div {
+    margin-top: calc(var(--font-size) * .8);
+}
+
 #undo {
     font-family: 'IcoFont';
     padding: calc(var(--font-size) * .5) calc(var(--font-size) * 1.0);
@@ -69,6 +73,19 @@ body {
     padding: calc(var(--font-size) * .5) calc(var(--font-size) * 1.0);
     cursor: pointer;
     user-select: none;
+}
+
+#add-list {
+    font-family: 'IcoFont';
+    padding: calc(var(--font-size) * .5) calc(var(--font-size) * 1.0);
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    justify-content: flex-end;
+}
+
+#add-list img {
+    width: 90%;
 }
 
 #settings {
@@ -233,6 +250,7 @@ body {
     margin-top: calc(var(--font-size) * .3);
     border-style: none;
     outline: none;
+    scroll-margin-left: -50vw;
 }
 
 #add-column-input-bg {
