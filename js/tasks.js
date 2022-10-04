@@ -217,7 +217,7 @@ function euDateToUtc(date) {
 function addTaskListener(colId, e) {
     if (e.target.id == colId + "-new-task") {
         e.stopPropagation();
-        insertUserAddedTask(e);
+        colId == 'trash' ? findTasksByColumn(colId).forEach(task => removeTask(task.id)) : insertUserAddedTask(e);
     }
 }
 

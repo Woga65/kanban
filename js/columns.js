@@ -68,7 +68,9 @@ function addColumn(colId, title, color, minimized, protectedCol, boardId, before
     col.protected = protectedCol || false;
     col.appendTo(boardId || "board", beforeCol);
     if (col.protected && !col.minimized) document.getElementById(`${col.id}-close`).classList.add("disabled");
-    (columns.length && columns[columns.length - 1].id == "add-column") ? columns.splice(columns.length - 1, 0, col) : columns.push(col);
+    (columns.length && columns[columns.length - 1].id == "add-column") 
+        ? (beforeCol ? columns.splice(findColumnsIndex(beforeCol), 0, col) : columns.splice(columns.length - 1, 0, col))
+        : columns.push(col);
     return columns[columns.findIndex(column => column.id == colId)] || "";
 }
 
@@ -87,7 +89,6 @@ function removeColumn(colId) {
         toRemove.removeFrom(toRemove.board);
         columns.splice(colIndex, 1);
         getColumnsProperties();
-        //findTasksByColumn(colId).forEach(task => moveTaskToColumn(task.id, "trash"));
     }
     return (!toRemove.protected) ? findTasksByColumn(colId) : [];
 }
@@ -104,7 +105,10 @@ function removeColumn(colId) {
  */
 function backupRemovedColumn(column, index) {
     document.getElementById("undo").style.color = "black";
-    if (removedColumns.length >= maximumRemovedColumns) removedColumns.shift();
+    if (removedColumns.length >= maximumRemovedColumns) {
+        const deletedCol = removedColumns.shift();
+        //findTasksByColumn(deletedCol.column.id).forEach(task => moveTaskToColumn(task.id, "trash"))
+    }
     return (column.id != "add-column") ? removedColumns.push({ index: index, column: column }) : false;
 }
 
@@ -144,6 +148,7 @@ function moveColumn(sourceColumn, targetColumn) {
         const column = columns.splice(findColumnsIndex(sourceColumn), 1)[0];
         column.removeFrom(column.board);
         column.appendTo(column.board, tc);
+        if (column.protected && !column.minimized) document.getElementById(`${column.id}-close`).classList.add("disabled");
         columns.splice(findColumnsIndex(tc), 0, column);
         getColumnsProperties();
         writeAllColumnsToBackend();
@@ -181,6 +186,7 @@ function setupMenuIconBar() {
     setupUsersIcon(menuCol);
     setupPrioritiesIcon(menuCol);
     setupListIcon(menuCol);
+    setupTrashCanIcon(menuCol);
     setupSettingsIcon(menuCol);
     parent.appendChild(menuCol);
 }
@@ -229,6 +235,24 @@ function setupListIcon(parent) {
     list.addEventListener("click", () => {
         document.getElementById('add-column-link').click();
         document.getElementById('add-column-input').focus();
+    });
+}
+
+
+/** setup the trash can icon */
+function setupTrashCanIcon(parent) {
+    const trashCan = document.createElement("div");
+    trashCan.id = "trash-can";
+    trashCan.innerHTML = "&#xf2ed;";
+    trashCan.style.color = "black";
+    parent.appendChild(trashCan);
+    trashCan.addEventListener("click", () => {
+        document.getElementById('trash') 
+            ? removeColumn('trash')
+            : addColumn('trash', 'trash', { accent: "darksalmon" }, false, true, "board", columns[0].id);
+        getColumnsProperties();
+        writeAllColumnsToBackend();
+        showTasks();
     });
 }
 

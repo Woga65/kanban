@@ -180,7 +180,7 @@ class Column {
         </h4>
         <div id="${this.id}-body" class="column-body"></div>
         <div id="${this.id}-new-task" class="new-task" style="margin-top: auto; background-color: ${this.color.accent};">
-            Karte hinzufügen
+            ${ this.id == 'trash' ? 'Papierkorb leeren' : 'Karte hinzufügen' }
         </div>
         `.trim();
     }

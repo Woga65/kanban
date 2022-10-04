@@ -15,6 +15,8 @@ const columnColors = {
     ]
 };
 
+const specialColumns = ['trash', 'add-column'];
+
 
 /**
  * inserts and renders a new column before the UI column
@@ -23,7 +25,7 @@ const columnColors = {
  * @param { string } newColumnTitle - a title for the column to be created
  */
 function insertUserAddedColumn(newColumnId, newColumnTitle) {
-    if (!document.getElementById(newColumnId)) {
+    if (!document.getElementById(newColumnId) && !specialColumns.includes(newColumnId)) {
         const column = columns[columns.length - 1];
         addColumn(newColumnId, newColumnTitle, columnColors.colors[columnColors.choice], false, false, column.board, "add-column"); 
         getColumnsProperties();
