@@ -15,7 +15,7 @@ const columnColors = {
     ]
 };
 
-const specialColumns = ['trash', 'add-column'];
+const specialColumns = ['trash', 'backlog', 'add-column'];
 
 
 /**

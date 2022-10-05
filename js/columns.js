@@ -5,7 +5,7 @@ import { touchStart, touchMove, touchEnd, touchCancel, } from "./dragdrop/touch.
 import { findTasksByColumn, moveTaskToColumn, showTasks, columnFooterClicked } from "./tasks.js";
 import { attachAddColumnListeners } from "./column-user-func.js";
 import { readColumns, readRemovedColumns, writeColumns, writeRemovedColumns, writeCommit } from "./backend.js";
-import { setupModal, getSettings, editPersons, editPriorities } from "./edit-settings.js";
+import { setupModal, editPersons, editPriorities } from "./modal-settings-dialog.js";
 
 
 const userAddedColumn = `
@@ -31,7 +31,7 @@ const defaultColumns = [
 
 const columns = [];
 const removedColumns = [];
-const maximumRemovedColumns = 8;
+const maximumRemovedColumns = 10;
 const currentlyDraggedColumn = { id: "", placeholder: {} };
 
 const columnListeners = [
@@ -185,7 +185,9 @@ function setupMenuIconBar() {
     setupUndoIcon(menuCol);
     setupUsersIcon(menuCol);
     setupPrioritiesIcon(menuCol);
-    setupListIcon(menuCol);
+    setupAddListIcon(menuCol);
+    setupRemoveListIcon(menuCol);
+    setupBacklogIcon(menuCol);
     setupTrashCanIcon(menuCol);
     setupSettingsIcon(menuCol);
     parent.appendChild(menuCol);
@@ -194,10 +196,7 @@ function setupMenuIconBar() {
 
 /** setup the undo icon */
 function setupUndoIcon(parent) {
-    const undo = document.createElement("div");
-    undo.id = "undo";
-    undo.innerHTML = "&#xee0b;";
-    undo.style.color = (removedColumns.length) ? "black" : "grey";
+    const undo = menuIconTemplate('undo', '&#xee0b;', (removedColumns.length) ? "black" : "grey");
     parent.appendChild(undo);
     undo.addEventListener("click", restoreColumn.bind(null, -1));
 }
@@ -205,10 +204,7 @@ function setupUndoIcon(parent) {
 
 /** setup the users icon */
 function setupUsersIcon(parent) {
-    const users = document.createElement("div");
-    users.id = "users";
-    users.innerHTML = "&#xed01;";
-    users.style.color = "black";
+    const users = menuIconTemplate('users', '&#xed01;', 'black');
     parent.appendChild(users);
     users.addEventListener("click", editPersons);
 }
@@ -216,21 +212,15 @@ function setupUsersIcon(parent) {
 
 /** setup the priorties icon */
 function setupPrioritiesIcon(parent) {
-    const prio = document.createElement("div");
-    prio.id = "priorities";
-    prio.innerHTML = `<img src="./img/priority.svg">`;
-    prio.style.color = "black";
+    const prio = menuIconTemplate('priorities', `<img src="./img/priority.svg">`, 'black');
     parent.appendChild(prio);
     prio.addEventListener("click", editPriorities);
 }
 
 
 /** setup the add list icon */
-function setupListIcon(parent) {
-    const list = document.createElement("div");
-    list.id = "add-list";
-    list.innerHTML = `<img src="./img/icons8-add-properies-26.png">`;
-    list.style.color = "black";
+function setupAddListIcon(parent) {
+    const list = menuIconTemplate('add-list', `<img src="./img/icons8-add-properies-26.png">`, 'black');
     parent.appendChild(list);
     list.addEventListener("click", () => {
         document.getElementById('add-column-link').click();
@@ -239,17 +229,40 @@ function setupListIcon(parent) {
 }
 
 
+/** setup the remove list icon */
+function setupRemoveListIcon(parent) {
+    const list = menuIconTemplate('remove-list', `<img src="./img/icons8-remove-properies-26.png">`, 'black', 'none');
+    parent.appendChild(list);
+    list.addEventListener("click", () => {
+        document.getElementById('add-column-link').click();
+        document.getElementById('add-column-input').focus();
+    });
+}
+
+
+/** setup the show backlog icon */
+function setupBacklogIcon(parent) {
+    const backlog = menuIconTemplate('show-backlog', '&#xead1;', 'black');
+    parent.appendChild(backlog);
+    backlog.addEventListener("click", () => {
+        document.getElementById('backlog') 
+            ? removeColumn('backlog')
+            : addColumn('backlog', 'Backlog', { accent: "darksalmon" }, false, true, "board", columns[0].id);
+        getColumnsProperties();
+        writeAllColumnsToBackend();
+        showTasks();
+    });
+}
+
+
 /** setup the trash can icon */
 function setupTrashCanIcon(parent) {
-    const trashCan = document.createElement("div");
-    trashCan.id = "trash-can";
-    trashCan.innerHTML = "&#xf2ed;";
-    trashCan.style.color = "black";
+    const trashCan = menuIconTemplate('trash-can', '&#xf2ed;', 'black');
     parent.appendChild(trashCan);
     trashCan.addEventListener("click", () => {
         document.getElementById('trash') 
             ? removeColumn('trash')
-            : addColumn('trash', 'trash', { accent: "darksalmon" }, false, true, "board", columns[0].id);
+            : addColumn('trash', 'trash', { accent: "rgba(30, 30, 30, .2)" }, false, true, "board", columns[0].id);
         getColumnsProperties();
         writeAllColumnsToBackend();
         showTasks();
@@ -259,13 +272,19 @@ function setupTrashCanIcon(parent) {
 
 /** setup the settings icon */
 function setupSettingsIcon(parent) {
-    const settings = document.createElement("div");
-    settings.id = "settings";
-    settings.innerHTML = "&#xef3a;";
-    settings.style.color = "black";
-    settings.style.display = "none";
+    const settings = menuIconTemplate('settings', '&#xef3a;', 'black', 'none');
     parent.appendChild(settings);
     //settings.addEventListener("click", changeSettings);
+}
+
+
+function menuIconTemplate(id, html, color, display = '') {
+    const icon = document.createElement("div");
+    icon.id = id;
+    icon.innerHTML = html;
+    icon.style.color = color;
+    icon.style.display = display;
+    return icon;
 }
 
 
@@ -371,7 +390,7 @@ async function writeAllColumnsToBackend() {
 }
 
 
-export { columns, columnListeners, currentlyDraggedColumn,};
+export { columns, removedColumns, columnListeners, currentlyDraggedColumn,};
 export { initColumns, addColumn, removeColumn, restoreColumn, moveColumn };
 export { getColumnsProperties, findColumnById, findColumnsIndex, findRemovedColumnById, findRemovedColumnsIndex };
 export { readColumnsFromBackend, writeAllColumnsToBackend }

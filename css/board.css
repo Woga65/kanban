@@ -102,6 +102,27 @@ body {
     width: 90%;
 }
 
+#remove-list {
+    font-family: 'IcoFont';
+    padding: calc(var(--font-size) * .5) calc(var(--font-size) * 1.0);
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    justify-content: flex-end;
+}
+
+#remove-list img {
+    width: 90%;
+}
+
+#show-backlog {
+    font-family: 'IcoFont';
+    font-size: calc(var(--font-size) * 1.7);
+    padding: calc(var(--font-size) * .5) calc(var(--font-size) * 1.0);
+    cursor: pointer;
+    user-select: none;
+}
+
 #trash-can {
     font-family: 'LineAwesome';
     font-size: calc(var(--font-size) * 2.0);

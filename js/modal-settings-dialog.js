@@ -1,10 +1,6 @@
-import { readSettings, writeSettings, readTasks, writeTasks, writeCommit } from "./backend.js";
-import { tasks, priorities, inCharge, categories } from "./tasks.js"
+import { readSettings, writeSettings, writeCommit } from "./backend.js";
+import { priorities, inCharge, categories } from "./tasks.js"
 
-const columns = [];
-const removedColumns = [];
-
-//const tasks = [];
 
 const defaultPriorities = ["niedrig", "mittel", "hoch"];
 //const priorities = [];
@@ -186,14 +182,4 @@ function modalDataItemTemplate(index, data) {
 }
 
 
-
-/** will be moved to a separate module */
-/*function readSettings() {
-    return {
-        priorities: JSON.parse(backend.getItem('priorities')) || (defaultPriorities),
-        persons: JSON.parse(backend.getItem('inCharge')) || (defaultPersons)
-    }
-}*/
-
-
-export { setupModal, editPersons, editPriorities, editCategories, getSettings };
+export { setupModal, editPersons, editPriorities, editCategories };
