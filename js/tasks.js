@@ -1,6 +1,5 @@
 import { touchStart, touchMove, touchEnd, touchCancel, } from "./dragdrop/touch.js";
 import { startDragging, stopDragging, dragging } from "./dragdrop/mouse.js";
-import { backend, setURL, downloadFromServer, jsonFromServer } from "../smallest_backend_ever/mini_backend_module.js";
 import { readSettings, readTasks, writeSettings, writeTasks, writeCommit } from "./backend.js";
 
 
@@ -357,7 +356,6 @@ function taskEditable(e, taskElement) {
     taskElement.title.removeAttribute('readonly');       // elements editable
     taskElement.details.removeAttribute('readonly');
     (e.target.classList.contains("task-deadline")) ? taskElement.inputDeadline.focus() : e.target.focus(); // set focus to the clicked element
-    //taskElement.column.parentElement.firstElementChild.style.cursor = "default";
 }
 
 
@@ -405,7 +403,6 @@ function nextPersonInCharge(taskId, te) {
 function taskOutOfFocus(taskId, e) {
     const taskElement = getTaskElement(taskId);
     if (e.target == taskElement.category || e.target == taskElement.title || e.target == taskElement.details || e.target == taskElement.inputDeadline) {
-        //taskNonEditable(taskElement);
         setEditedTasksValues(taskElement, findTasksIndex(taskId));
         taskElement.task.draggable = true;
         taskElement.column.draggable = true;
@@ -430,7 +427,6 @@ function taskNonEditable(taskElement) {
     taskElement.column.draggable = true;
     taskElement.task.style.cursor = "grab";
     taskElement.deadline.textContent = new Date(taskElement.inputDeadline.value).toLocaleString().slice(0, -10)
-    //taskElement.column.parentElement.firstElementChild.style.cursor = "grab";
 }
 
 
@@ -483,7 +479,6 @@ function readTaskSettingsFromBackend() {
 
 
 function writeAllTasksToBackend() {
-    //tasks.forEach(task => task.assignedTo = task.inCharge); // match different field name used by co-workers
     writeTasks(tasks);
     writeTaskSettingsToBackend();
 }
@@ -495,7 +490,8 @@ async function writeTaskSettingsToBackend() {
 }
 
 
-// convert foreign data to match our data structure
+// convert the data used by co-workers to match our data structure
+// obsolete now, kept here just in case
 function convertForeignData(data) {
     data.inCharge = ('assignedTo' in data) ? data.assignedTo : inCharge[0];
     data.assignedTo = data.inCharge;

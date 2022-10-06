@@ -6,12 +6,12 @@ import { showTasks } from "./tasks.js";
 const columnColors = {
     choice: 0,
     colors: [
-        { accent: "rgba(30, 30, 30, .2)", background: "white", text: "black", title: "black" },
-        { accent: "rgba(255, 0, 0, .2)", background: "white", text: "black", title: "black" },
-        { accent: "rgba(0, 255, 0, .2)", background: "white", text: "black", title: "black" },
-        { accent: "rgba(0, 0, 255, .2)", background: "white", text: "black", title: "black" },
-        { accent: "rgba(128, 255, 255, .9)", background: "white", text: "black", title: "black" },
-        { accent: "darksalmon", background: "white", text: "black", title: "black" },
+        { accent: "rgba(30, 30, 30, .2)", background: "var(--primary-bgr)", text: "var(--primary-color)", title: "var(--primary-color)" },
+        { accent: "rgba(255, 0, 0, .2)", background: "var(--primary-bgr)", text: "var(--primary-color)", title: "var(--primary-color)" },
+        { accent: "rgba(0, 255, 0, .2)", background: "var(--primary-bgr)", text: "var(--primary-color)", title: "var(--primary-color)" },
+        { accent: "rgba(0, 0, 255, .2)", background: "var(--primary-bgr)", text: "var(--primary-color)", title: "var(--primary-color)" },
+        { accent: "rgba(128, 255, 255, .9)", background: "var(--primary-bgr)", text: "var(--primary-color)", title: "var(--primary-color)" },
+        { accent: "darksalmon", background: "var(--primary-bgr)", text: "var(--primary-color)", title: "var(--primary-color)" },
     ]
 };
 

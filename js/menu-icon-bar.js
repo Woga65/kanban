@@ -18,14 +18,14 @@ function setupMenuIconBar() {
     const parent = document.getElementById("board-container");
     const menuCol = document.createElement("div");
     menuCol.classList.add("menu-icon-bar");
-    setupIconFunctions.forEach( iconFunc => iconFunc(menuCol));
+    setupIconFunctions.forEach(iconFunc => iconFunc(menuCol));
     parent.appendChild(menuCol);
 }
 
 
 /** setup the undo icon */
 function setupUndoIcon(parent) {
-    const undo = menuIconTemplate('undo', 'undo', '&#xee0b;', (removedColumns.length) ? "black" : "grey");
+    const undo = menuIconTemplate('undo', 'undo', '&#xee0b;', (removedColumns.length) ? "var(--primary-color)" : "grey");
     parent.appendChild(undo);
     undo.addEventListener("click", restoreColumn.bind(null, -1));
 }
@@ -33,7 +33,7 @@ function setupUndoIcon(parent) {
 
 /** setup the users icon */
 function setupUsersIcon(parent) {
-    const users = menuIconTemplate('users', 'add / remove \nteam members', '&#xed01;', 'black');
+    const users = menuIconTemplate('users', 'add / remove \nteam members', '&#xed01;', 'var(--primary-color)');
     parent.appendChild(users);
     users.addEventListener("click", editPersons);
 }
@@ -41,7 +41,7 @@ function setupUsersIcon(parent) {
 
 /** setup the priorties icon */
 function setupPrioritiesIcon(parent) {
-    const prio = menuIconTemplate('priorities', 'add / remove \npriorities',`<img src="./img/priority.svg">`, 'black');
+    const prio = menuIconTemplate('priorities', 'add / remove \npriorities',`<img src="./img/priority.svg">`, 'var(--primary-color)');
     parent.appendChild(prio);
     prio.addEventListener("click", editPriorities);
 }
@@ -49,7 +49,7 @@ function setupPrioritiesIcon(parent) {
 
 /** setup the add list icon */
 function setupAddListIcon(parent) {
-    const list = menuIconTemplate('add-list', 'add list', `<img src="./img/icons8-add-properies-26.png">`, 'black');
+    const list = menuIconTemplate('add-list', 'add list', `<img src="./img/icons8-add-properies-26.png">`, 'var(--primary-color)');
     parent.appendChild(list);
     list.addEventListener("click", () => {
         document.getElementById('add-column-link').click();
@@ -60,7 +60,7 @@ function setupAddListIcon(parent) {
 
 /** setup the remove list icon */
 function setupRemoveListIcon(parent) {
-    const list = menuIconTemplate('remove-list', 'remove lists', `<img src="./img/icons8-remove-properies-26.png">`, 'black');
+    const list = menuIconTemplate('remove-list', 'remove lists', `<img src="./img/icons8-remove-properies-26.png">`, 'var(--primary-color)');
     parent.appendChild(list);
     list.addEventListener("click", () => showColumnsModal());
 }
@@ -68,7 +68,7 @@ function setupRemoveListIcon(parent) {
 
 /** setup the show backlog icon */
 function setupBacklogIcon(parent) {
-    const backlog = menuIconTemplate('show-backlog', 'show / hide \nBacklog', '&#xead1;', 'black');
+    const backlog = menuIconTemplate('show-backlog', 'show / hide \nBacklog', '&#xead1;', 'var(--primary-color)');
     parent.appendChild(backlog);
     backlog.addEventListener("click", () => {
         document.getElementById('backlog') 
@@ -83,7 +83,7 @@ function setupBacklogIcon(parent) {
 
 /** setup the trash can icon */
 function setupTrashCanIcon(parent) {
-    const trashCan = menuIconTemplate('trash-can', 'show / hide \ntrash can', '&#xf2ed;', 'black');
+    const trashCan = menuIconTemplate('trash-can', 'show / hide \ntrash can', '&#xf2ed;', 'var(--primary-color)');
     parent.appendChild(trashCan);
     trashCan.addEventListener("click", () => {
         document.getElementById('trash') 
@@ -98,7 +98,7 @@ function setupTrashCanIcon(parent) {
 
 /** setup the settings icon */
 function setupSettingsIcon(parent) {
-    const settings = menuIconTemplate('settings', 'settings', '&#xef3a;', 'black', 'none');
+    const settings = menuIconTemplate('settings', 'settings', '&#xef3a;', 'var(--primary-color)', 'none');
     parent.appendChild(settings);
     //settings.addEventListener("click", changeSettings);
 }

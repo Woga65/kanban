@@ -21,12 +21,12 @@ const userAddedColumn = `
 `.trim();
 
 const defaultColumns = [
-    { id: "todo", title: "to-do", color: { accent: "rgba(30, 30, 30, .2)" }, minimized: false, board: "board", protected: true },
-    { id: "inprogress", title: "in progress", color: { accent: "rgba(255, 0, 0, .2)" }, },
-    { id: "testing", title: "testing", color: { accent: "rgba(0, 255, 0, .2)" }, },
-    { id: "complete", title: "complete", color: { accent: "rgba(0, 0, 255, .2)" }, },
-    { id: "discussing", title: "discussing", color: { accent: "rgba(128, 255, 255, .9)" }, },
-    { id: "add-column", title: userAddedColumn, color: { accent: "#2369a4", title: "white" }, minimized: true, board: "board", protected: true },
+    { id: "todo", title: "to-do", color: { accent: "rgba(30, 30, 30, .2)", text: "var(--primary-color)", title: "var(--primary-color)" }, minimized: false, board: "board", protected: true },
+    { id: "inprogress", title: "in progress", color: { accent: "rgba(255, 0, 0, .2)", text: "var(--primary-color)", title: "var(--primary-color)" }, },
+    { id: "testing", title: "testing", color: { accent: "rgba(0, 255, 0, .2)", text: "var(--primary-color)", title: "var(--primary-color)" }, },
+    { id: "complete", title: "complete", color: { accent: "rgba(0, 0, 255, .2)", text: "var(--primary-color)", title: "var(--primary-color)" }, },
+    { id: "discussing", title: "discussing", color: { accent: "rgba(128, 255, 255, .9)", text: "var(--primary-color)", title: "var(--primary-color)" }, },
+    { id: "add-column", title: userAddedColumn, color: { accent: "#2369a4", title: "var(--primary-bgr)" }, minimized: true, board: "board", protected: true },
 ];
 
 const columns = [];

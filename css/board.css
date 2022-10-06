@@ -31,11 +31,19 @@
 
 :root {
     --font-size: 1rem;
+    --primary-font: 'Roboto';
+    --secondary-font: 'Raleway';
+    --alternate-primary-font: 'Source Sans Pro';
+    --alternate-secondary-font: 'Montserrat';
+    --monospace-font: 'Source Code Pro';
+    --primary-color: #1a1a1a;
+    --primary-bgr: #ffffff;
 }
 
 body {
     margin: 0;
     overflow-x: hidden;
+    font-family: var(--primary-font);
 }
 
 .icon {
@@ -237,6 +245,7 @@ body {
 
 .column .title {
     font-size: calc(var(--font-size) * 1);
+    font-weight: 600;
     margin: 0;
     padding: calc(var(--font-size) * .5);
     text-align: center;
@@ -406,6 +415,7 @@ body {
 
 .task-header h5 {
     font-size: calc(var(--font-size) * .95);
+    font-weight: 600;
     /*margin: 8px 5px; */
     margin: calc(var(--font-size) * .3) calc(var(--font-size) * .3) calc(var(--font-size) * .75) calc(var(--font-size) * .3);
 }
