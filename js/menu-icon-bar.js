@@ -41,7 +41,7 @@ function setupUsersIcon(parent) {
 
 /** setup the priorties icon */
 function setupPrioritiesIcon(parent) {
-    const prio = menuIconTemplate('priorities', 'add / remove \npriorities',`<img src="./img/priority.svg">`, 'var(--primary-color)');
+    const prio = menuIconTemplate('priorities', 'add / remove \npriorities', `<img src="./img/priority.svg">`, 'var(--primary-color)');
     parent.appendChild(prio);
     prio.addEventListener("click", editPriorities);
 }
@@ -71,12 +71,13 @@ function setupBacklogIcon(parent) {
     const backlog = menuIconTemplate('show-backlog', 'show / hide \nBacklog', '&#xead1;', 'var(--primary-color)');
     parent.appendChild(backlog);
     backlog.addEventListener("click", () => {
-        document.getElementById('backlog') 
+        document.getElementById('backlog')
             ? removeColumn('backlog')
-            : addColumn('backlog', 'Backlog', { accent: "darksalmon" }, false, true, "board", columns[0].id);
-        getColumnsProperties();
-        writeAllColumnsToBackend();
-        showTasks();
+            : (
+                addColumn('backlog', 'Backlog', { accent: "darksalmon" }, false, true, "board", columns[0].id),
+                document.getElementById('board-container').scrollLeft = 0
+            );
+        updateBoard();
     });
 }
 
@@ -86,13 +87,25 @@ function setupTrashCanIcon(parent) {
     const trashCan = menuIconTemplate('trash-can', 'show / hide \ntrash can', '&#xf2ed;', 'var(--primary-color)');
     parent.appendChild(trashCan);
     trashCan.addEventListener("click", () => {
-        document.getElementById('trash') 
+        document.getElementById('trash')
             ? removeColumn('trash')
-            : addColumn('trash', 'trash', { accent: "rgba(30, 30, 30, .2)" }, false, true, "board", columns[0].id);
-        getColumnsProperties();
-        writeAllColumnsToBackend();
-        showTasks();
+            : (
+                addColumn('trash', 'trash', { accent: "rgba(30, 30, 30, .2)" }, false, true, "board", columns[0].id),
+                document.getElementById('board-container').scrollLeft = 0
+            );
+        updateBoard();
     });
+}
+
+
+/** update the column's sizes & positions
+ *  save the changes made to the board
+ *  render the tasks
+ */
+function updateBoard() {
+    getColumnsProperties();
+    writeAllColumnsToBackend();
+    showTasks();
 }
 
 
