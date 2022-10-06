@@ -147,49 +147,6 @@ body {
     user-select: none;
 }
 
-/*
-#board-container {
-    position: absolute;
-    width: 100vw;
-    max-width: 100vw;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: aliceblue;
-}
-
-.board {
-    width: 95%;
-    height: 95%;
-    min-height: 95vh;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(calc(var(--font-size) * 11), 0.9fr));
-    grid-gap: calc(var(--font-size) * 1.1);
-    margin-left: calc(var(--font-size) * 1.0);
-}
-
-.column {
-    min-height: 30vh;
-    min-width: auto;
-    background-color: white;
-    border-radius: calc(var(--font-size) * .5);
-    overflow-y: auto;
-    overflow-x: hidden;
-    box-shadow: 1px 2px 2px 0px rgba(30, 30, 30, .2);
-    user-select: none;
-    display: flex;
-    flex-direction: column;
-    -webkit-overflow-scrolling: touch;
-}
-
-.column .column-body {
-    max-height: 70vh;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-*/
-
 #board-container {
     width: 100vw;
     height: 100vh;
