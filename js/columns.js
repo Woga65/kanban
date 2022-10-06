@@ -5,8 +5,7 @@ import { touchStart, touchMove, touchEnd, touchCancel, } from "./dragdrop/touch.
 import { findTasksByColumn, moveTaskToColumn, showTasks, columnFooterClicked } from "./tasks.js";
 import { attachAddColumnListeners } from "./column-user-func.js";
 import { readColumns, readRemovedColumns, writeColumns, writeRemovedColumns, writeCommit } from "./backend.js";
-import { setupModal, editPersons, editPriorities } from "./modal-settings-dialog.js";
-import { showColumnsModal } from "./modal-columns-dialog.js";
+import { setupMenuIconBar } from "./menu-icon-bar.js";
 
 
 const userAddedColumn = `
@@ -167,122 +166,7 @@ function initColumns() {
     window.addEventListener("resize", resizeViewportListener);
     window.addEventListener("scroll", resizeViewportListener);
     attachAddColumnListeners();
-    setupUI();
-}
-
-
-/** setup the board's user interface and related elements */
-function setupUI() {
     setupMenuIconBar();
-    setupModal();
-}
-
-
-/** setup the menu icon bar */
-function setupMenuIconBar() {
-    const parent = document.getElementById("board-container");
-    const menuCol = document.createElement("div");
-    menuCol.classList.add("menu-icon-bar");
-    setupUndoIcon(menuCol);
-    setupUsersIcon(menuCol);
-    setupPrioritiesIcon(menuCol);
-    setupAddListIcon(menuCol);
-    setupRemoveListIcon(menuCol);
-    setupBacklogIcon(menuCol);
-    setupTrashCanIcon(menuCol);
-    setupSettingsIcon(menuCol);
-    parent.appendChild(menuCol);
-}
-
-
-/** setup the undo icon */
-function setupUndoIcon(parent) {
-    const undo = menuIconTemplate('undo', '&#xee0b;', (removedColumns.length) ? "black" : "grey");
-    parent.appendChild(undo);
-    undo.addEventListener("click", restoreColumn.bind(null, -1));
-}
-
-
-/** setup the users icon */
-function setupUsersIcon(parent) {
-    const users = menuIconTemplate('users', '&#xed01;', 'black');
-    parent.appendChild(users);
-    users.addEventListener("click", editPersons);
-}
-
-
-/** setup the priorties icon */
-function setupPrioritiesIcon(parent) {
-    const prio = menuIconTemplate('priorities', `<img src="./img/priority.svg">`, 'black');
-    parent.appendChild(prio);
-    prio.addEventListener("click", editPriorities);
-}
-
-
-/** setup the add list icon */
-function setupAddListIcon(parent) {
-    const list = menuIconTemplate('add-list', `<img src="./img/icons8-add-properies-26.png">`, 'black');
-    parent.appendChild(list);
-    list.addEventListener("click", () => {
-        document.getElementById('add-column-link').click();
-        document.getElementById('add-column-input').focus();
-    });
-}
-
-
-/** setup the remove list icon */
-function setupRemoveListIcon(parent) {
-    const list = menuIconTemplate('remove-list', `<img src="./img/icons8-remove-properies-26.png">`, 'black');
-    parent.appendChild(list);
-    list.addEventListener("click", () => showColumnsModal());
-}
-
-
-/** setup the show backlog icon */
-function setupBacklogIcon(parent) {
-    const backlog = menuIconTemplate('show-backlog', '&#xead1;', 'black');
-    parent.appendChild(backlog);
-    backlog.addEventListener("click", () => {
-        document.getElementById('backlog') 
-            ? removeColumn('backlog')
-            : addColumn('backlog', 'Backlog', { accent: "darksalmon" }, false, true, "board", columns[0].id);
-        getColumnsProperties();
-        writeAllColumnsToBackend();
-        showTasks();
-    });
-}
-
-
-/** setup the trash can icon */
-function setupTrashCanIcon(parent) {
-    const trashCan = menuIconTemplate('trash-can', '&#xf2ed;', 'black');
-    parent.appendChild(trashCan);
-    trashCan.addEventListener("click", () => {
-        document.getElementById('trash') 
-            ? removeColumn('trash')
-            : addColumn('trash', 'trash', { accent: "rgba(30, 30, 30, .2)" }, false, true, "board", columns[0].id);
-        getColumnsProperties();
-        writeAllColumnsToBackend();
-        showTasks();
-    });
-}
-
-
-/** setup the settings icon */
-function setupSettingsIcon(parent) {
-    const settings = menuIconTemplate('settings', '&#xef3a;', 'black', 'none');
-    parent.appendChild(settings);
-    //settings.addEventListener("click", changeSettings);
-}
-
-
-function menuIconTemplate(id, html, color, display = '') {
-    const icon = document.createElement("div");
-    icon.id = id;
-    icon.innerHTML = html;
-    icon.style.color = color;
-    icon.style.display = display;
-    return icon;
 }
 
 

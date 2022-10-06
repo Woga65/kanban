@@ -1,19 +1,13 @@
 'use strict'
 
-import { initColumns, addColumn, removeColumn, columns } from "./columns.js";
+import { initColumns, addColumn, removeColumn } from "./columns.js";
 import { addTask, removeTask, showTasks, euDateToUtc, readAllTasksFromBackend } from "./tasks.js";
 import { initBackend } from "./backend.js";
-//import { priorities, inCharge } from "./tasks.js";
 
 
 //-----for debugging-----
-window.debugMode = true;
-debug();
-
-
-//-----for reference-----
-// const priorities = ["hoch", "mittel", "niedrig"];
-// const inCharge = ["ich", "du", "Müllers Kuh"];
+window.debugMode = true;    // if set to 'true', the exports from 'tasks.js' and 'columns.js' can be  
+debug();                    // accessed from within the browser's dev-tools via the prefixes 't' and 'c'
 
 
 (function main() {
@@ -42,11 +36,11 @@ debug();
     }, 10000);
 
 /*
-    addTask("inprogress", "Frontend programmieren", "Task's description goes here", "Entwicklung", 0, euDateToUtc("30.04.2022"), inCharge[0]);
-    addTask("complete", "Überbrückungshilfe beantragen", "Text 2", "Arbeit", 0, euDateToUtc("25.03.2022"), inCharge[0]);
-    addTask("complete", "Tanzstunde vorbereiten", "Text 5", "Arbeit", 0, euDateToUtc("15.01.22"), inCharge[0]);
-    addTask("inprogress", "Tanzstunde vorbereiten", "Text 6", "Arbeit", 0, euDateToUtc("23.04.2022"), inCharge[0]);
-    addTask("discussing", "Backend programmieren", "Text 7", "Entwicklung", 1, euDateToUtc("15.08.2022"), inCharge[1]);
+    addTask("inprogress", "Frontend programmieren", "Task's description goes here", "Entwicklung", 0, euDateToUtc("30.04.2022"), "Fritz");
+    addTask("complete", "Überbrückungshilfe beantragen", "Text 2", "Arbeit", 0, euDateToUtc("25.03.2022"), "Hans");
+    addTask("complete", "Tanzstunde vorbereiten", "Text 5", "Arbeit", 0, euDateToUtc("15.01.22"), "Gustav");
+    addTask("inprogress", "Tanzstunde vorbereiten", "Text 6", "Arbeit", 0, euDateToUtc("23.04.2022"), "Michaela");
+    addTask("discussing", "Backend programmieren", "Text 7", "Entwicklung", 1, euDateToUtc("15.08.2022"), "Sarah");
 
     showTasks();
 */
