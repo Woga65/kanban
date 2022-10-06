@@ -522,7 +522,7 @@ body {
 }
 
 .modal-data .modal-column-list {
-    max-width: 100%;
+    max-width: 300px;
 }
 
 .modal-data li {
