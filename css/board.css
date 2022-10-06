@@ -67,7 +67,7 @@ body {
 }
 
 .menu-icon-bar div {
-    margin-top: calc(var(--font-size) * .8);
+    margin-top: calc(var(--font-size) * .5);
 }
 
 #undo {
@@ -526,4 +526,10 @@ body {
 
 .modal-column-list li button {
     padding: calc(var(--font-size) * 0.5);
+}
+
+@media only screen and (min-height: 428px) {
+    .menu-icon-bar div {
+        margin-top: calc(var(--font-size) * .8);
+    }
 }
