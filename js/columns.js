@@ -6,6 +6,7 @@ import { findTasksByColumn, moveTaskToColumn, showTasks, columnFooterClicked } f
 import { attachAddColumnListeners } from "./column-user-func.js";
 import { readColumns, readRemovedColumns, writeColumns, writeRemovedColumns, writeCommit } from "./backend.js";
 import { setupModal, editPersons, editPriorities } from "./modal-settings-dialog.js";
+import { showColumnsModal } from "./modal-columns-dialog.js";
 
 
 const userAddedColumn = `
@@ -31,7 +32,7 @@ const defaultColumns = [
 
 const columns = [];
 const removedColumns = [];
-const maximumRemovedColumns = 10;
+const maximumRemovedColumns = 20;
 const currentlyDraggedColumn = { id: "", placeholder: {} };
 
 const columnListeners = [
@@ -90,7 +91,7 @@ function removeColumn(colId) {
         columns.splice(colIndex, 1);
         getColumnsProperties();
     }
-    return (!toRemove.protected) ? findTasksByColumn(colId) : [];
+    return findTasksByColumn(colId) || [];
 }
 
 
@@ -107,7 +108,7 @@ function backupRemovedColumn(column, index) {
     document.getElementById("undo").style.color = "black";
     if (removedColumns.length >= maximumRemovedColumns) {
         const deletedCol = removedColumns.shift();
-        //findTasksByColumn(deletedCol.column.id).forEach(task => moveTaskToColumn(task.id, "trash"))
+        findTasksByColumn(deletedCol.column.id).forEach(task => moveTaskToColumn(task.id, "trash"));
     }
     return (column.id != "add-column") ? removedColumns.push({ index: index, column: column }) : false;
 }
@@ -231,12 +232,9 @@ function setupAddListIcon(parent) {
 
 /** setup the remove list icon */
 function setupRemoveListIcon(parent) {
-    const list = menuIconTemplate('remove-list', `<img src="./img/icons8-remove-properies-26.png">`, 'black', 'none');
+    const list = menuIconTemplate('remove-list', `<img src="./img/icons8-remove-properies-26.png">`, 'black');
     parent.appendChild(list);
-    list.addEventListener("click", () => {
-        document.getElementById('add-column-link').click();
-        document.getElementById('add-column-input').focus();
-    });
+    list.addEventListener("click", () => showColumnsModal());
 }
 
 
@@ -335,7 +333,7 @@ function findRemovedColumnById(colId) {
 
 
 /**
- * find a removed columns index
+ * find a removed column's index
  * 
  * @param { string } colId - the ID of the column to look for
  * @returns { number } - the index of the column inside the undo-stack or -1

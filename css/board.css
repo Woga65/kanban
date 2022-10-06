@@ -521,6 +521,10 @@ body {
     margin: calc(var(--font-size) * 1.25) auto;
 }
 
+.modal-data .modal-column-list {
+    max-width: 100%;
+}
+
 .modal-data li {
     display: flex;
     justify-content: space-between;

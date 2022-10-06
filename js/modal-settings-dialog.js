@@ -67,8 +67,8 @@ function renderDataModal(heading, data) {
 }
 
 
-/** add event listeners for add
- *  data and close modal dialog */
+/** add event listeners for add data,
+ *  delete data and close modal dialog */
 function addModalListeners(heading, data) {
     const modalAdd = document.getElementById('modal-add');
     const modalClose = document.getElementById('modal-close');
@@ -182,4 +182,4 @@ function modalDataItemTemplate(index, data) {
 }
 
 
-export { setupModal, editPersons, editPriorities, editCategories };
+export { setupModal, openModal, editPersons, editPriorities, editCategories };
