@@ -165,6 +165,7 @@ function initColumns() {
     readRemovedColumnsFromBackend();
     window.addEventListener("resize", resizeViewportListener);
     window.addEventListener("scroll", resizeViewportListener);
+    screen.orientation.addEventListener("change", resizeViewportListener);
     attachAddColumnListeners();
     setupMenuIconBar();
 }
