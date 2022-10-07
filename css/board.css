@@ -139,6 +139,15 @@ body {
     user-select: none;
 }
 
+#help-icon {
+    font-family: 'IcoFont';
+    font-size: calc(var(--font-size) * 1.7);
+    padding: calc(var(--font-size) * .5) calc(var(--font-size) * 1.0);
+    cursor: pointer;
+    user-select: none;
+    display: none;
+}
+
 #settings {
     font-family: 'IcoFont';
     font-size: calc(var(--font-size) * 1.7);
@@ -531,5 +540,11 @@ body {
 @media only screen and (min-height: 428px) {
     .menu-icon-bar div {
         margin-top: calc(var(--font-size) * .8);
+    }
+}
+
+@media only screen and (min-height: 480px) {
+    #help-icon {
+        display: initial;
     }
 }

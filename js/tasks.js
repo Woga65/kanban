@@ -275,6 +275,7 @@ function checkClickedOutside(te, taskId) {
                 te.column.draggable = true;
                 te.task.style.cursor = "grab";
                 e.target.focus();
+                document.activeElement.blur();
             }
         }, { once: true });
     }, 200);
@@ -426,7 +427,8 @@ function taskNonEditable(taskElement) {
     taskElement.task.draggable = true;
     taskElement.column.draggable = true;
     taskElement.task.style.cursor = "grab";
-    taskElement.deadline.textContent = new Date(taskElement.inputDeadline.value).toLocaleString().slice(0, -10)
+    taskElement.deadline.textContent = new Date(taskElement.inputDeadline.value).toLocaleString().slice(0, -10);
+    document.activeElement.blur();
 }
 
 

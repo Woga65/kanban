@@ -8,7 +8,7 @@ import { showColumnsModal } from "./modal-columns-dialog.js";
 const setupIconFunctions = [
     setupUndoIcon, setupUsersIcon, setupPrioritiesIcon,
     setupAddListIcon, setupRemoveListIcon, setupBacklogIcon,
-    setupTrashCanIcon, setupSettingsIcon,
+    setupTrashCanIcon, setupHelpIcon, setupSettingsIcon,
 ]
 
 
@@ -106,6 +106,14 @@ function updateBoard() {
     getColumnsProperties();
     writeAllColumnsToBackend();
     showTasks();
+}
+
+
+/** setup the settings icon */
+function setupHelpIcon(parent) {
+    const help = menuIconTemplate('help-icon', 'help', '&#xefca;', 'var(--primary-color)', 'none');
+    parent.appendChild(help);
+    //settings.addEventListener("click", showHelp);
 }
 
 
