@@ -133,7 +133,7 @@ function taskTemplate(task) {
     </div>
     <div class="task-body">
         <textarea tabindex="2" class="task-title" readonly>${task.title}</textarea>
-        <textarea tabindex="3" class="task-description" rows="3" style="display: none;" readonly>${task.description}</textarea>
+        <textarea tabindex="3" class="task-description" rows="${Math.floor(task.description.length / 23) + 2}" style="display: none;" readonly>${task.description}</textarea>
     </div>
     <div class="task-footer">
         <span class="task-incharge">${task.inCharge}: </span>
