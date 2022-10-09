@@ -487,6 +487,7 @@ body {
     color: #1a1a1a;
     border-radius: calc(var(--font-size) * .1);
     cursor: default;
+    overflow: auto;
 }
 
 .modal-data ul {
@@ -535,6 +536,10 @@ body {
 
 .modal-column-list li button {
     padding: calc(var(--font-size) * 0.5);
+}
+
+.modal-help-row p {
+    margin: 0;
 }
 
 @media only screen and (min-height: 428px) {

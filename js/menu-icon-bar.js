@@ -3,6 +3,7 @@ import { getColumnsProperties, writeAllColumnsToBackend } from "./columns.js";
 import { showTasks } from "./tasks.js";
 import { setupModal, editPersons, editPriorities, editCategories } from "./modal-settings-dialog.js";
 import { showColumnsModal } from "./modal-columns-dialog.js";
+import { showHelpModal } from "./modal-show-help.js";
 
 
 const setupIconFunctions = [
@@ -109,11 +110,11 @@ function updateBoard() {
 }
 
 
-/** setup the settings icon */
+/** setup the help icon */
 function setupHelpIcon(parent) {
-    const help = menuIconTemplate('help-icon', 'help', '&#xefca;', 'var(--primary-color)', 'none');
+    const help = menuIconTemplate('help-icon', 'help', '&#xefca;', 'var(--primary-color)');
     parent.appendChild(help);
-    //settings.addEventListener("click", showHelp);
+    help.addEventListener("click", showHelpModal);
 }
 
 

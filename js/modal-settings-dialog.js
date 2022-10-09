@@ -85,7 +85,9 @@ function addModalListeners(heading, data) {
 function removeModalListeners() {
     const modalAdd = document.getElementById('modal-add');
     const modalClose = document.getElementById('modal-close');
+    const modalContainer = document.getElementById('modal-container');
     const deleteIcons = document.querySelectorAll('.modal-data li div:last-child');
+    modalContainer.removeEventListener('click', clickedOutside);
     modalClose.removeEventListener('click', closeModal);
     modalAdd.removeEventListener('click', addData);
     deleteIcons.forEach(di => di.removeEventListener('click', deleteData));

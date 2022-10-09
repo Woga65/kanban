@@ -107,9 +107,11 @@ function clickedOutside(e) {
 /** remove event listeners from dialog */
 function removeModalListeners() {
     const modalClose = document.getElementById('modal-close');
+    const modalContainer = document.getElementById('modal-container');
     const deleteIcons = document.querySelectorAll('.modal-data li div:last-child');
     modalClose.removeEventListener('click', closeModal);
     deleteIcons.forEach(di => di.removeEventListener('click', deleteData));
+    modalContainer.addEventListener('click', clickedOutside);
 }
 
 
