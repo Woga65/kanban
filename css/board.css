@@ -538,6 +538,13 @@ body {
     padding: calc(var(--font-size) * 0.5);
 }
 
+.modal-data .modal-help-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
 .modal-help-row p {
     margin: 0;
 }
