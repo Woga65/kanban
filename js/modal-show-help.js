@@ -4,8 +4,8 @@ const helpItems = {
     help: [
         `Drag & drop tasks and lists as you wish. Edit a task by clicking the task's body. Deleted tasks will be moved 
         to the trash folder.<br><br>Change the priority, due date or team member a task is assigned to by simply clicking on it.<br><br>
-        Hide a list by clicking the <span class='icon'>&#xeee1;</span> Icon at the top-right corner of the list.<br><br>`,
-        `<b>Add / Remove team members</b> by clicking the <span class='icon'>&#xed01;<span> icon.`,
+        <b>Hide a list</b> by clicking the <span class='icon'>&#xeee1;</span> Icon at the top-right corner of the list.<br>`,
+        `<b>Add / Remove team members</b> by clicking the <span class='icon' style="font-size: 1.3rem;">&#xed0b;<span> icon.`,
         `<b>Edit the priorities list</b> by clicking the <img style="height: 2rem; object-position: 0 0.35rem;" src="img/priority.svg"> icon.`,
         `<b>Add / Remove lists</b> by clicking the appropiate icons. If a list is removed, the related tasks 
         will be moved to the trash folder.`,

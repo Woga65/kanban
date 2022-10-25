@@ -9,7 +9,8 @@ import { showHelpModal } from "./modal-show-help.js";
 const setupIconFunctions = [
     setupUndoIcon, setupUsersIcon, setupPrioritiesIcon,
     setupAddListIcon, setupRemoveListIcon, setupBacklogIcon,
-    setupTrashCanIcon, setupHelpIcon, setupSettingsIcon,
+    setupTrashCanIcon, setupUserProfileIcon, setupHelpIcon,
+    setupSettingsIcon,
 ]
 
 
@@ -34,7 +35,7 @@ function setupUndoIcon(parent) {
 
 /** setup the users icon */
 function setupUsersIcon(parent) {
-    const users = menuIconTemplate('users', 'add / remove \nteam members', '&#xed01;', 'var(--primary-color)');
+    const users = menuIconTemplate('users', 'add / remove \nteam members', '&#xed0b;', 'var(--primary-color)');
     parent.appendChild(users);
     users.addEventListener("click", editPersons);
 }
@@ -107,6 +108,14 @@ function updateBoard() {
     getColumnsProperties();
     writeAllColumnsToBackend();
     showTasks();
+}
+
+
+/** setup the settings icon */
+function setupUserProfileIcon(parent) {
+    const userProfile = menuIconTemplate('user-profile', 'user \nprofile', '&#xed01;', 'var(--primary-color)', 'none');
+    parent.appendChild(userProfile);
+    //settings.addEventListener("click", userProfile);
 }
 
 
