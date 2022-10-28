@@ -22,10 +22,10 @@ function readColumns() {
 }
 
 
-/** read removed columns from backend */
-function readRemovedColumns() {
-    console.log("removed columns read from backend");
-    return JSON.parse(backend.getItem('removedColumns'));
+/** read hidden columns from backend */
+function readHiddenColumns() {
+    console.log("hidden columns read from backend");
+    return JSON.parse(backend.getItem('hiddenColumns'));
 }
 
 
@@ -67,11 +67,11 @@ function writeColumns(columns) {
 }
 
 
-/** queue removed columns for write */
-function writeRemovedColumns(removedColumns) {
+/** queue hidden columns for write */
+function writeHiddenColumns(hiddenColumns) {
     backend.startTransaction();
-    backend.setItem('removedColumns', JSON.stringify(removedColumns));
-    console.log("removed columns queued for write");
+    backend.setItem('hiddenColumns', JSON.stringify(hiddenColumns));
+    console.log("hidden columns queued for write");
 }
 
 
@@ -89,5 +89,5 @@ async function writeCommit() {
 } 
 
 
-export { initBackend, readTasks, readColumns, readRemovedColumns, readSettings }
-export { writeSettings, writeTasks, writeColumns, writeCommit, writeRemovedColumns };
+export { initBackend, readTasks, readColumns, readHiddenColumns, readSettings }
+export { writeSettings, writeTasks, writeColumns, writeHiddenColumns, writeCommit };

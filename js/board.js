@@ -19,11 +19,11 @@ debug();                    // accessed from within the browser's dev-tools via 
      **      examples         **
      ***************************
 
-    // addColumn(columnId, columnTitle, colors, minimized, protected, parentElement, insertBeforeElement)
+    // addColumn(columnId, columnTitle, colors, minimized, hidden, protected, parentElement, insertBeforeElement)
     // addTask(columnId, taskTitle, taskDetails, taskCategory, taskPriority, dueDate, assignedTo)
     
     let task, col;
-    col = addColumn("neuespalte", "neue Spalte", { title: "black", accent: "darksalmon", text: "black", background: "white" }, false, true, "board", "todo");
+    col = addColumn("neuespalte", "neue Spalte", { title: "black", accent: "darksalmon", text: "black", background: "white" }, false, false, true, "board", "todo");
     task = addTask("neuespalte", "Fluggerät nochmal testen", "Text 3", "Hobby", 1, euDateToUtc("15.05.2022"), "Müllers Kuh");
     showTasks();
 

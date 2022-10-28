@@ -9,6 +9,7 @@ class Column {
     board;
     color;
     minimized;
+    hidden;
     x = 0;
     y = 0;
     width = 180;
@@ -20,11 +21,12 @@ class Column {
     ];
     listener;
 
-    constructor(id, title, color, minimized) {
+    constructor(id, title, color, minimized, hidden) {
         this.id = id;
         this.title = title;
         this._color = color;
         this.minimized = (minimized) ? minimized : false;
+        this.hidden = (hidden) ? hidden : false;
         this._listener = (this.listeners.length > 0) ? this.listeners[this.listeners.length - 1] : {};
     }
 
@@ -114,6 +116,20 @@ class Column {
         }
     }
 
+    // hide column
+    hide() {
+        const col = document.getElementById(this.id);
+        col.style.display = "none";
+        this.hidden = true;
+    }
+
+    // show column
+    show() {
+        const col = document.getElementById(this.id);
+        col.style.display = "";
+        this.hidden = false;
+    }
+
     //store the screen position and size of the column
     //inside the column's object's properties 
     update() {
@@ -167,6 +183,7 @@ class Column {
         col.style.color = this.color.text;
         col.style.height = (this.minimized) ? "fit-content" : "";
         col.style.minHeight = (this.minimized) ? "fit-content" : "";
+        col.style.display = this.hidden ? "none" : "";
     }
 
     // template function for 

@@ -1,5 +1,5 @@
-import { columns, addColumn, removeColumn, findRemovedColumnById, findRemovedColumnsIndex, restoreColumn, getColumnsProperties } from "./columns.js";
-import { writeAllColumnsToBackend, readColumnsFromBackend } from "./columns.js";
+import { columns, addColumn, findHiddenColumnsIndex, restoreColumn } from "./columns.js";
+import { getColumnsProperties, writeAllColumnsToBackend } from "./columns.js";
 import { showTasks } from "./tasks.js";
 
 
@@ -27,7 +27,7 @@ const specialColumns = ['trash', 'backlog', 'add-column'];
 function insertUserAddedColumn(newColumnId, newColumnTitle) {
     if (!document.getElementById(newColumnId) && !specialColumns.includes(newColumnId)) {
         const column = columns[columns.length - 1];
-        addColumn(newColumnId, newColumnTitle, columnColors.colors[columnColors.choice], false, false, column.board, "add-column"); 
+        addColumn(newColumnId, newColumnTitle, columnColors.colors[columnColors.choice], false, false, false, column.board, "add-column"); 
         getColumnsProperties();
         writeAllColumnsToBackend();
         showTasks();
@@ -216,7 +216,7 @@ function applyButtonHit(link, inputForm, input) {
     link.parentElement.style.cursor = "pointer";
     input.value = "";
     if (newColumnId) {                                              // if the column already has existed and was deleted
-        const index = findRemovedColumnsIndex(newColumnId);         // restore it from the undo stack, else create 
+        const index = findHiddenColumnsIndex(newColumnId);         // restore it from the undo stack, else create 
         (index < 0) ? insertUserAddedColumn(newColumnId, newColumnTitle) : restoreColumn(index, {}); // a new column
     }
 }

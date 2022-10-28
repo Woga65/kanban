@@ -4,7 +4,7 @@ import { startDragging, stopDragging, dragging } from "./dragdrop/mouse.js";
 import { touchStart, touchMove, touchEnd, touchCancel, } from "./dragdrop/touch.js";
 import { findTasksByColumn, moveTaskToColumn, showTasks, columnFooterClicked } from "./tasks.js";
 import { attachAddColumnListeners } from "./column-user-func.js";
-import { readColumns, readRemovedColumns, writeColumns, writeRemovedColumns, writeCommit } from "./backend.js";
+import { readColumns, writeColumns, writeCommit, readHiddenColumns, writeHiddenColumns } from "./backend.js";
 import { setupMenuIconBar } from "./menu-icon-bar.js";
 
 
@@ -21,7 +21,7 @@ const userAddedColumn = `
 `.trim();
 
 const defaultColumns = [
-    { id: "todo", title: "to-do", color: { accent: "rgba(30, 30, 30, .2)", text: "var(--primary-color)", title: "var(--primary-color)" }, minimized: false, board: "board", protected: true },
+    { id: "todo", title: "to-do", color: { accent: "rgba(30, 30, 30, .2)", text: "var(--primary-color)", title: "var(--primary-color)" }, minimized: false, protected: true, hidden: false, board: "board" },
     { id: "inprogress", title: "in progress", color: { accent: "rgba(255, 0, 0, .2)", text: "var(--primary-color)", title: "var(--primary-color)" }, },
     { id: "testing", title: "testing", color: { accent: "rgba(0, 255, 0, .2)", text: "var(--primary-color)", title: "var(--primary-color)" }, },
     { id: "complete", title: "complete", color: { accent: "rgba(0, 0, 255, .2)", text: "var(--primary-color)", title: "var(--primary-color)" }, },
@@ -30,6 +30,7 @@ const defaultColumns = [
 ];
 
 const columns = [];
+const hiddenColumns = [];
 const removedColumns = [];
 const maximumRemovedColumns = 20;
 const currentlyDraggedColumn = { id: "", placeholder: {} };
@@ -44,26 +45,27 @@ const columnListeners = [
     { evt: "touchmove", callback: touchMove },
     { evt: "touchend", callback: touchEnd },
     { evt: "touchcancel", callback: touchCancel },
-    { evt: "click", callback: removeColumnListener },
+    { evt: "click", callback: hideColumnListener },
     { evt: "click", callback: columnFooterClicked },
 ];
 
 
 
 /**
- * create a new column an add it to the DOM
+ * create a new column and add it to the DOM
  * 
  * @param { string } colId - ID of the column to create
  * @param { string } title - title of the column 
  * @param { object } color - an object containing the column's colors
  * @param { boolean } minimized - true: the column belongs to the UI, false: regular column
+ * @param { boolean } hidden - the column hidden|visible
  * @param { boolean } protectedCol - column cannot|can be deleted by the user
  * @param { string } boardId - the DOM element the column will be added to
  * @param { string } beforeCol - insert the column before column ID 
  * @returns { object | string } - the column object pushed to the colums array or an empty string
  */
-function addColumn(colId, title, color, minimized, protectedCol, boardId, beforeCol) {
-    const col = new Column(colId, title, color, minimized);
+function addColumn(colId, title, color, minimized, hidden, protectedCol, boardId, beforeCol) {
+    const col = new Column(colId, title, color, minimized, hidden);
     col.listeners = columnListeners;
     col.protected = protectedCol || false;
     col.appendTo(boardId || "board", beforeCol);
@@ -85,31 +87,11 @@ function removeColumn(colId) {
     const colIndex = findColumnsIndex(colId);
     const toRemove = columns[colIndex] || "";                               // if this function has been called despite the column being 
     if (toRemove) {                                                         // protected, this happened not because of a user interaction.
-        if (!toRemove.protected) backupRemovedColumn(toRemove, colIndex);   // If so, we do not push the column to the undo-stack.
         toRemove.removeFrom(toRemove.board);
         columns.splice(colIndex, 1);
         getColumnsProperties();
     }
     return findTasksByColumn(colId) || [];
-}
-
-
-/**
- * store a column on top of the undo-stack
- * remove a column from the bottom of the
- * undo-stack, if the max lenght is exceeded
- * 
- * @param { object } column - the column object to be stored on top of the undo-stack 
- * @param { number } index  - the index where the column was stored in the column's array
- * @returns { object | boolean } - the object that has been stored on top of the undo-stack or false
- */
-function backupRemovedColumn(column, index) {
-    document.getElementById("undo").style.color = "black";
-    if (removedColumns.length >= maximumRemovedColumns) {
-        const deletedCol = removedColumns.shift();
-        findTasksByColumn(deletedCol.column.id).forEach(task => moveTaskToColumn(task.id, "trash"));
-    }
-    return (column.id != "add-column") ? removedColumns.push({ index: index, column: column }) : false;
 }
 
 
@@ -120,18 +102,15 @@ function backupRemovedColumn(column, index) {
  * @param { object } e - the event object if the function is invoked by an event 
  */
 function restoreColumn(index, e) {
-    if (removedColumns.length) {
-        const toRestore = (index < 0) ? removedColumns.pop() : removedColumns.splice(index, 1)[0];
-        if (!document.getElementById(toRestore.id)) {
-            const beforeColumn = columns[(toRestore.index < columns.length) ? toRestore.index : columns.length - 1].id;
-            toRestore.column.appendTo(toRestore.column.board, beforeColumn);
-            columns.splice(toRestore.index, 0, toRestore.column);
-            showTasks();
-            getColumnsProperties();
-        }
+    if (hiddenColumns.length) { //sibi
+        const toRestor = (index < 0) ? hiddenColumns.pop() : hiddenColumns.splice(index, 1)[0];
+        console.log('i: ', index);
+        console.log('to res: ', toRestor);
+        columns[findColumnsIndex(toRestor)].show();
+        getColumnsProperties();
         writeAllColumnsToBackend();
     }
-    document.getElementById("undo").style.color = (removedColumns.length) ?  "black" : "grey";
+    document.getElementById("undo").style.color = (hiddenColumns.length) ?  "black" : "grey";
 }
 
 
@@ -161,8 +140,8 @@ function moveColumn(sourceColumn, targetColumn) {
  *  uses either the data read from the backend or the default data */
 function initColumns() {
     const columnsData = readColumnsFromBackend() || defaultColumns;
-    columnsData.forEach(column => addColumn(column.id, column.title, column.color, column.minimized || false, column.protected || false, column.board || "board"));
-    readRemovedColumnsFromBackend();
+    columnsData.forEach(column => addColumn(column.id, column.title, column.color, column.minimized || false, column.hidden || false, column.protected || false, column.board || "board"));
+    readHiddenColumnsFromBackend();
     window.addEventListener("resize", resizeViewportListener);
     window.addEventListener("scroll", resizeViewportListener);
     screen.orientation.addEventListener("change", resizeViewportListener);
@@ -211,9 +190,8 @@ function findColumnsIndex(colId) {
  * @param { string } colId - the ID of the column to look for 
  * @returns { object | string } - the found column object or an empty string 
  */
-function findRemovedColumnById(colId) {
-    const rc = removedColumns.find(rc => rc.column.id == colId) || "";
-    return (rc) ? rc.column.id : "";
+function findHiddenColumnById(colId) {
+    return hiddenColumns.find(hc => hc == colId) || "";
 }
 
 
@@ -223,8 +201,8 @@ function findRemovedColumnById(colId) {
  * @param { string } colId - the ID of the column to look for
  * @returns { number } - the index of the column inside the undo-stack or -1
  */
-function findRemovedColumnsIndex(colId) {
-    return removedColumns.findIndex(rc => rc.column.id == colId);
+function findHiddenColumnsIndex(colId) {
+    return hiddenColumns.findIndex(hc => hc == colId);
 }
 
 
@@ -234,10 +212,14 @@ function findRemovedColumnsIndex(colId) {
  * @param { string } colId - the ID of the column to be removed
  * @param { object } e - event object 
  */
-function removeColumnListener(colId, e) {
+function hideColumnListener(colId, e) {
     if (e.target.id == colId + "-close" && ![...e.target.classList].includes('disabled')) {
         e.stopPropagation();
-        const tasks = removeColumn(colId);
+        const col = columns[findColumnsIndex(colId)];
+        col.hide();
+        getColumnsProperties();
+        hiddenColumns.push(col.id);
+        document.getElementById("undo").style.color = "black";
         writeAllColumnsToBackend();
     }
 }
@@ -254,27 +236,20 @@ function readColumnsFromBackend() {
 }
 
 
-function readRemovedColumnsFromBackend() {
-    const removedCols = readRemovedColumns() || [];
-    removedCols.forEach(rc => {
-        const col = new Column(rc.column.id, rc.column.title, rc.column.color, rc.column.minimized);
-        col.listeners = columnListeners;
-        col.board = rc.column.board;
-        col.protected = rc.column.protected || false;
-        removedColumns.push({ index: rc.index, column: col });
-    });
+function readHiddenColumnsFromBackend() {
+    hiddenColumns.splice(0, hiddenColumns.length);
+    (readHiddenColumns() || []).forEach(hc => hiddenColumns.push(hc));
 }
 
 
 async function writeAllColumnsToBackend() {
     writeColumns(columns);
-    writeRemovedColumns(removedColumns);
+    writeHiddenColumns(hiddenColumns);    
     await writeCommit();
 }
 
 
-export { columns, removedColumns, columnListeners, currentlyDraggedColumn,};
+export { columns, hiddenColumns, columnListeners, currentlyDraggedColumn,};
 export { initColumns, addColumn, removeColumn, restoreColumn, moveColumn };
-export { getColumnsProperties, findColumnById, findColumnsIndex, findRemovedColumnById, findRemovedColumnsIndex };
-export { readColumnsFromBackend, writeAllColumnsToBackend }
-export { removeColumnListener as closeColumnClicked };
+export { getColumnsProperties, findColumnById, findColumnsIndex, findHiddenColumnById, findHiddenColumnsIndex };
+export { readColumnsFromBackend, writeAllColumnsToBackend };

@@ -1,4 +1,4 @@
-import { columns, removedColumns, restoreColumn, removeColumn, addColumn } from "./columns.js";
+import { columns, hiddenColumns, restoreColumn, removeColumn, addColumn } from "./columns.js";
 import { getColumnsProperties, writeAllColumnsToBackend } from "./columns.js";
 import { showTasks } from "./tasks.js";
 import { setupModal, editPersons, editPriorities, editCategories } from "./modal-settings-dialog.js";
@@ -27,7 +27,7 @@ function setupMenuIconBar() {
 
 /** setup the undo icon */
 function setupUndoIcon(parent) {
-    const undo = menuIconTemplate('undo', 'undo', '&#xee0b;', (removedColumns.length) ? "var(--primary-color)" : "grey");
+    const undo = menuIconTemplate('undo', 'undo', '&#xee0b;', (hiddenColumns.length) ? "var(--primary-color)" : "grey");
     parent.appendChild(undo);
     undo.addEventListener("click", restoreColumn.bind(null, -1));
 }

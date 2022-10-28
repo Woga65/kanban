@@ -1,5 +1,4 @@
-import { columns, removedColumns, writeAllColumnsToBackend, restoreColumn } from "./columns.js";
-import { removeColumn, findColumnsIndex, findRemovedColumnsIndex } from "./columns.js";
+import { columns, writeAllColumnsToBackend, removeColumn } from "./columns.js";
 import { moveTaskToColumn } from "./tasks.js";
 import { openModal } from "./modal-settings-dialog.js";
 
@@ -14,8 +13,7 @@ function showColumnsModal() {
 /** get settings from backend */
 function getColumns() {
     const columnData = [];
-    columns.forEach(c => columnData.push({ id: c.id, title: c.title, protected: c.protected, hidden: false }));
-    removedColumns.forEach(hc => columnData.push({ id: hc.column.id, title: hc.column.title, protected: false, hidden: true }));
+    columns.forEach(c => columnData.push({ id: c.id, title: c.title, protected: c.protected }));
     return columnData;
 }
 
@@ -117,8 +115,6 @@ function removeModalListeners() {
 
 /** delete column from the DOM and from the backend */
 function deleteColumn(data) {
-    if (data.hidden) restoreColumn(findRemovedColumnsIndex(data.id), {});
-    columns[findColumnsIndex(data.id)].protected = true;
     const tasks = removeColumn(data.id);
     writeAllColumnsToBackend();
     tasks.forEach(task => moveTaskToColumn(task.id, "trash"));
