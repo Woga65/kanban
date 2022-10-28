@@ -1,7 +1,5 @@
-'use strict'
-
-import { initColumns, addColumn, removeColumn } from "./columns.js";
-import { addTask, removeTask, showTasks, euDateToUtc, readAllTasksFromBackend } from "./tasks.js";
+import { initColumns } from "./columns.js";
+import { showTasks, readAllTasksFromBackend } from "./tasks.js";
 import { initBackend } from "./backend.js";
 
 
@@ -10,9 +8,37 @@ window.debugMode = true;    // if set to 'true', the exports from 'tasks.js' and
 debug();                    // accessed from within the browser's dev-tools via the prefixes 't' and 'c'
 
 
-(function main() {
+(() => init())();
 
-    init();
+
+async function init() {
+    await initBackend();
+    readAllTasksFromBackend();
+    initColumns();
+    showTasks();
+}
+
+
+// 
+//   for debugging 
+// 
+async function debug() {
+    if (!debugMode && 't' in window) {
+        delete window.t;
+        delete window.c;
+        console.log("debug mode: off");
+        console.log("t and c removed from window object");
+    }
+    if (debugMode && !('t' in window)) {
+        const t = await import("./tasks.js");
+        const c = await import("./columns.js");
+        window.t = t;
+        window.c = c;
+        console.log("prefix t assigned to tasks.js");
+        console.log("prefix c assigned to columns.js");
+    }
+}
+
 
 
     /***************************
@@ -21,6 +47,15 @@ debug();                    // accessed from within the browser's dev-tools via 
 
     // addColumn(columnId, columnTitle, colors, minimized, hidden, protected, parentElement, insertBeforeElement)
     // addTask(columnId, taskTitle, taskDetails, taskCategory, taskPriority, dueDate, assignedTo)
+    
+    import { initColumns, addColumn, removeColumn } from "./columns.js";
+    import { addTask, removeTask, showTasks, euDateToUtc, readAllTasksFromBackend } from "./tasks.js";
+    import { initBackend } from "./backend.js";
+
+    await initBackend();
+    readAllTasksFromBackend();
+    initColumns();
+    showTasks();
     
     let task, col;
     col = addColumn("neuespalte", "neue Spalte", { title: "black", accent: "darksalmon", text: "black", background: "white" }, false, false, true, "board", "todo");
@@ -44,35 +79,3 @@ debug();                    // accessed from within the browser's dev-tools via 
 
     showTasks();
 */
-
-})();
-
-
-async function init() {
-    await initBackend();
-    readAllTasksFromBackend();
-    initColumns();
-    showTasks();
-}
-
-
-
-// 
-//   for debugging 
-// 
-async function debug() {
-    if (!debugMode && 't' in window) {
-        delete window.t;
-        delete window.c;
-        console.log("debug mode: off");
-        console.log("t and c removed from window object");
-    }
-    if (debugMode && !('t' in window)) {
-        const t = await import("./tasks.js");
-        const c = await import("./columns.js");
-        window.t = t;
-        window.c = c;
-        console.log("prefix t assigned to tasks.js");
-        console.log("prefix c assigned to columns.js");
-    }
-}

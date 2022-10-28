@@ -31,8 +31,6 @@ const defaultColumns = [
 
 const columns = [];
 const hiddenColumns = [];
-const removedColumns = [];
-const maximumRemovedColumns = 20;
 const currentlyDraggedColumn = { id: "", placeholder: {} };
 
 const columnListeners = [
