@@ -1,18 +1,16 @@
 <template>
     <link rel="stylesheet" href="component/ws-login.css">
     
-    <header class="main fade-in-out" style="opacity: 0;">
-        <div class="base-margin">
-            <h2 class="hello-message" id="hello-message">
-                You are not logged in.
-            </h2>
-            <p class="verified-message" id="verified-message"></p>
-        </div>
-    </header>
-    
-    <section id="auth" class="auth fade-in" style="opacity: 0;">
+    <section id="auth" class="auth fade-in" style="opacity: 0;">         
+        <header class="main fade-in-out" style="opacity: 0;">
+            <div class="base-margin">
+                <h2 class="hello-message" id="hello-message">
+                    You are not logged in.
+                </h2>
+                <p class="verified-message" id="verified-message"></p>
+            </div>
+        </header>
         <div class="auth-container base-margin top-margin bottom-margin">
-
 
             <div class="form-container container fade-in-out" id="login-container">
                 <form class="form login-form" id="login-form" action="includes/login.inc.php" method="post">
