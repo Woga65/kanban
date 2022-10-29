@@ -23,6 +23,7 @@ const setup = async () => {
             this.shadow = this.attachShadow({ mode: 'open' });
             this.shadow.appendChild(template.content.cloneNode(true));
             this.getElementsReferences();
+            this.setTranslucentBackgroundColor();
         }
         connectedCallback() {
             this.initAuth();
@@ -64,7 +65,18 @@ const setup = async () => {
             /* data sent notification element */
             this.dataSentMsg = this.shadow.querySelector('.form-data-sent');
         }
+                
         
+        /* get the primary background color, add transparency  
+         * and store it in a css variable  */
+        setTranslucentBackgroundColor() {
+            const r = document.querySelector(':root');
+            const cssVar = getComputedStyle(r).getPropertyValue('--primary-bgr').trim();
+            if (cssVar) {
+                r.style.setProperty('--primary-bgr-translucent', cssVar.startsWith('#') ? cssVar + '80' : cssVar);
+            }
+        }
+
         
         /* initialize the login system */
         initAuth() {
