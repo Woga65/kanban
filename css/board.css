@@ -37,7 +37,11 @@
     --alternate-secondary-font: 'Montserrat';
     --monospace-font: 'Source Code Pro';
     --primary-color: #1a1a1a;
+    --secondary-color: #000000;
     --primary-bgr: #ffffff;
+    --secondary-bgr: #f0f0f0;
+    --primary-accent: #fa2759;
+    --secondary-accent: #2dfcd8;
 }
 
 body {
@@ -460,7 +464,8 @@ body {
 
 
 
-.modal-container {
+.modal-container,
+.login-container {
     position: fixed;
     top: 0px;
     left: 0px;
@@ -553,6 +558,19 @@ body {
 
 .modal-help-row p {
     margin: 0;
+}
+
+.ws-login {
+    min-width: 70%;
+    max-width: 100%;
+    max-height: 100vh;
+    /*left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);*/
+    box-shadow: 1px 1px 5px 0px grey;
+    border-radius: calc(var(--font-size) * .1);
+    cursor: default;
+    overflow-y: auto;
 }
 
 .menu-icon-bar div {

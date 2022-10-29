@@ -459,6 +459,7 @@ function setEditedTasksValues(taskElement, taskIndex) {
 function readAllTasksFromBackend() {
     readTaskSettingsFromBackend();
     const tasksData = readTasks() || [];
+    tasks.splice(0, tasks.length);
     tasksData.forEach(task => {
         const taskData = convertForeignData(task);
         const tasksIndex = findTasksIndex(taskData.id);
@@ -473,6 +474,9 @@ function readTaskSettingsFromBackend() {
     const priorityData = settings.priorities || (defaultPriorities);
     const personsData = settings.persons || [];
     const categoryData = settings.categories || (defaultCategories);
+    priorities.splice(0, priorities.length);
+    inCharge.splice(0, inCharge.length);
+    categories.splice(0, categories.length);
     priorityData.forEach(p => priorities.push(p));
     personsData.forEach(p => inCharge.push(p));
     categoryData.forEach(p => categories.push(p));

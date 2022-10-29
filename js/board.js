@@ -12,6 +12,22 @@ debug();                    // accessed from within the browser's dev-tools via 
 
 
 async function init() {
+    //initialize login page - will be moved to a separate module
+    const parent = document.getElementById("board-container");
+    const wsl = document.createElement("ws-login");
+    const loginContainer = document.createElement("div");
+    loginContainer.classList.add("login-container");
+    loginContainer.id = "login-container";
+    loginContainer.style = "display: none; opacity: 0;";
+    wsl.classList.add("ws-login");
+    wsl.id = "ws-login";
+    loginContainer.appendChild(wsl);
+    parent.appendChild(loginContainer);
+    window.addEventListener('loginchange', e => {
+        console.log('ev: ', e.detail.loginState);
+    });
+    
+    //initialize kanban board
     await initBackend();
     readAllTasksFromBackend();
     initColumns();

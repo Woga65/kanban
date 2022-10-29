@@ -137,8 +137,7 @@ function moveColumn(sourceColumn, targetColumn) {
 /** initialize the kanban board's columns/lists and UI
  *  uses either the data read from the backend or the default data */
 function initColumns() {
-    const columnsData = readColumnsFromBackend() || defaultColumns;
-    columnsData.forEach(column => addColumn(column.id, column.title, column.color, column.minimized || false, column.hidden || false, column.protected || false, column.board || "board"));
+    readColumnsFromBackend();
     readHiddenColumnsFromBackend();
     window.addEventListener("resize", resizeViewportListener);
     window.addEventListener("scroll", resizeViewportListener);
@@ -230,7 +229,10 @@ function hideColumnListener(colId, e) {
 
 
 function readColumnsFromBackend() {
-    return readColumns();
+    columns.splice(0, columns.length);
+    const columnsData = readColumns() || defaultColumns;
+    columnsData.forEach(column => addColumn(column.id, column.title, column.color, 
+        column.minimized || false, column.hidden || false, column.protected || false, column.board || "board"));
 }
 
 
