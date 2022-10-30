@@ -1,5 +1,5 @@
 import { initColumns } from "./columns.js";
-import { showTasks, readAllTasksFromBackend } from "./tasks.js";
+import { tasks, showTasks, readAllTasksFromBackend } from "./tasks.js";
 import { initBackend } from "./backend.js";
 
 
@@ -8,7 +8,7 @@ window.debugMode = true;    // if set to 'true', the exports from 'tasks.js' and
 debug();                    // accessed from within the browser's dev-tools via the prefixes 't' and 'c'
 
 
-(() => init())();
+init();
 
 
 async function init() {

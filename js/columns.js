@@ -2,7 +2,7 @@ import { Column } from "./column.class.js";
 import { dragOver, dragLeave, drop } from "./dragdrop/mouse.js";
 import { startDragging, stopDragging, dragging } from "./dragdrop/mouse.js";
 import { touchStart, touchMove, touchEnd, touchCancel, } from "./dragdrop/touch.js";
-import { findTasksByColumn, moveTaskToColumn, showTasks, columnFooterClicked } from "./tasks.js";
+import { tasks, findTasksByColumn, moveTaskToColumn, showTasks, columnFooterClicked } from "./tasks.js";
 import { attachAddColumnListeners } from "./column-user-func.js";
 import { readColumns, writeColumns, writeCommit, readHiddenColumns, writeHiddenColumns } from "./backend.js";
 import { setupMenuIconBar } from "./menu-icon-bar.js";
@@ -141,7 +141,6 @@ function initColumns() {
     readHiddenColumnsFromBackend();
     window.addEventListener("resize", resizeViewportListener);
     window.addEventListener("scroll", resizeViewportListener);
-    screen.orientation.addEventListener("change", resizeViewportListener);
     attachAddColumnListeners();
     setupMenuIconBar();
 }
