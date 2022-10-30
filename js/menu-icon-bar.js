@@ -76,7 +76,7 @@ function setupBacklogIcon(parent) {
         document.getElementById('backlog')
             ? removeColumn('backlog')
             : (
-                addColumn('backlog', 'Backlog', { accent: "darksalmon" }, false, true, "board", columns[0].id),
+                addColumn('backlog', 'Backlog', { accent: "darksalmon" }, false, false, true, "board", columns[0].id),
                 document.getElementById('board-container').scrollLeft = 0
             );
         updateBoard();
@@ -92,7 +92,7 @@ function setupTrashCanIcon(parent) {
         document.getElementById('trash')
             ? removeColumn('trash')
             : (
-                addColumn('trash', 'trash', { accent: "rgba(30, 30, 30, .2)" }, false, true, "board", columns[0].id),
+                addColumn('trash', 'trash', { accent: "rgba(30, 30, 30, .2)" }, false, false, true, "board", columns[0].id),
                 document.getElementById('board-container').scrollLeft = 0
             );
         updateBoard();
