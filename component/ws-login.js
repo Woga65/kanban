@@ -7,6 +7,7 @@ const endPoints = {
     logout: 'includes/logout.inc.php',
     loginState: 'includes/isloggedin.inc.php',
     verificationState: 'includes/isverified.inc.php',
+    sessionExists: 'includes/sessionexists.inc.php',
 }
 
 
@@ -234,6 +235,7 @@ const setup = async () => {
                     cancelable: true,
                     composed: false,
                 });
+                window.wsLogin ? window.wsLogin.state = result.data : window.wsLogin = { state: result.data };
                 window.dispatchEvent(loginChange);
             }
         }
@@ -316,15 +318,30 @@ const setup = async () => {
                 user.timer = null;
             }
         }
+
+
+        /* periodically update the login state from session data */
+        loginChangeTimer() {
+            return setInterval(() => this.checkLoginChange(), 250);
+        }
+
         
-        
+        /* determine if a user has logged in or out */
+        async checkLoginChange() {
+            return await submitRequest(endPoints.sessionExists, {})
+                .then(result => {
+                    if (result.ok && result.data.loggedIn != user.data.loggedIn) this.checkUserLoggedIn();
+                });
+        }
+
+
         /* determine if a user is already logged in */
         async checkUserLoggedIn() {
             return await submitRequest(endPoints.loginState, {})
                 .then(result => {
                     result.ok && result.data.loggedIn ? this.loginSuccess(result) : this.logoutSuccess(result);
                     /* just for demonstration purpose */
-                    this.shadow.getElementById('state-container').style.display = 'block';
+                    //this.shadow.getElementById('state-container').style.display = 'block';
                 });
         }
 

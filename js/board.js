@@ -1,6 +1,7 @@
 import { initColumns } from "./columns.js";
-import { tasks, showTasks, readAllTasksFromBackend } from "./tasks.js";
+import { showTasks, readAllTasksFromBackend } from "./tasks.js";
 import { initBackend } from "./backend.js";
+import { initLoginPage } from "./initLoginPage.js";
 
 
 //-----for debugging-----
@@ -11,27 +12,20 @@ debug();                    // accessed from within the browser's dev-tools via 
 init();
 
 
-async function init() {
-    //initialize login page - will be moved to a separate module
-    const parent = document.getElementById("board-container");
-    const wsl = document.createElement("ws-login");
-    const loginContainer = document.createElement("div");
-    loginContainer.classList.add("login-container");
-    loginContainer.id = "login-container";
-    loginContainer.style = "display: none; opacity: 0;";
-    wsl.classList.add("ws-login");
-    wsl.id = "ws-login";
-    loginContainer.appendChild(wsl);
-    parent.appendChild(loginContainer);
-    window.addEventListener('loginchange', e => {
+function init() {
+
+    //on login state change
+    window.addEventListener('loginchange', async e => {
+        //initialize kanban board
+        await initBackend();
+        readAllTasksFromBackend();
+        initColumns();
+        showTasks();
         console.log('ev: ', e.detail.loginState);
     });
     
-    //initialize kanban board
-    await initBackend();
-    readAllTasksFromBackend();
-    initColumns();
-    showTasks();
+    //initialize login page
+    initLoginPage();    
 }
 
 

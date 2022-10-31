@@ -165,6 +165,8 @@ section {
 
 .form .field-container {
   margin-bottom: calc(var(--font-size) * 1);
+  color: var(--primary-color);
+  text-align: left;
 }
 
 .form .field-container div {
