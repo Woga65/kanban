@@ -29,6 +29,9 @@ const setup = async () => {
         connectedCallback() {
             this.initAuth();
         }
+        disconnectedCallback() {
+            clearInterval(this.loginStateTimer);
+        }
 
         
         /* get references to the login / signup form elements */
@@ -83,6 +86,7 @@ const setup = async () => {
         initAuth() {
             window.addEventListener('loginchange', this.loginStateListener.bind(this)); //listen for login state change
             this.checkUserLoggedIn();                                        //determine if a user is already logged in
+            this.loginStateTimer = this.loginChangeTimer(5000);
             this.addHideDataSentMessageListeners();                          //add event listeners to the notification modal
             this.forms.forEach((form, index) => {
                 form.formFields.forEach(ff => form.defaultErrorMessages.push(ff.nextElementSibling.textContent.replace(/[\n\r]/g, ''))); //save default hints
@@ -321,8 +325,8 @@ const setup = async () => {
 
 
         /* periodically update the login state from session data */
-        loginChangeTimer() {
-            return setInterval(() => this.checkLoginChange(), 250);
+        loginChangeTimer(interval) {
+            return setInterval(() => this.checkLoginChange(), interval);
         }
 
         
