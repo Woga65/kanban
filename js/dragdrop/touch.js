@@ -2,7 +2,7 @@ import { Column } from "../column.class.js";
 import { columns, currentlyDraggedColumn } from "../columns.js";
 import { getColumnsProperties, findColumnById, moveColumn } from "../columns.js";
 import { currentlyDraggedTask, taskTemplate } from "../tasks.js";
-import { findTaskById, moveTaskToColumn, removeTaskFromColumn, showTasks, taskClicked } from "../tasks.js";
+import { findTaskById, moveTaskToColumn, removeTaskFromColumn, showTasks, findTasksByColumn } from "../tasks.js";
 import { highlightDraggedTask, removeDraggedTaskHighlighting, } from "./mouse.js";
 
 
@@ -307,14 +307,43 @@ function addPlaceholderColumn() {
     if (!touch.active) {
         touch.active = true;
         const column = findColumnById(currentlyDraggedColumn.id);
-        const placeholder = new Column("touched-col", column.title, column.color, false);
-        currentlyDraggedColumn.placeholder = placeholder;
-        placeholder.listeners = [];
-        placeholder.footerListener = {};
-        placeholder.closeListener = {};
-        placeholder.color.background = column.color.accent;
-        placeholder.appendTo(column.board || "board", currentlyDraggedColumn.id);
+        currentlyDraggedColumn.placeholder = setupPlaceholderColumn(column);
+        cloneDraggedColumnsTasks(column.id);
     }
+}
+
+
+/**
+ * bring a placeholder for a dragged column in place
+ * 
+ * @param { object } column - the dragged column
+ * @returns { object } - the placeholder object
+ */
+function setupPlaceholderColumn(column) {
+    const placeholder = new Column("touched-col", column.title, column.color, false);
+    placeholder.listeners = [];
+    placeholder.footerListener = {};
+    placeholder.closeListener = {};
+    placeholder.color.background = column.color.accent;
+    placeholder.appendTo(column.board || "board", currentlyDraggedColumn.id);
+    return placeholder
+}
+
+
+/**
+ * find all tasks that belog to a column and bring
+ * a placeholder for each of them in place
+ * 
+ * @param { string } colId - the column's Id 
+ */
+function cloneDraggedColumnsTasks(colId) {
+    const placeholder = document.getElementById('touched-col');
+    findTasksByColumn(colId).forEach(taskItem => {
+        const div = document.createElement("div");
+        div.innerHTML = taskTemplate(taskItem);
+        div.classList.add("task");
+        placeholder.insertBefore(div, placeholder.lastChild);
+    });
 }
 
 
