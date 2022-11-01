@@ -123,7 +123,7 @@ function touchHandleDraggedTask() {
  */
 function touchHandleDraggedColumn() {
     removeTouchHighlighting();
-    positionDraggedColumnRegularly();
+    positionDraggedItemRegularly(currentlyDraggedColumn);
     removePlaceholderColumn();
     moveColumn(currentlyDraggedColumn.id, getTouchTargetColumn());
     showTasks();
@@ -160,11 +160,11 @@ function touchCancel(id, e) {
     removeTouchHighlighting();
     if (currentlyDraggedTask.id) {
         removeDraggedTaskHighlighting();
-        positionDraggedTaskRegularly();
+        positionDraggedItemRegularly(currentlyDraggedTask);
         removePlaceholderFromColumn();
     }
     if (currentlyDraggedColumn.id) {
-        positionDraggedColumnRegularly();
+        positionDraggedItemRegularly(currentlyDraggedColumn);
         removePlaceholderColumn();
     }
     showTasks();
@@ -172,28 +172,17 @@ function touchCancel(id, e) {
 
 
 /**
- * position column regularly
+ * after dragging finished, position the dragged item regularly
+ * 
+ * @param { object } currentlyDraggedItem - stored properties of the dragged item
  */
-function positionDraggedColumnRegularly() {
-    const col = document.getElementById(currentlyDraggedColumn.id);
-    col.style.position = "";
-    col.style.top = "";
-    col.style.left = "";
-    col.style.width = "";
-    col.style.height = "";
-}
-
-
-/**
- * position task regularly
- */
-function positionDraggedTaskRegularly() {
-    const task = document.getElementById(currentlyDraggedTask.id);
-    task.style.position = "";
-    task.style.top = "";
-    task.style.left = "";
-    task.style.width = "";
-    task.style.height = "";
+function positionDraggedItemRegularly(currentlyDraggedItem) {
+    const item = document.getElementById(currentlyDraggedItem.id);
+    item.style.position = "";
+    item.style.top = "";
+    item.style.left = "";
+    item.style.width = "";
+    item.style.height = "";
 }
 
 
@@ -214,9 +203,7 @@ function getTouchTargetColumn() {
 }
 
 
-/**
- * highlight the column which an item has been dragged over 
- */
+/** highlight the column which an item has been dragged over */
 function highlightTouchedColumn() {
     getColumnsProperties();
     columns.forEach(c => {
@@ -234,9 +221,7 @@ function highlightTouchedColumn() {
 }
 
 
-/**
- * remove higlighting from all columns 
- */
+/** remove higlighting from all columns */
 function removeTouchHighlighting() {
     columns.forEach(column => {
         const col = document.getElementById(column.id);
@@ -247,11 +232,8 @@ function removeTouchHighlighting() {
 
 /** does what the function's name implies */
 function positionTouchedTaskFreely() {
-    const task = document.getElementById(currentlyDraggedTask.id);
-    const pos = task.getBoundingClientRect();
-    task.style.position = "fixed";
-    task.style.width = currentlyDraggedTask.boundingRect.width + "px";
-    task.style.height = currentlyDraggedTask.boundingRect.height + "px";
+    const task = initDraggedItemsPosition(currentlyDraggedTask);
+    const pos = scrollIfNedded(task);
     task.style.left = touch.x - (pos.width / 2) + "px";
     task.style.top = touch.y - (pos.height / 2) + "px";
 }
@@ -259,14 +241,36 @@ function positionTouchedTaskFreely() {
 
 /** does what the function's name implies */
 function positionTouchedColumnFreely() {
-    const col = document.getElementById(currentlyDraggedColumn.id);
-    col.style.position = "fixed";
-    col.style.width = currentlyDraggedColumn.boundingRect.width + "px";
-    col.style.height = currentlyDraggedColumn.boundingRect.height + "px";
-    getColumnsProperties();
-    const pos = col.getBoundingClientRect();
+    const col = initDraggedItemsPosition(currentlyDraggedColumn);
+    const pos = scrollIfNedded(col);
     col.style.left = touch.x - (pos.width / 2) + "px";
     col.style.top = touch.y < (pos.height / 2) ? pos.top + "px" : touch.y - (pos.height / 2) + "px";
+    getColumnsProperties();
+}
+
+
+/** init size and position of the currently dragged item */
+function initDraggedItemsPosition(currentlyDraggedItem) {
+    const item = document.getElementById(currentlyDraggedItem.id);
+    item.style.position = "fixed";
+    item.style.width = currentlyDraggedItem.boundingRect.width + "px";
+    item.style.height = currentlyDraggedItem.boundingRect.height + "px";
+    item.style.left = currentlyDraggedItem.boundingRect.left + "px";
+    item.style.top = currentlyDraggedItem.boundingRect.top + "px";
+    return item;
+}
+
+
+/** scroll board if an item is dragged beyond the viewport */
+function scrollIfNedded(item) {
+    const board = document.getElementById('board-container');
+    const boardSize = board.getBoundingClientRect();
+    const itemPos = item.getBoundingClientRect();
+    if (itemPos.left + itemPos.width > boardSize.width) board.scrollBy(10, 0);
+    if (itemPos.left - (itemPos.width / 2) < 0) board.scrollBy(-10, 0);
+    if (currentlyDraggedTask.id && itemPos.top + itemPos.height > boardSize.height) board.scrollBy(0, 10);
+    if (currentlyDraggedTask.id && itemPos.top <= 0) board.scrollBy(0, -10);
+    return itemPos;
 }
 
 
