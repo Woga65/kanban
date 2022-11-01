@@ -4,7 +4,7 @@ import { readSettings, readTasks, writeSettings, writeTasks, writeCommit } from 
 
 
 const tasks = [];
-const currentlyDraggedTask = { id: "", sourceColumn: "" };
+const currentlyDraggedTask = { id: "", sourceColumn: "", boundingRect: {} };
 
 const defaultPriorities = ["niedrig", "mittel", "hoch"];
 const priorities = [];

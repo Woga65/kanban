@@ -31,7 +31,7 @@ const defaultColumns = [
 
 const columns = [];
 const hiddenColumns = [];
-const currentlyDraggedColumn = { id: "", placeholder: {} };
+const currentlyDraggedColumn = { id: "", placeholder: {}, boundingRect: {} };
 
 const columnListeners = [
     { evt: "dragover", callback: dragOver },

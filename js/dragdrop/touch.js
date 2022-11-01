@@ -59,6 +59,7 @@ function touchMoveTask(e, id) {
     currentlyDraggedTask.id = id;
     currentlyDraggedColumn.id = "";
     currentlyDraggedTask.sourceColumn = findTaskById(id).columnId;
+    currentlyDraggedTask.boundingRect = document.getElementById(id).getBoundingClientRect();
     addPlaceholderToColumn();
     highlightDraggedTask();
     highlightTouchedColumn();
@@ -76,6 +77,7 @@ function touchMoveColumn(e, id) {
     if (id != "add-column") {
         currentlyDraggedTask.id = "";
         currentlyDraggedColumn.id = id;
+        currentlyDraggedColumn.boundingRect = document.getElementById(id).getBoundingClientRect();
         addPlaceholderColumn();
         highlightTouchedColumn();
         positionTouchedColumnFreely();
@@ -121,7 +123,7 @@ function touchHandleDraggedTask() {
  */
 function touchHandleDraggedColumn() {
     removeTouchHighlighting();
-    document.getElementById(currentlyDraggedColumn.id).style.position = "";
+    positionDraggedColumnRegularly();
     removePlaceholderColumn();
     moveColumn(currentlyDraggedColumn.id, getTouchTargetColumn());
     showTasks();
@@ -158,14 +160,40 @@ function touchCancel(id, e) {
     removeTouchHighlighting();
     if (currentlyDraggedTask.id) {
         removeDraggedTaskHighlighting();
-        document.getElementById(currentlyDraggedTask.id).style.position = "";
+        positionDraggedTaskRegularly();
         removePlaceholderFromColumn();
     }
     if (currentlyDraggedColumn.id) {
-        document.getElementById(currentlyDraggedColumn.id).style.position = "";
+        positionDraggedColumnRegularly();
         removePlaceholderColumn();
     }
     showTasks();
+}
+
+
+/**
+ * position column regularly
+ */
+function positionDraggedColumnRegularly() {
+    const col = document.getElementById(currentlyDraggedColumn.id);
+    col.style.position = "";
+    col.style.top = "";
+    col.style.left = "";
+    col.style.width = "";
+    col.style.height = "";
+}
+
+
+/**
+ * position task regularly
+ */
+function positionDraggedTaskRegularly() {
+    const task = document.getElementById(currentlyDraggedTask.id);
+    task.style.position = "";
+    task.style.top = "";
+    task.style.left = "";
+    task.style.width = "";
+    task.style.height = "";
 }
 
 
@@ -192,7 +220,7 @@ function getTouchTargetColumn() {
 function highlightTouchedColumn() {
     getColumnsProperties();
     columns.forEach(c => {
-        if (c.id != currentlyDraggedTask.sourceColumn) {
+        if (c.id != currentlyDraggedTask.sourceColumn || !currentlyDraggedTask.id) {
             const col = document.getElementById(c.id);
             switch (touch.x >= c.x && touch.x <= c.x + c.width && touch.y >= c.y && touch.y <= c.y + c.height) {
                 case true:
@@ -222,6 +250,8 @@ function positionTouchedTaskFreely() {
     const task = document.getElementById(currentlyDraggedTask.id);
     const pos = task.getBoundingClientRect();
     task.style.position = "fixed";
+    task.style.width = currentlyDraggedTask.boundingRect.width + "px";
+    task.style.height = currentlyDraggedTask.boundingRect.height + "px";
     task.style.left = touch.x - (pos.width / 2) + "px";
     task.style.top = touch.y - (pos.height / 2) + "px";
 }
@@ -231,10 +261,12 @@ function positionTouchedTaskFreely() {
 function positionTouchedColumnFreely() {
     const col = document.getElementById(currentlyDraggedColumn.id);
     col.style.position = "fixed";
+    col.style.width = currentlyDraggedColumn.boundingRect.width + "px";
+    col.style.height = currentlyDraggedColumn.boundingRect.height + "px";
     getColumnsProperties();
     const pos = col.getBoundingClientRect();
     col.style.left = touch.x - (pos.width / 2) + "px";
-    col.style.top = touch.y - (pos.height / 2) + "px";
+    col.style.top = touch.y < (pos.height / 2) ? pos.top + "px" : touch.y - (pos.height / 2) + "px";
 }
 
 
@@ -247,8 +279,7 @@ function addPlaceholderToColumn() {
         const taskItem = document.getElementById(task.id);
         const column = document.querySelector(`#${currentlyDraggedTask.sourceColumn} .column-body`);
         const div = document.createElement("div");
-        const html = taskTemplate(task);
-        div.innerHTML = html;
+        div.innerHTML = taskTemplate(task);
         div.id = "touched";
         div.classList.add("task");
         column.insertBefore(div, taskItem);
