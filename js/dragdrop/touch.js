@@ -268,8 +268,12 @@ function scrollIfNedded(item) {
     const itemPos = item.getBoundingClientRect();
     if (itemPos.left + itemPos.width > boardSize.width) board.scrollBy(10, 0);
     if (itemPos.left - (itemPos.width / 2) < 0) board.scrollBy(-10, 0);
-    if (currentlyDraggedTask.id && itemPos.top + itemPos.height > boardSize.height) board.scrollBy(0, 10);
-    if (currentlyDraggedTask.id && itemPos.top <= 0) board.scrollBy(0, -10);
+    if (currentlyDraggedTask.id) {
+        if (itemPos.top + itemPos.height > (window.innerHeight < boardSize.height ? window.innerHeight : boardSize.height)) {
+            board.scrollBy(0, 10);
+        }
+        if (itemPos.top <= 0) board.scrollBy(0, -10);
+    }   
     return itemPos;
 }
 
