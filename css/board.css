@@ -174,13 +174,16 @@ body {
     flex-direction: row;
     overflow: auto;
     justify-content: flex-start;
+    position: relative;
+    left: calc(var(--font-size) * 4);
+    top: calc(var(--font-size) * 0);
 }
 
 .board {
     width: fit-content;
     display: flex;
     grid-gap: calc(var(--font-size) * 3);
-    margin-left: calc(var(--font-size) * 6.0);
+    margin-left: calc(var(--font-size) * 3.0);
     margin-top: calc(var(--font-size) * 2.5);
     margin-bottom: calc(var(--font-size) * 2.5);
     margin-right: calc(var(--font-size) * 3.0);
