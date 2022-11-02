@@ -4,6 +4,7 @@ import { showTasks } from "./tasks.js";
 import { setupModal, editPersons, editPriorities, editCategories } from "./modal-settings-dialog.js";
 import { showColumnsModal } from "./modal-columns-dialog.js";
 import { showHelpModal } from "./modal-show-help.js";
+import { showLoginPage } from "./initLoginPage.js";
 
 
 const setupIconFunctions = [
@@ -113,9 +114,9 @@ function updateBoard() {
 
 /** setup the settings icon */
 function setupUserProfileIcon(parent) {
-    const userProfile = menuIconTemplate('user-profile', 'user \nprofile', '&#xed01;', 'var(--primary-color)', 'none');
+    const userProfile = menuIconTemplate('user-profile', 'user \nprofile', '&#xed01;', 'var(--primary-color)');
     parent.appendChild(userProfile);
-    //settings.addEventListener("click", userProfile);
+    userProfile.addEventListener("click", showLoginPage);
 }
 
 

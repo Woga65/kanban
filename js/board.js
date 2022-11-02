@@ -1,7 +1,8 @@
+import { setupMenuIconBar } from "./menu-icon-bar.js";
+import { initLoginPage, showLoginPage, hideLoginPage } from "./initLoginPage.js";
+import { initBackend } from "./backend.js";
 import { initColumns } from "./columns.js";
 import { showTasks, readAllTasksFromBackend } from "./tasks.js";
-import { initBackend } from "./backend.js";
-import { initLoginPage } from "./initLoginPage.js";
 
 
 //-----for debugging-----
@@ -14,18 +15,26 @@ init();
 
 function init() {
 
+    //initialize sidebar
+    setupMenuIconBar();
+
+    //initialize login page
+    initLoginPage();
+
     //on login state change
     window.addEventListener('loginchange', async e => {
-        //initialize kanban board
-        await initBackend();
-        readAllTasksFromBackend();
-        initColumns();
-        showTasks();
         console.log('ev: ', e.detail.loginState);
+        if (e.detail.loginState.loggedIn) {     //initialize kanban board
+            await initBackend();
+            readAllTasksFromBackend();
+            initColumns();
+            showTasks();
+            hideLoginPage();                    //hide login page
+        } else {
+            showLoginPage();                    //show user login
+        }
     });
     
-    //initialize login page
-    initLoginPage();    
 }
 
 

@@ -5,7 +5,6 @@ import { touchStart, touchMove, touchEnd, touchCancel, } from "./dragdrop/touch.
 import { findTasksByColumn, columnFooterClicked } from "./tasks.js";
 import { attachAddColumnListeners } from "./column-user-func.js";
 import { readColumns, writeColumns, writeCommit, readHiddenColumns, writeHiddenColumns } from "./backend.js";
-import { setupMenuIconBar } from "./menu-icon-bar.js";
 
 
 const userAddedColumn = `
@@ -142,7 +141,6 @@ function initColumns() {
     window.addEventListener("resize", resizeViewportListener);
     window.addEventListener("scroll", resizeViewportListener);
     attachAddColumnListeners();
-    setupMenuIconBar();
 }
 
 
