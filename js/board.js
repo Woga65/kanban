@@ -3,6 +3,7 @@ import { initLoginPage, showLoginPage, hideLoginPage } from "./initLoginPage.js"
 import { initBackend } from "./backend.js";
 import { initColumns } from "./columns.js";
 import { showTasks, readAllTasksFromBackend } from "./tasks.js";
+import { applyExampleData, removeExampleData } from "./fakeData.js";
 
 
 //-----for debugging-----
@@ -21,13 +22,17 @@ function init() {
     //initialize login page
     initLoginPage();
 
+    //fake data as background
+    applyExampleData();
+
     //on login state change
     window.addEventListener('loginchange', async e => {
         console.log('ev: ', e.detail.loginState);
-        if (e.detail.loginState.loggedIn) {     //initialize kanban board
+        if (e.detail.loginState.loggedIn) {
+            removeExampleData();                //remove fake data background
             await initBackend();
             readAllTasksFromBackend();
-            initColumns();
+            initColumns();                      //initialize kanban board
             showTasks();
             hideLoginPage();                    //hide login page
         } else {

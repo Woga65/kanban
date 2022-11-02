@@ -246,7 +246,7 @@ async function writeAllColumnsToBackend() {
 }
 
 
-export { columns, hiddenColumns, columnListeners, currentlyDraggedColumn,};
+export { columns, hiddenColumns, columnListeners, currentlyDraggedColumn, defaultColumns };
 export { initColumns, addColumn, removeColumn, restoreColumn, moveColumn };
 export { getColumnsProperties, findColumnById, findColumnsIndex, findHiddenColumnById, findHiddenColumnsIndex };
 export { readColumnsFromBackend, writeAllColumnsToBackend };
