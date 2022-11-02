@@ -578,18 +578,27 @@ body {
 }
 
 .menu-icon-bar div {
-    margin-top: calc(var(--font-size) * .5);
+    margin-top: calc(var(--font-size) * .05);
 }
 
 
 @media only screen and (min-height: 428px) {
     .menu-icon-bar div {
-        margin-top: calc(var(--font-size) * .8);
+        margin-top: calc(var(--font-size) * .4);
     }
 }
 
 @media only screen and (min-height: 480px) {
+    .menu-icon-bar div {
+        margin-top: calc(var(--font-size) * .45);
+    }
     #help-icon {
         display: initial;
+    }
+}
+
+@media only screen and (min-height: 540px) {
+    .menu-icon-bar div {
+        margin-top: calc(var(--font-size) * .8);
     }
 }
