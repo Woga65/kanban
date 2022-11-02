@@ -22,9 +22,6 @@ function init() {
     //initialize login page
     initLoginPage();
 
-    //fake data as background
-    applyExampleData();
-
     //on login state change
     window.addEventListener('loginchange', async e => {
         console.log('ev: ', e.detail.loginState);
@@ -36,6 +33,7 @@ function init() {
             showTasks();
             hideLoginPage();                    //hide login page
         } else {
+            applyExampleData();                 //fake data as background
             showLoginPage();                    //show user login
         }
     });

@@ -57,7 +57,6 @@ function addTask(columnId, title, description, category, priority, deadline, per
         columnId: columnId,
     }
     tasks.push(task);
-    writeAllTasksToBackend();
     return task.id;
 }
 
@@ -74,7 +73,6 @@ function removeTask(taskId) {
         taskListeners.forEach(tl => taskExists.removeEventListener(tl.evt, tl.callback));
         document.getElementById(`${tasks[i].columnId}-body`).removeChild(taskExists);
         tasks.splice(i, 1);
-        writeAllTasksToBackend();
     }
 }
 
@@ -217,6 +215,7 @@ function addTaskListener(colId, e) {
     if (e.target.id == colId + "-new-task") {
         e.stopPropagation();
         colId == 'trash' ? findTasksByColumn(colId).forEach(task => removeTask(task.id)) : insertUserAddedTask(e);
+        writeAllTasksToBackend();
     }
 }
 
@@ -300,6 +299,7 @@ function checkMenuItemClicked(e, te, taskId) {
     if (e.target.classList.contains("delete-task")) {       // delete icon has been clicked
         const task = findTaskById(taskId);                                          // either move task to the trash column
         (task.columnId == "trash") ? removeTask(taskId) : moveTaskToTrash(task);    // or remove it entirely if it was already there
+        writeAllTasksToBackend();
         showTasks();
     }
 }

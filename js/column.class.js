@@ -96,7 +96,7 @@ class Column {
     // attach event listeners if present
     appendTo(parent, beforeCol) {
         const par = document.getElementById(parent);
-        if (par) {
+        if (par && !document.getElementById(this.id)) {
             this.board = par.id;
             const col = this.columnsContainerSetup();
             this.addToDom(par, col, beforeCol);
