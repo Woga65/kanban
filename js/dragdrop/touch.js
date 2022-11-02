@@ -266,7 +266,7 @@ function scrollIfNedded(item) {
     const board = document.getElementById('board-container');
     const boardSize = board.getBoundingClientRect();
     const itemPos = item.getBoundingClientRect();
-    if (itemPos.left + itemPos.width > boardSize.width) board.scrollBy(10, 0);
+    if (itemPos.left + itemPos.width > (window.innerWidth < boardSize.width ? window.innerWidth : boardSize.width)) board.scrollBy(10, 0);
     if (itemPos.left - (itemPos.width / 2) < 0) board.scrollBy(-10, 0);
     if (currentlyDraggedTask.id) {
         if (itemPos.top + itemPos.height > (window.innerHeight < boardSize.height ? window.innerHeight : boardSize.height)) {
