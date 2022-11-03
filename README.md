@@ -39,11 +39,12 @@ A PHP enabled web server is needed for the login system and the backend.
 
 ## installation
 
-- Change the line `setURL('https://your-domain.xyz/smallest_backend_ever');` in the file `js/backend.js` according to your needs then, just copy the project's files / folders to your web server.
+- Change the line `setURL('https://your-domain.xyz/smallest_backend_ever');` in the file `js/backend.js` according to your needs
+- Create a database with phpmyadmin or the tools provided by your hosting company
 - Edit the file includes/dbh.inc.php (database credentials)
 - Edit lines 127-130 in the file includes/signup.inc.php (verification email)
 - Edit lines 48, 53, 61 in the file verify.php (path to your index.html)
-- Create a database + table with phpmyadmin (you will find the DB structure in the sql directory)
+- If you want a guest account, sign up with `Username: Guest / Password: 123456` otherwise add `.guest-button { display: none; }` to the file `component/ws-login.css`
 - Make any changes you like. For example you might want to take measures that the user chooses a strong password
 - Upload the project files and folders to your PHP enabled web server
 

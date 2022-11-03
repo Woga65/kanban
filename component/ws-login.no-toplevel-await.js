@@ -8,6 +8,7 @@ const endPoints = {
     loginState: 'includes/isloggedin.inc.php',
     verificationState: 'includes/isverified.inc.php',
     sessionExists: 'includes/sessionexists.inc.php',
+    createTable: 'includes/ifnotexistscreatetable.php',
 }
 
 
@@ -85,11 +86,29 @@ function define(template) {
         }
 
         
-        /* initialize the login system */
-        initAuth() {
+         /* initialize the login system */
+         async initAuth() {
+            await this.submitRequest(endPoints.createTable, {})
+            .then(result => {
+                if (result.ok) {
+                    this.initLogin();
+                    this.initUserInterface();
+                }
+                console.log('db state: ', result);
+            });
+        }
+        
+
+        /* initialize login state related stuff */
+        initLogin() {
             window.addEventListener('loginchange', this.loginStateListener.bind(this)); //listen for login state change
-            this.checkUserLoggedIn();                                        //determine if a user is already logged in
-            this.loginStateTimer = this.loginChangeTimer(5000);
+            this.checkUserLoggedIn();                                       //determine if a user is already logged in
+            this.loginStateTimer = this.loginChangeTimer(5000);             //periodically check for login/logout
+        }
+
+
+        /* initialize forms and ui related stuff */ 
+        initUserInterface() {
             this.addHideDataSentMessageListeners();                          //add event listeners to the notification modal
             this.forms.forEach((form, index) => {
                 form.formFields.forEach(ff => form.defaultErrorMessages.push(ff.nextElementSibling.textContent.replace(/[\n\r]/g, ''))); //save default hints
@@ -100,7 +119,7 @@ function define(template) {
             this.addNonSubmitButtonListeners();
             setTimeout(() => this.shadow.querySelector('.fade-in').style.opacity = '1', 125);     //let the component's body fade in
         }
-        
+      
         
         /* event listeners, let the sent notification fade out */
         addHideDataSentMessageListeners() {
