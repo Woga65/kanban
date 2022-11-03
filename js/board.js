@@ -3,7 +3,7 @@ import { initLoginPage, showLoginPage, hideLoginPage } from "./initLoginPage.js"
 import { initBackend } from "./backend.js";
 import { initColumns } from "./columns.js";
 import { showTasks, readAllTasksFromBackend } from "./tasks.js";
-import { applyExampleData, removeExampleData } from "./fakeData.js";
+import { applyExampleData } from "./fakeData.js";
 
 
 //-----for debugging-----
@@ -15,9 +15,12 @@ init();
 
 
 function init() {
-
+    
     //initialize sidebar
     setupMenuIconBar();
+
+    //let the document's body fade in
+    document.querySelector('body').style.opacity = '1';
 
     //initialize login page
     initLoginPage();
@@ -26,15 +29,14 @@ function init() {
     window.addEventListener('loginchange', async e => {
         console.log('ev: ', e.detail.loginState);
         if (e.detail.loginState.loggedIn) {
-            removeExampleData();                //remove fake data background
             await initBackend();
             readAllTasksFromBackend();
             initColumns();                      //initialize kanban board
             showTasks();
             hideLoginPage();                    //hide login page
         } else {
-            applyExampleData();                 //fake data as background
             showLoginPage();                    //show user login
+            applyExampleData();                 //fake data as background
         }
     });
     

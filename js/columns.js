@@ -136,11 +136,18 @@ function moveColumn(sourceColumn, targetColumn) {
 /** initialize the kanban board's columns/lists and UI
  *  uses either the data read from the backend or the default data */
 function initColumns() {
+    wipeBoard();
     readColumnsFromBackend();
     readHiddenColumnsFromBackend();
     window.addEventListener("resize", resizeViewportListener);
     window.addEventListener("scroll", resizeViewportListener);
     attachAddColumnListeners();
+}
+
+
+/* get rid of all columns remaining on the board */
+function wipeBoard() {
+    document.getElementById('board').innerHTML = '';
 }
 
 

@@ -42,13 +42,17 @@
     --primary-bgr-transparent: #ffffff80;
     --secondary-bgr: #f0f0f0;
     --primary-accent: #fa2759;
-    --secondary-accent: #2dfcd8;
+/*    --secondary-accent: #2dfcd8;*/
+    --secondary-accent: #2dd0ac;
 }
 
 body {
     margin: 0;
     overflow-x: hidden;
     font-family: var(--primary-font);
+    opacity: 0;
+    transition: opacity 200ms ease-in-out;
+    -webkit-transition: opacity 200ms ease-in-out;
 }
 
 .icon {
@@ -166,7 +170,7 @@ body {
 }
 
 #board-container {
-    width: 100vw;
+    width: calc(100vw - 4rem);
     height: 100vh;
     display: flex;
     align-items: flex-start;
