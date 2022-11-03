@@ -1,6 +1,7 @@
 # kanban
 
-A JavaScript based ticket management system with full drag & drop support for desktop and mobile devices
+A JavaScript based ticket management system with full drag & drop support for desktop and mobile devices.
+
 Recently I added a login system that I have programmed with JavaScript (custom HTML element), PHP and MySql/MariaDB.
 
 ## making of
