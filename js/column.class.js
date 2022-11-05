@@ -10,6 +10,8 @@ class Column {
     color;
     minimized;
     hidden;
+    protected;
+    board;
     x = 0;
     y = 0;
     width = 180;
@@ -21,12 +23,14 @@ class Column {
     ];
     listener;
 
-    constructor(id, title, color, minimized, hidden) {
+    constructor(id, title, color, minimized, hidden, protected) {
         this.id = id;
         this.title = title;
         this._color = color;
         this.minimized = (minimized) ? minimized : false;
         this.hidden = (hidden) ? hidden : false;
+        this.protected = (protected) ? protected : false;
+        this.board = 'board';
         this._listener = (this.listeners.length > 0) ? this.listeners[this.listeners.length - 1] : {};
     }
 

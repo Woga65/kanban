@@ -62,9 +62,8 @@ const columnListeners = [
  * @returns { object | string } - the column object pushed to the colums array or an empty string
  */
 function addColumn(colId, title, color, minimized, hidden, protectedCol, boardId, beforeCol) {
-    const col = new Column(colId, title, color, minimized, hidden);
+    const col = new Column(colId, title, color, minimized, hidden, protectedCol || false);
     col.listeners = columnListeners;
-    col.protected = protectedCol || false;
     col.appendTo(boardId || "board", beforeCol);
     if (col.protected && !col.minimized) document.getElementById(`${col.id}-close`).classList.add("disabled");
     (columns.length && columns[columns.length - 1].id == "add-column") 
@@ -82,8 +81,8 @@ function addColumn(colId, title, color, minimized, hidden, protectedCol, boardId
  */
 function removeColumn(colId) {
     const colIndex = findColumnsIndex(colId);
-    const toRemove = columns[colIndex] || "";                               // if this function has been called despite the column being 
-    if (toRemove) {                                                         // protected, this happened not because of a user interaction.
+    const toRemove = columns[colIndex] || ""; 
+    if (toRemove) {
         toRemove.removeFrom(toRemove.board);
         columns.splice(colIndex, 1);
         getColumnsProperties();

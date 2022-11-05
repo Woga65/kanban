@@ -1,3 +1,6 @@
+import localize from "./ws-login.localize.js";
+
+
 const user = { timer: null, timerRunning: false, data: { loggedIn: null } };
 
 /* backend end points */
@@ -12,14 +15,35 @@ const endPoints = {
 }
 
 
+const parser = new DOMParser();
 
-const setup = async () => {
-    const parser = new DOMParser();
-    const resp = await fetch('component/ws-login.html');
-    const html = await resp.text();
-    const template = parser.parseFromString(html, 'text/html').querySelector('template');
-    
-    return class WsLogin extends HTMLElement {
+init();
+
+
+async function init() {
+    await submitRequest(endPoints.createTable, {})
+    .then(result => {
+        if (result.ok) {
+            window.wsLogin ? window.wsLogin.languages = result.langs : window.wsLogin = { languages: result.langs, state: result.data };
+            if (!window.wsLogin.languages.length) window.wsLogin.languages = ['en_US'];
+            initComponent();
+        }
+        console.log('db state: ', result);
+    });
+}
+
+
+function initComponent() {
+    fetch(localize().template)
+    .then(stream => stream.text())
+    .then(html => {
+        define(parser.parseFromString(html, 'text/html').querySelector('template'));
+    });
+}
+
+
+function define(template) {
+    class WsLogin extends HTMLElement {
         constructor() {
             super();
             this.shadow = this.attachShadow({ mode: 'open' });
@@ -83,16 +107,10 @@ const setup = async () => {
         }
 
         
-        /* initialize the login system */
-        async initAuth() {
-            await this.submitRequest(endPoints.createTable, {})
-            .then(result => {
-                if (result.ok) {
-                    this.initLogin();
-                    this.initUserInterface();
-                }
-                console.log('db state: ', result);
-            });
+         /* initialize the login system */
+         async initAuth() {
+            this.initLogin();
+            this.initUserInterface();
         }
         
 
@@ -116,7 +134,7 @@ const setup = async () => {
             this.addNonSubmitButtonListeners();
             setTimeout(() => this.shadow.querySelector('.fade-in').style.opacity = '1', 125);     //let the component's body fade in
         }
-
+      
         
         /* event listeners, let the sent notification fade out */
         addHideDataSentMessageListeners() {
@@ -210,7 +228,7 @@ const setup = async () => {
             e.preventDefault();
             const formData = new FormData(form.form);
             const formDataObject = Object.fromEntries(formData);
-            this.submitRequest(form.endPoint, formDataObject)
+            submitRequest(form.endPoint, formDataObject)
                 .then(result => {
                     if (result.ok) {
                         form.dataSent(result, formDataObject);
@@ -271,8 +289,8 @@ const setup = async () => {
             this.shadow.getElementById('logout-container').style = 'opacity: 0; display: none;';
             this.shadow.querySelector('header').style.opacity = '0';
             setTimeout(() => {
-                this.shadow.getElementById('hello-message').innerHTML = 'You are not logged in.';
-                this.shadow.getElementById('verified-message').innerHTML = '&nbsp;';
+                this.shadow.getElementById('hello-message').innerHTML = this.localize().loggedOut.hello;
+                this.shadow.getElementById('verified-message').innerHTML = this.localize().loggedOut.verified;
                 this.shadow.querySelector('header').style.opacity = '1';
             }, 150);
             window.scroll({top: 0, left: 0, behavior: "smooth"});
@@ -286,13 +304,18 @@ const setup = async () => {
             this.shadow.getElementById('logout-container').style = 'display: block; opacity: 1;';
             this.shadow.querySelector('header').style.opacity = '0';
             setTimeout(() => {
-                this.shadow.getElementById('hello-message').innerHTML = `Hello <span class="fullname">${user.data.userName},</span> you are logged in as <span class="uname">${user.data.userId}.</span>`;
-                this.shadow.getElementById('verified-message').innerHTML = user.data.userVerified ? 'verified account' : 'Your account has not yet been verified';
+                this.shadow.getElementById('hello-message').innerHTML = this.localize().loggedIn.hello;
+                this.shadow.getElementById('verified-message').innerHTML = this.localize().loggedIn.verified;
                 this.shadow.querySelector('header').style.opacity = '1';
             }, 150);
             window.scroll({top: 0, left: 0, behavior: "smooth"});
         }
         
+
+        localize() {
+            return localize();
+        }
+
         
         /* check which fields were invalid 
            and focus the first invalid field */
@@ -351,7 +374,7 @@ const setup = async () => {
         
         /* determine if a user has logged in or out */
         async checkLoginChange() {
-            return await this.submitRequest(endPoints.sessionExists, {})
+            return await submitRequest(endPoints.sessionExists, {})
                 .then(result => {
                     if (result.ok && result.data.loggedIn != user.data.loggedIn) this.checkUserLoggedIn();
                 });
@@ -360,7 +383,7 @@ const setup = async () => {
 
         /* determine if a user is already logged in */
         async checkUserLoggedIn() {
-            return await this.submitRequest(endPoints.loginState, {})
+            return await submitRequest(endPoints.loginState, {})
                 .then(result => {
                     result.ok && result.data.loggedIn ? this.loginSuccess(result) : this.logoutSuccess(result);
                     /* just for demonstration purpose */
@@ -372,7 +395,7 @@ const setup = async () => {
         /* determine if a user's account is verified */
         async checkUserVerified() {
             if (user.data.loggedIn) {
-                return await this.submitRequest(endPoints.verificationState, {})
+                return await submitRequest(endPoints.verificationState, {})
                     .then(result => {
                         if (result.ok && result.data.loggedIn) {
                             result.data.userVerified != user.data.userVerified ? this.loginSuccess(result) : false;
@@ -383,40 +406,36 @@ const setup = async () => {
             }
         }
         
-        
+
         /* user login */
         async login(loginData) {
-            return await this.submitRequest(endPoints.login, loginData)
+            return await submitRequest(endPoints.login, loginData)
                 .then(result => result.ok ? this.loginSuccess(result) : this.logoutSuccess(result));
         }
         
         
         /* user logout */
         async logout() {
-            return await this.submitRequest(endPoints.logout, {})
+            return await submitRequest(endPoints.logout, {})
                 .then(result => this.logoutSuccess(result));
-        }        
-    
-
-        /* send request to the endpoint */
-        async submitRequest(endPoint, dataObject) {
-            try {
-                const response = await fetch(endPoint, {
-                    method: 'POST',
-                    body: JSON.stringify(dataObject),
-                    headers: { 'Content-Type': 'application/json' }
-                });
-                return await response.json();
-            } catch (err) {
-                console.error(err);
-                return { err: err, ok: false, data: {} };
-            }
         }        
 
     }
+    customElements.define('ws-login', WsLogin);
 };
 
 
-export default await setup();
-
-export { user, endPoints };
+/* send request to the endpoint */
+async function submitRequest(endPoint, dataObject) {
+    try {
+        const response = await fetch(endPoint, {
+            method: 'POST',
+            body: JSON.stringify(dataObject),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        return await response.json();
+    } catch (err) {
+        console.error(err);
+        return { err: err, ok: false, data: {} };
+    }
+}
