@@ -1,18 +1,25 @@
 import { columns, currentlyDraggedColumn, moveColumn, getColumnsProperties } from "../columns.js";
-import { findColumnById, findColumnsIndex } from "../columns.js";
 import { currentlyDraggedTask } from "../tasks.js";
 import { findTaskById, removeTaskFromColumn, moveTaskToColumn, showTasks } from "../tasks.js";
 
 
 // drag & drop support
 
+const board = document.getElementById('board-container');
+
 
 function startDragging(id, e) {
     e.stopPropagation();
+    document.addEventListener('dragover', scrollIfNeeded, false);
     e.dataTransfer.dropEffect = 'move';
     e.dataTransfer.setData('text/plain', 'hello');
     e.target.classList.contains("task") ? startDraggingTask(id) : startDraggingColumn(id);
     getColumnsProperties();
+}
+
+
+function scrollIfNeeded(e) {    //auto scroll while dragging to the left not working properly with some browsers
+    if (e.pageX <= 64) board.scrollBy(-10, 0);
 }
 
 
@@ -34,6 +41,7 @@ function startDraggingColumn(id) {
 
 
 function stopDragging(taskId, e) {
+    document.removeEventListener('dragover', scrollIfNeeded, false);
     if (findTaskById(currentlyDraggedTask.id)) {
         removeDraggedTaskHighlighting();
         currentlyDraggedTask.id = "";
@@ -43,7 +51,7 @@ function stopDragging(taskId, e) {
 
 
 function dragging(taskId, e) {
-    //console.log("drag");
+    //console.log("drag: ", e);
 }
 
 
