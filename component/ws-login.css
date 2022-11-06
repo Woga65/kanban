@@ -128,7 +128,7 @@ section {
 
 .verified-message {
   text-align: left;
-  margin-top: calc(var(--font-size) * 1);
+  margin-top: calc(var(--font-size) * .9);
   color: var(--primary-color);
 }
 
@@ -136,6 +136,42 @@ section {
 #login-container, #state-container {
   display: none;
 }
+
+
+.language-container {
+  display: flex;
+  justify-content: center;
+  padding: 0 calc(var(--font-size) * 2);
+  margin-top: calc(var(--font-size) * 2);
+  gap: calc(var(--font-size) * .5);
+  font-size: calc(var(--font-size) * .9);
+  /*display: none;*/
+  /*opacity: 0;*/
+  transition: opacity 250ms ease-in-out;
+  -webkit-transition: opacity 250ms ease-in-out;
+}
+
+
+.language-container span {
+  color: var(--primary-color);
+}
+
+
+.language-container a {
+  color: blue;
+  text-decoration: none;
+}
+
+
+.language-container a:hover,
+.language-container a:focus {
+  color: blue;
+  opacity: .7;
+  text-decoration: underline;
+  transition: 125ms ease-in-out;
+  -webkit-transition: 125ms ease-in-out;
+}
+
 
 .auth {
   position: relative;

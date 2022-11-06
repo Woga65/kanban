@@ -1,4 +1,5 @@
 import localize from "./ws-login.localize.js";
+import { saveLang, restoreLang } from "./ws-login.storage.js";
 
 
 const user = { timer: null, timerRunning: false, data: { loggedIn: null } };
@@ -26,6 +27,7 @@ async function init() {
         if (result.ok) {
             window.wsLogin ? window.wsLogin.languages = result.langs : window.wsLogin = { languages: result.langs, state: result.data };
             if (!window.wsLogin.languages.length) window.wsLogin.languages = ['en_US'];
+            if (restoreLang()) window.wsLogin.languages.unshift(restoreLang().slice(0, 2).toLocaleLowerCase());
             initComponent();
         }
         console.log('db state: ', result);
@@ -93,6 +95,8 @@ function define(template) {
             ];
             /* data sent notification element */
             this.dataSentMsg = this.shadow.querySelector('.form-data-sent');
+            /* language link elements */
+            this.languageLinks = this.shadow.querySelectorAll('.language-container .language-link');
         }
                 
         
@@ -132,6 +136,7 @@ function define(template) {
                 form.form.addEventListener('submit', this.submitListener.bind(this, form, index));      //on submit send form data to the end point
             });
             this.addNonSubmitButtonListeners();
+            this.addLanguageLinkListeners();
             setTimeout(() => this.shadow.querySelector('.fade-in').style.opacity = '1', 125);     //let the component's body fade in
         }
       
@@ -150,6 +155,14 @@ function define(template) {
             this.shadow.getElementById('signup-button').addEventListener('click', this.signupButtonListener.bind(this));   //on click show signup form
             this.shadow.getElementById('login-button').addEventListener('click', this.loginButtonListener.bind(this));     //on click show login form
             this.shadow.getElementById('guest-button').addEventListener('click', this.guestButtonListener.bind(this));     //on click guest login
+        }
+
+
+        addLanguageLinkListeners() {
+            this.languageLinks.forEach(ll => ll.addEventListener('click', e => {
+                saveLang(e.target.textContent);
+                window.location.reload();
+            }, 'once: true'));
         }
         
         

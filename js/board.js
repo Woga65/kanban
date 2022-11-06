@@ -27,7 +27,6 @@ function init() {
 
     //on login state change
     window.addEventListener('loginchange', async e => {
-        console.log('ev: ', e.detail.loginState);
         if (e.detail.loginState.loggedIn) {
             await initBackend();
             readAllTasksFromBackend();
