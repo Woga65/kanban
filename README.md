@@ -27,7 +27,7 @@ into an ES6 module.
 
 A proper MySql backend will follow soon.
 
-### Amendment:
+### amendment:
 Recently I have modified the original backend to be accessible for logged in users only.
 
 ## this repository
