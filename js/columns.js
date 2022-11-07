@@ -50,8 +50,10 @@ const columnListeners = [
 
 /**
  * create a new column and add it to the DOM
+ * If the colId includes an underscore, the column will be created
+ * just in the DOM and not be stored in the columns array.
  * 
- * @param { string } colId - ID of the column to create
+ * @param { string } colId - ID of the column to create.
  * @param { string } title - title of the column 
  * @param { object } color - an object containing the column's colors
  * @param { boolean } minimized - true: the column belongs to the UI, false: regular column
@@ -66,20 +68,23 @@ function addColumn(colId, title, color, minimized, hidden, protectedCol, boardId
     col.listeners = columnListeners;
     col.appendTo(boardId || "board", beforeCol);
     if (col.protected && !col.minimized) document.getElementById(`${col.id}-close`).classList.add("disabled");
-    (columns.length && columns[columns.length - 1].id == "add-column") 
-        ? (beforeCol ? columns.splice(findColumnsIndex(beforeCol), 0, col) : columns.splice(columns.length - 1, 0, col))
-        : columns.push(col);
+    if (!colId.includes('_')) {
+        (columns.length && columns[columns.length - 1].id == "add-column") 
+            ? (beforeCol ? columns.splice(findColumnsIndex(beforeCol), 0, col) : columns.splice(columns.length - 1, 0, col))
+            : columns.push(col);
+    }
     return columns[columns.findIndex(column => column.id == colId)] || "";
 }
 
 
 /**
- * remove a column from the DOM and from the column's array
+ * remove a column from the DOM and if needed from the column's array
  * 
  * @param { string } colId - the ID of the column to remove
  * @returns { object[] } - an array of task objects that are assigned to the removed column
  */
 function removeColumn(colId) {
+    if (removeNonDataColumn(colId)) return [];
     const colIndex = findColumnsIndex(colId);
     const toRemove = columns[colIndex] || ""; 
     if (toRemove) {
@@ -88,6 +93,23 @@ function removeColumn(colId) {
         getColumnsProperties();
     }
     return findTasksByColumn(colId) || [];
+}
+
+
+/**
+ * remove a column from the DOM without
+ * looking for it in the columns array
+ * 
+ * @param { string } colId - the ID of the column to be removed 
+ * @returns { boolean } - true if column is removed, false if not
+ */
+function removeNonDataColumn(colId) {
+    const col = document.getElementById(colId);
+    if (colId.includes('_') && col) {
+        col.remove();
+        return true;
+    }
+    return false;
 }
 
 

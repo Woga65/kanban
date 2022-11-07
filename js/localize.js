@@ -28,6 +28,7 @@ function german() {
         close: 'Schließen',
         enterData: 'Daten eingeben...',
         addColumn: addColumn_de(),
+        resetDemo: 'Demo zurücksetzen',
         iconBar: {
             undoTitle: 'rückgängig',
             teamTitle: 'Team bearbeiten',
@@ -59,6 +60,7 @@ function english() {
         close: 'Close',
         enterData: 'enter data...',
         addColumn: addColumn_en(),
+        resetDemo: 'Restore Demo Data',
         iconBar: {
             undoTitle: 'undo',
             teamTitle: 'add / remove \nteam members',

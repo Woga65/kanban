@@ -4,6 +4,7 @@ import { initBackend } from "./backend.js";
 import { initColumns } from "./columns.js";
 import { showTasks, readAllTasksFromBackend } from "./tasks.js";
 import { applyExampleData } from "./fakeData.js";
+import { addResetDemoDataButton } from "./restore-demo-data.js";
 
 
 //-----for debugging-----
@@ -44,6 +45,7 @@ function initBoard() {
     initColumns();
     refreshIconsState();
     showTasks();
+    addResetDemoDataButton();
 }
 
 

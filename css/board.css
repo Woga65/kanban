@@ -337,6 +337,12 @@ body {
     cursor: pointer;
 }
 
+#restore_demo_data .title:hover {
+    text-decoration: none;
+    font-size: calc(var(--font-size) * 1.05);
+    cursor: pointer;
+}
+
 .task {
     border-radius: calc(var(--font-size) * .2);
     margin: calc(var(--font-size) * .5);

@@ -52,6 +52,7 @@ class Column {
             this.color.title = ('title' in c) ? c.title : this.color.title;
             this.color.text = ('text' in c) ? c.text : this.color.text;
             this.color.accent = ('accent' in c) ? c.accent : this.color.accent;
+            this.color.border = ('border' in c) ? c.border : this.color.accent;
             this.color.background = ('background' in c) ? c.background : this.color.background;
          }       
     }
@@ -183,11 +184,13 @@ class Column {
     // apply styles to column's
     // container element
     columnsContainerApplyStyles(col) {
-        col.style.border = "1px solid "+ this.color.accent;
+        col.style.border = "1px solid "+ this.color.border;
         col.style.backgroundColor = this.color.background;
         col.style.color = this.color.text;
         col.style.height = (this.minimized) ? "fit-content" : "";
         col.style.minHeight = (this.minimized) ? "fit-content" : "";
+        col.style.outline = (this.minimized) ? "1px solid " + this.color.border : "";
+        col.style.outlineOffset = (this.minimized) ? "-2px" : "";
         col.style.display = this.hidden ? "none" : "";
     }
 

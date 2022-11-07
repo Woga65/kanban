@@ -1,14 +1,15 @@
 export function helpItems_de() {
     return [
-        `<b>Bewegen Sie Aufgaben und Listen per Drag & drop.</b> Klicken Sie Aufgaben an, um sie zu editiern. Gelöschte Aufgaben werden zunächst in den 
-        Papierkorb verschoben und können von dort aus endgültig gelöscht werden.<br><br><b>Ändern Sie Priorität, Fälligkeit</b> oder das zuständige <b>Team Mitglied</b>, indem Sie das jeweilige Feld anklicken.<br><br>
+        `<b>Bewegen Sie Aufgaben und Listen per Drag & drop.</b> Klicken Sie eine Aufgabe an, um sie zu editiern. Gelöschte Aufgaben 
+        werden zunächst in den Papierkorb verschoben und können von dort aus endgültig gelöscht werden.<br><br>
+        <b>Ändern Sie Priorität, Fälligkeit</b> oder das zuständige <b>Team Mitglied</b>, indem Sie innerhalb der Aufgabe das jeweilige Feld anklicken.<br><br>
         <b>Blenden Sie eine Liste aus</b> durch Klicken auf das <span class='icon'>&#xeee1;</span> Icon oben rechts.<br>`,
         `<b>Editieren Sie die Teamzusammenstellung</b> mit einem Klick auf das <span class='icon' style="font-size: 1.3rem;">&#xed0b;<span> icon.`,
         `<b>Editieren Sie die Prioritätenliste</b> nach einem Klick auf das <img style="height: 2rem; object-position: 0 0.35rem;" src="img/priority.svg"> icon.`,
         `<b>Fügen Sie Listen hinzu oder löschen Listen,</b> indem Sie auf die entsprechenden Icons klicken. Wird eine Liste gelöscht, werden die ihr 
         zugeordneten Aufgaben in den Papierkorb verschoben.`,
         "<b>Blenden Sie das Backlog ein oder aus</b> mit einem Klick auf das <span class='icon'>&#xead1;</span> Icon.",
-        `<b>Dasselbe gilt auch für den Papierkorb,</b> den Sie mit einem Klick auf das <span class="icon" style="font-family: 'LineAwesome'; font-size: 1.5rem;">&#xf2ed;</span> Icon ein- und wieder ausblenden können.<br><br>`,
+        `<b>Den Papierkorb blenden Sie ein oder aus,</b> indem Sie auf das <span class="icon" style="font-family: 'LineAwesome'; font-size: 1.5rem;">&#xf2ed;</span> Icon klicken<br><br>`,
     ];
 }
 
