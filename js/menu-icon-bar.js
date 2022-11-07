@@ -148,4 +148,9 @@ function menuIconTemplate(id, desc, html, color, display = '') {
 }
 
 
-export { setupMenuIconBar };
+function refreshIconsState() {
+    document.getElementById('undo').style.color = (hiddenColumns.length) ? "var(--primary-color)" : "grey";
+}
+
+
+export { setupMenuIconBar, refreshIconsState };

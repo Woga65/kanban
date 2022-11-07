@@ -1,4 +1,4 @@
-import { setupMenuIconBar } from "./menu-icon-bar.js";
+import { setupMenuIconBar, refreshIconsState } from "./menu-icon-bar.js";
 import { initLoginPage, showLoginPage, hideLoginPage } from "./initLoginPage.js";
 import { initBackend } from "./backend.js";
 import { initColumns } from "./columns.js";
@@ -28,8 +28,7 @@ function init() {
         if (e.detail.loginState.loggedIn) {
             await initBackend();
             readAllTasksFromBackend();
-            initColumns();                      //initialize kanban board
-            showTasks();
+            initBoard();                        //initialize kanban board
             hideLoginPage();                    //hide login page
         } else {
             showLoginPage();                    //show user login
@@ -37,6 +36,14 @@ function init() {
         }
     });
     
+}
+
+
+//initialize kanban board
+function initBoard() {
+    initColumns();
+    refreshIconsState();
+    showTasks();
 }
 
 
