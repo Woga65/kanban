@@ -12,7 +12,7 @@ the Kanban board (`https://github.com/DanielStoehr/join/commits/main`).
 ## initial goal
 
 - finding out how Drag & Drop works on mobile touch devices
-- getting my feet wet with ES6 modules
+- getting my feet wet with ES6 modules and classes
 - getting data from and writing data to a backend
 - getting around some challenges regarding mobile Apple devices
 
@@ -26,6 +26,9 @@ I've modified the original backend code to allow for a basic transaction process
 into an ES6 module.
 
 A proper MySql backend will follow soon.
+
+### Amendment:
+Recently I have modified the original backend to be accessible for logged in users only.
 
 ## this repository
 
