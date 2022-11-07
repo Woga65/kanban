@@ -1,7 +1,13 @@
 <?php
-cors();
-echo file_get_contents($_GET['json'] . '.json');
+session_start();
 
+if (isset($_SESSION['user_id'])) {
+    cors();
+    echo file_get_contents($_GET['json'] . '.json');
+}
+else {
+    echo '{}';
+}
 
 
 function cors()

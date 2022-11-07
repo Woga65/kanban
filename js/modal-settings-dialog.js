@@ -1,4 +1,5 @@
 import { readSettings, writeSettings, writeCommit } from "./backend.js";
+import localize from "./localize.js";
 import { priorities, inCharge, categories } from "./tasks.js"
 
 
@@ -28,7 +29,7 @@ function getSettings() {
 /** add, edit, remove team members */
 function editPersons() {
     getSettings();
-    renderDataModal('Team members', inCharge);
+    renderDataModal(localize().iconBar.teamHeading, inCharge);
     openModal();
 }
 
@@ -36,7 +37,7 @@ function editPersons() {
 /** add, edit, remove priorities */
 function editPriorities() {
     getSettings();
-    renderDataModal('Priorities', priorities);
+    renderDataModal(localize().iconBar.prioHeading, priorities);
     openModal();
 }
 
@@ -44,7 +45,7 @@ function editPriorities() {
 /** add, edit, remove categories */
 function editCategories() {
     getSettings();
-    renderDataModal('Categories', categories);
+    renderDataModal('Categories', localize().iconBar.categoriesHeading);
     openModal();
 }
 
@@ -163,9 +164,9 @@ function modalTemplate(heading, data) {
             <div class="modal-data">
                 <ul>
                     <li>
-                        <input id="modal-input" type="text" placeholder="enter data">
-                        <button id="modal-add">add</button>
-                        <button id="modal-close"> close</button>
+                        <input id="modal-input" type="text" placeholder="${localize().enterData}">
+                        <button id="modal-add">${localize().add}</button>
+                        <button id="modal-close">${localize().close}</button>
                     </li>
                     ${dataList}
                 </ul>

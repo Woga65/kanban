@@ -5,6 +5,7 @@ import { setupModal, editPersons, editPriorities, editCategories } from "./modal
 import { showColumnsModal } from "./modal-columns-dialog.js";
 import { showHelpModal } from "./modal-show-help.js";
 import { showLoginPage } from "./initLoginPage.js";
+import localize from "./localize.js";
 
 
 const setupIconFunctions = [
@@ -28,7 +29,7 @@ function setupMenuIconBar() {
 
 /** setup the undo icon */
 function setupUndoIcon(parent) {
-    const undo = menuIconTemplate('undo', 'undo', '&#xee0b;', (hiddenColumns.length) ? "var(--primary-color)" : "grey");
+    const undo = menuIconTemplate('undo', localize().iconBar.undoTitle, '&#xee0b;', (hiddenColumns.length) ? "var(--primary-color)" : "grey");
     parent.appendChild(undo);
     undo.addEventListener("click", restoreColumn.bind(null, -1));
 }
@@ -36,7 +37,7 @@ function setupUndoIcon(parent) {
 
 /** setup the users icon */
 function setupUsersIcon(parent) {
-    const users = menuIconTemplate('users', 'add / remove \nteam members', '&#xed0b;', 'var(--primary-color)');
+    const users = menuIconTemplate('users', localize().iconBar.teamTitle, '&#xed0b;', 'var(--primary-color)');
     parent.appendChild(users);
     users.addEventListener("click", editPersons);
 }
@@ -44,7 +45,7 @@ function setupUsersIcon(parent) {
 
 /** setup the priorties icon */
 function setupPrioritiesIcon(parent) {
-    const prio = menuIconTemplate('priorities', 'add / remove \npriorities', `<img src="./img/priority.svg">`, 'var(--primary-color)');
+    const prio = menuIconTemplate('priorities', localize().iconBar.prioTitle, `<img src="./img/priority.svg">`, 'var(--primary-color)');
     parent.appendChild(prio);
     prio.addEventListener("click", editPriorities);
 }
@@ -52,7 +53,7 @@ function setupPrioritiesIcon(parent) {
 
 /** setup the add list icon */
 function setupAddListIcon(parent) {
-    const list = menuIconTemplate('add-list', 'add list', `<img src="./img/icons8-add-properies-26.png">`, 'var(--primary-color)');
+    const list = menuIconTemplate('add-list', localize().iconBar.addListTitle, `<img src="./img/icons8-add-properies-26.png">`, 'var(--primary-color)');
     parent.appendChild(list);
     list.addEventListener("click", () => {
         document.getElementById('add-column-link').click();
@@ -63,7 +64,7 @@ function setupAddListIcon(parent) {
 
 /** setup the remove list icon */
 function setupRemoveListIcon(parent) {
-    const list = menuIconTemplate('remove-list', 'remove lists', `<img src="./img/icons8-remove-properies-26.png">`, 'var(--primary-color)');
+    const list = menuIconTemplate('remove-list', localize().iconBar.removeListTitle, `<img src="./img/icons8-remove-properies-26.png">`, 'var(--primary-color)');
     parent.appendChild(list);
     list.addEventListener("click", () => showColumnsModal());
 }
@@ -71,7 +72,7 @@ function setupRemoveListIcon(parent) {
 
 /** setup the show backlog icon */
 function setupBacklogIcon(parent) {
-    const backlog = menuIconTemplate('show-backlog', 'show / hide \nBacklog', '&#xead1;', 'var(--primary-color)');
+    const backlog = menuIconTemplate('show-backlog', localize().iconBar.backlogTitle, '&#xead1;', 'var(--primary-color)');
     parent.appendChild(backlog);
     backlog.addEventListener("click", () => {
         document.getElementById('backlog')
@@ -87,7 +88,7 @@ function setupBacklogIcon(parent) {
 
 /** setup the trash can icon */
 function setupTrashCanIcon(parent) {
-    const trashCan = menuIconTemplate('trash-can', 'show / hide \ntrash can', '&#xf2ed;', 'var(--primary-color)');
+    const trashCan = menuIconTemplate('trash-can', localize().iconBar.trashTitle, '&#xf2ed;', 'var(--primary-color)');
     parent.appendChild(trashCan);
     trashCan.addEventListener("click", () => {
         document.getElementById('trash')
@@ -114,7 +115,7 @@ function updateBoard() {
 
 /** setup the settings icon */
 function setupUserProfileIcon(parent) {
-    const userProfile = menuIconTemplate('user-profile', 'user \nprofile', '&#xed01;', 'var(--primary-color)');
+    const userProfile = menuIconTemplate('user-profile', localize().iconBar.userTitle, '&#xed01;', 'var(--primary-color)');
     parent.appendChild(userProfile);
     userProfile.addEventListener("click", showLoginPage);
 }
@@ -122,7 +123,7 @@ function setupUserProfileIcon(parent) {
 
 /** setup the help icon */
 function setupHelpIcon(parent) {
-    const help = menuIconTemplate('help-icon', 'help', '&#xefca;', 'var(--primary-color)');
+    const help = menuIconTemplate('help-icon', localize().iconBar.helpTitle, '&#xefca;', 'var(--primary-color)');
     parent.appendChild(help);
     help.addEventListener("click", showHelpModal);
 }

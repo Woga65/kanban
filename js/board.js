@@ -15,9 +15,6 @@ init();
 
 
 function init() {
-    
-    //initialize sidebar
-    setupMenuIconBar();
 
     //let the document's body fade in
     document.querySelector('body').style.opacity = '1';
@@ -27,6 +24,7 @@ function init() {
 
     //on login state change
     window.addEventListener('loginchange', async e => {
+        setupMenuIconBar();                     //initialize sidebar
         if (e.detail.loginState.loggedIn) {
             await initBackend();
             readAllTasksFromBackend();

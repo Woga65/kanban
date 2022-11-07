@@ -25,7 +25,7 @@ const defaultColumns = [
     { id: "testing", title: "testing", color: { accent: "rgba(0, 255, 0, .2)", text: "var(--primary-color)", title: "var(--primary-color)" }, },
     { id: "complete", title: "complete", color: { accent: "rgba(0, 0, 255, .2)", text: "var(--primary-color)", title: "var(--primary-color)" }, },
     { id: "discussing", title: "discussing", color: { accent: "rgba(128, 255, 255, .9)", text: "var(--primary-color)", title: "var(--primary-color)" }, },
-    { id: "add-column", title: userAddedColumn, color: { accent: "#2369a4", title: "var(--primary-bgr)" }, minimized: true, board: "board", protected: true },
+    { id: "add-column", title: "add column", color: { accent: "#2369a4", title: "var(--primary-bgr)" }, minimized: true, board: "board", protected: true },
 ];
 
 const columns = [];

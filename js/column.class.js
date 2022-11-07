@@ -1,4 +1,5 @@
 import { dragOver, dragLeave, drop } from "./dragdrop/mouse.js";
+import localize from "./localize.js";
 
 
 // fully functional on common desktops, iPad mini 4, newer i-devices
@@ -23,13 +24,13 @@ class Column {
     ];
     listener;
 
-    constructor(id, title, color, minimized, hidden, protected) {
+    constructor(id, title, color, minimized, hidden, protectedCol) {
         this.id = id;
         this.title = title;
         this._color = color;
         this.minimized = (minimized) ? minimized : false;
         this.hidden = (hidden) ? hidden : false;
-        this.protected = (protected) ? protected : false;
+        this.protected = (protectedCol) ? protectedCol : false;
         this.board = 'board';
         this._listener = (this.listeners.length > 0) ? this.listeners[this.listeners.length - 1] : {};
     }
@@ -201,7 +202,7 @@ class Column {
         </h4>
         <div id="${this.id}-body" class="column-body"></div>
         <div id="${this.id}-new-task" class="new-task" style="margin-top: auto; background-color: ${this.color.accent};">
-            ${ this.id == 'trash' ? 'Papierkorb leeren' : 'Karte hinzufügen' }
+            ${ this.id == 'trash' ? localize().emptyTrash : localize().addCard }
         </div>
         `.trim();
     }
@@ -211,7 +212,7 @@ class Column {
     minimizedColumnsTemplate() {
         return `
         <h4 class="title title-minimized" style="color: ${this.color.title}; background-color: ${this.color.accent};">
-            ${this.title}
+            ${ this.id == 'add-column' ? localize().addColumn : this.title }
         </h4>
         `.trim();
     }

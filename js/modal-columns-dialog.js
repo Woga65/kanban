@@ -1,11 +1,12 @@
 import { columns, writeAllColumnsToBackend, removeColumn } from "./columns.js";
 import { moveTaskToColumn } from "./tasks.js";
 import { openModal } from "./modal-settings-dialog.js";
+import localize from "./localize.js";
 
 
 /** show dialog for removing columns */
 function showColumnsModal() {
-    renderDataModal('Lists', getColumns());
+    renderDataModal(localize().iconBar.removeListHeading, getColumns());
     openModal();
 }
 
@@ -38,7 +39,7 @@ function modalTemplate(heading, data) {
             <div class="modal-data">
                 <ul class="modal-column-list">
                     <li>
-                        <button id="modal-close" style="width: 100%;"> close</button>
+                        <button id="modal-close" style="width: 100%;">${localize().close}</button>
                     </li>
                     ${dataList}
                 </ul>

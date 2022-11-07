@@ -1,18 +1,5 @@
+import localize from "./localize.js";
 import { openModal } from "./modal-settings-dialog.js";
-
-const helpItems = {
-    help: [
-        `Drag & drop tasks and lists as you wish. Edit a task by clicking the task's body. Deleted tasks will be moved 
-        to the trash folder.<br><br>Change the priority, due date or team member a task is assigned to by simply clicking on it.<br><br>
-        <b>Hide a list</b> by clicking the <span class='icon'>&#xeee1;</span> Icon at the top-right corner of the list.<br>`,
-        `<b>Add / Remove team members</b> by clicking the <span class='icon' style="font-size: 1.3rem;">&#xed0b;<span> icon.`,
-        `<b>Edit the priorities list</b> by clicking the <img style="height: 2rem; object-position: 0 0.35rem;" src="img/priority.svg"> icon.`,
-        `<b>Add / Remove lists</b> by clicking the appropiate icons. If a list is removed, the related tasks 
-        will be moved to the trash folder.`,
-        "<b>Show / hide the backlog</b> by clicking the <span class='icon'>&#xead1;</span> Icon.<br><br>",
-    ],
-};
-
 
 
 /** show general help */
@@ -25,7 +12,7 @@ function showHelpModal() {
 /** render help modal */
 function renderHelpModal(topic) {
     const modal = document.getElementById("modal-container");
-    modal.innerHTML = modalTemplate(topic, helpItems);
+    modal.innerHTML = modalTemplate(topic, { help: localize().iconBar.helpItems });
     addModalListeners();
 }
 
@@ -73,13 +60,13 @@ function modalTemplate(topic, data) {
     return `
         <div id="modal" class="modal">
             <div class="modal-msg">
-                <h2>${topic}</h2>
+                <h2>${localize().iconBar.helpHeading}</h2>
             </div>
             <div class="modal-data">
                 <ul>
                     ${dataList}
                     <li>
-                        <button id="modal-close"> close</button>
+                        <button id="modal-close">${localize().close}</button>
                     </li>
                 </ul>
             </div>
