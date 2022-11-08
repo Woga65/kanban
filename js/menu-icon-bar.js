@@ -11,8 +11,8 @@ import localize from "./localize.js";
 const setupIconFunctions = [
     setupUndoIcon, setupUsersIcon, setupPrioritiesIcon,
     setupAddListIcon, setupRemoveListIcon, setupBacklogIcon,
-    setupTrashCanIcon, setupUserProfileIcon, setupHelpIcon,
-    setupSettingsIcon,
+    setupTrashCanIcon, setupSettingsIcon, setupUserProfileIcon,
+    setupHelpIcon,
 ]
 
 
@@ -47,7 +47,7 @@ function setupUsersIcon(parent) {
 
 /** setup the priorties icon */
 function setupPrioritiesIcon(parent) {
-    const prio = menuIconTemplate('priorities', localize().iconBar.prioTitle, `<img src="./img/priority.svg">`, 'var(--primary-color)');
+    const prio = menuIconTemplate('priorities', localize().iconBar.prioTitle, `<img src="./img/priority_s.svg">`, 'var(--primary-color)');
     parent.appendChild(prio);
     prio.addEventListener("click", editPriorities);
 }

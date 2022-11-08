@@ -1,6 +1,7 @@
 import { touchStart, touchMove, touchEnd, touchCancel, } from "./dragdrop/touch.js";
 import { startDragging, stopDragging, dragging } from "./dragdrop/mouse.js";
 import { readSettings, readTasks, writeSettings, writeTasks, writeCommit } from "./backend.js";
+import localize from "./localize.js";
 
 
 const tasks = [];
@@ -229,7 +230,7 @@ function addTaskListener(colId, e) {
 function insertUserAddedTask(e) {
     const col = e.target.parentNode;
     console.log("add task to '" + col.id + "'\n");
-    addTask(col.id, "neue Aufgabe", "Beschreibung", "allgemein", 1, euDateToUtc(new Date().toLocaleString().slice(0, -10)), "nobody");
+    addTask(col.id, localize().newTask.title, localize().newTask.description, localize().newTask.category, 1, euDateToUtc(new Date().toLocaleString().slice(0, -10)), localize().newTask.inCharge);
     showTasks();
 }
 
