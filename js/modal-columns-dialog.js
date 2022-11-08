@@ -86,12 +86,26 @@ function clickedOutside(e) {
  * @param { object } e - the event object 
  */
  function deleteData(heading, data, e) {
-    const index = Number(e.target.parentElement.id.substring(11, 14));
-    deleteColumn(data[index]);
-    data.splice(index, 1);
-    removeModalListeners();
-    renderDataModal(heading, data);
+    if (e.target.nodeName.toLowerCase() == 'button') {
+        const index = Number(e.target.parentElement.id.substring(11, 14));
+        deleteColumn(data[index]);
+        data.splice(index, 1);
+        removeModalListeners();
+        renderDataModal(heading, data);
+    } else {
+        setTimeout(() => {
+            hideDeleteButtons();
+            e.target.nextElementSibling.style.display = 'inline';
+        }, 250);
+    }
 }
+
+
+function hideDeleteButtons() {
+    const delButtons = document.querySelectorAll('.modal-data .modal-data-delete-button');
+    delButtons.forEach(db => db.style.display = 'none');
+}
+
 
 
 /** add event listeners for delete
