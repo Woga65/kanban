@@ -568,6 +568,13 @@ body {
     max-width: 100%;
 }
 
+.modal-data .modal-data-delete-button {
+    padding: 0;
+    margin: 0;
+    color:#fa2759;
+    display: none;
+}
+
 .modal-column-list li button {
     padding: calc(var(--font-size) * 0.5);
 }

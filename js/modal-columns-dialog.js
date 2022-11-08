@@ -53,7 +53,10 @@ function modalDataItemTemplate(index, data) {
     return `
         <li id="modal-data-row-${index}">
             <div id="modal-data-item-${index}">${data.title}</div>
-            <div id="modal-item-${('00' + index).substring(index.length)}-delete">&#xf2ed;</div>
+            <div id="modal-item-${('00' + index).substring(index.length)}-delete">
+                <span>&#xf2ed;</span>
+                <button class="modal-data-delete-button">Löschen</button>
+            </div>
         </li>`.trim();
 }
 
@@ -83,7 +86,7 @@ function clickedOutside(e) {
  * @param { object } e - the event object 
  */
  function deleteData(heading, data, e) {
-    const index = Number(e.target.id.substring(11, 14));
+    const index = Number(e.target.parentElement.id.substring(11, 14));
     deleteColumn(data[index]);
     data.splice(index, 1);
     removeModalListeners();

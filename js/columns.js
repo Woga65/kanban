@@ -91,6 +91,7 @@ function removeColumn(colId) {
         toRemove.removeFrom(toRemove.board);
         columns.splice(colIndex, 1);
         getColumnsProperties();
+        if (hiddenColumns.includes(colId)) hiddenColumns.splice(findHiddenColumnsIndex(colId), 1);
     }
     return findTasksByColumn(colId) || [];
 }
