@@ -541,7 +541,7 @@ body {
     margin-bottom: calc(var(--font-size) * .5);
 }
 
-.modal-data li div:last-child {
+.modal-data li div:nth-child(2) {
     font-family: 'LineAwesome';
     cursor: pointer;
     margin-left: calc(var(--font-size) * 1.0);
@@ -559,12 +559,12 @@ body {
 
 .modal-data li input {
     max-width: 60%;
-    min-width: 50%;
+    min-width: 40%;
     padding: calc(var(--font-size) * 0.5);
 }
 
 .modal-data li button {
-    min-width: 20%;
+    min-width: 30%;
     max-width: 100%;
 }
 
