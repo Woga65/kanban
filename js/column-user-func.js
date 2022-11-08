@@ -196,6 +196,7 @@ function cancelButtonHit(link, inputForm, input) {
     inputForm.style.display = "none";
     link.style.display = "";
     link.parentElement.style.cursor = "pointer";
+    document.activeElement?.blur();
 }
 
 
@@ -219,6 +220,7 @@ function applyButtonHit(link, inputForm, input) {
         const index = findHiddenColumnsIndex(newColumnId);         // restore it from the undo stack, else create 
         (index < 0) ? insertUserAddedColumn(newColumnId, newColumnTitle) : restoreColumn(index, {}); // a new column
     }
+    document.activeElement?.blur();
 }
 
 

@@ -17,5 +17,8 @@ if (!function_exists('file_put_contents')) {
 
 if (isset($_SESSION['user_id'])) {
     $backup = file_get_contents("smallest_backend_ever/database.bak.json");
-    echo '{ "restoredBytes": "' . file_put_contents("smallest_backend_ever/database.json", $backup) . '"}';
-}
+    echo '{ "ok": true, "restoredBytes": "' . file_put_contents("smallest_backend_ever/database.json", $backup) . '"}';
+} 
+else {
+    echo '{ "ok": false, "restoredBytes": "0" }';
+} 

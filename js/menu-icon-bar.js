@@ -56,9 +56,24 @@ function setupAddListIcon(parent) {
     const list = menuIconTemplate('add-list', localize().iconBar.addListTitle, `<img src="./img/icons8-add-properies-26.png">`, 'var(--primary-color)');
     parent.appendChild(list);
     list.addEventListener("click", () => {
+        document.getElementById('add-column-link').scrollIntoView({ block: 'center', inline: 'center', behavior: 'smooth' });
+        const isIos = typeof navigator.standalone === 'boolean';    //detect iOS / iPad OS
+        clickFocusAfterScroll(isIos);                               //on iOS focus need to be set immediately after user interaction
+    });
+}
+
+
+/** click add-column link and set focus to input field */
+function clickFocusAfterScroll(isIos) {
+    if (!isIos) {
+        setTimeout(() => {
+            document.getElementById('add-column-link').click();
+            document.getElementById('add-column-input').focus();
+        }, 250);
+    } else {
         document.getElementById('add-column-link').click();
         document.getElementById('add-column-input').focus();
-    });
+    }
 }
 
 
@@ -79,7 +94,7 @@ function setupBacklogIcon(parent) {
             ? removeColumn('backlog')
             : (
                 addColumn('backlog', 'Backlog', { accent: "darksalmon" }, false, false, true, "board", columns[0].id),
-                document.getElementById('board-container').scrollLeft = 0
+                document.getElementById('backlog').scrollIntoView({ block: 'center', inline: 'center', behavior: 'smooth' })
             );
         updateBoard();
     });
@@ -95,7 +110,7 @@ function setupTrashCanIcon(parent) {
             ? removeColumn('trash')
             : (
                 addColumn('trash', 'trash', { accent: "rgba(30, 30, 30, .2)" }, false, false, true, "board", columns[0].id),
-                document.getElementById('board-container').scrollLeft = 0
+                document.getElementById('trash').scrollIntoView({ block: 'center', inline: 'center', behavior: 'smooth' })
             );
         updateBoard();
     });
