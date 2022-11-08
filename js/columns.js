@@ -5,6 +5,7 @@ import { touchStart, touchMove, touchEnd, touchCancel, } from "./dragdrop/touch.
 import { findTasksByColumn, columnFooterClicked } from "./tasks.js";
 import { attachAddColumnListeners } from "./column-user-func.js";
 import { readColumns, writeColumns, writeCommit, readHiddenColumns, writeHiddenColumns } from "./backend.js";
+import { refreshIconsState } from "./menu-icon-bar.js";
 
 
 const userAddedColumn = `
@@ -88,10 +89,11 @@ function removeColumn(colId) {
     const colIndex = findColumnsIndex(colId);
     const toRemove = columns[colIndex] || ""; 
     if (toRemove) {
+        if (hiddenColumns.includes(colId)) hiddenColumns.splice(findHiddenColumnsIndex(colId), 1);
         toRemove.removeFrom(toRemove.board);
         columns.splice(colIndex, 1);
         getColumnsProperties();
-        if (hiddenColumns.includes(colId)) hiddenColumns.splice(findHiddenColumnsIndex(colId), 1);
+        refreshIconsState();
     }
     return findTasksByColumn(colId) || [];
 }
