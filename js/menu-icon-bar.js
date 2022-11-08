@@ -18,12 +18,14 @@ const setupIconFunctions = [
 
 /** setup the menu icon bar */
 function setupMenuIconBar() {
-    setupModal();
-    const parent = document.getElementById("board-container");
-    const menuCol = document.createElement("div");
-    menuCol.classList.add("menu-icon-bar");
-    setupIconFunctions.forEach(iconFunc => iconFunc(menuCol));
-    parent.appendChild(menuCol);
+    if (!document.querySelector(".menu-icon-bar")) {
+        setupModal();
+        const parent = document.getElementById("board-container");
+        const menuCol = document.createElement("div");
+        menuCol.classList.add("menu-icon-bar");
+        setupIconFunctions.forEach(iconFunc => iconFunc(menuCol));
+        parent.appendChild(menuCol);
+    }
 }
 
 

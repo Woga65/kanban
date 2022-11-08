@@ -52,11 +52,13 @@ function editCategories() {
 
 /** setup data modal element*/
 function setupModal() {
-    const parent = document.getElementById("board-container");
-    const modal = document.createElement("div");
-    modal.classList.add("modal-container");
-    modal.id = "modal-container";
-    parent.appendChild(modal);
+    if (!document.getElementById("modal-container")) {
+        const parent = document.getElementById("board-container");
+        const modal = document.createElement("div");
+        modal.classList.add("modal-container");
+        modal.id = "modal-container";
+        parent.appendChild(modal);
+    }
 }
 
 

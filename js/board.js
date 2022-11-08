@@ -17,11 +17,11 @@ init();
 
 function init() {
 
-    //let the document's body fade in
-    document.querySelector('body').style.opacity = '1';
-
     //initialize login page
     initLoginPage();
+
+    //let the document's body fade in
+    document.querySelector('body').style.opacity = '1';
 
     //on login state change
     window.addEventListener('loginchange', async e => {
