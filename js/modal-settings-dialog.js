@@ -147,10 +147,23 @@ function addData(heading, data, e) {
  * @param { object } e - the event object 
  */
 function deleteData(heading, data, e) {
-    const index = Number(e.target.id.substring(11, 14));
-    data.splice(index, 1);
-    removeModalListeners();
-    renderDataModal(heading, data);
+    if (e.target.nodeName.toLowerCase() == 'button') {
+        const index = Number(e.target.parentElement.id.substring(11, 14));
+        data.splice(index, 1);
+        removeModalListeners();
+        renderDataModal(heading, data);
+    } else {
+        setTimeout(() => {
+            hideDeleteButtons();
+            e.target.nextElementSibling.style.display = 'inline';
+        }, 250);
+    }
+}
+
+
+function hideDeleteButtons() {
+    const delButtons = document.querySelectorAll('.modal-data .modal-data-delete-button');
+    delButtons.forEach(db => db.style.display = 'none');
 }
 
 
@@ -182,7 +195,10 @@ function modalDataItemTemplate(index, data) {
     return `
         <li id="modal-data-row-${index}">
             <div id="modal-data-item-${index}">${data}</div>
-            <div id="modal-item-${('00' + index).substring(index.length)}-delete">&#xf2ed;</div>
+            <div id="modal-item-${('00' + index).substring(index.length)}-delete">
+                <span>&#xf2ed;</span>
+                <button class="modal-data-delete-button">${localize().delete}</button>
+            </div>
         </li>`.trim();
 }
 
