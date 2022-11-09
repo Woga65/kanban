@@ -55,7 +55,7 @@ function modalDataItemTemplate(index, data) {
             <div id="modal-data-item-${index}">${data.title}</div>
             <div id="modal-item-${('00' + index).substring(index.length)}-delete">
                 <span>&#xf2ed;</span>
-                <button class="modal-data-delete-button">Löschen</button>
+                <button class="modal-data-delete-button">${localize().delete}</button>
             </div>
         </li>`.trim();
 }
