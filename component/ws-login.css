@@ -157,15 +157,15 @@ section {
 }
 
 
-.language-container a {
-  color: blue;
+.language-container .language-link {
+  color: var(--language-link-color);
   text-decoration: none;
 }
 
 
-.language-container a:hover,
-.language-container a:focus {
-  color: blue;
+.language-container .language-link:hover,
+.language-container .language-link:focus {
+  color: var(--language-link-hover-color);
   opacity: .7;
   text-decoration: underline;
   transition: 125ms ease-in-out;

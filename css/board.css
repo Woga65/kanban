@@ -44,6 +44,8 @@
     --primary-accent: #fa2759;
 /*    --secondary-accent: #2dfcd8;*/
     --secondary-accent: #2dd0ac;
+    --language-link-color: blue;
+    --language-link-hover-color: blue;
 }
 
 html {
