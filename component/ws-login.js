@@ -51,7 +51,7 @@ function define(template) {
             this.shadow = this.attachShadow({ mode: 'open' });
             this.shadow.appendChild(template.content.cloneNode(true));
             this.getElementsReferences();
-            this.setTranslucentBackgroundColor();
+            this.setCssColorVarsOpacity();
         }
         connectedCallback() {
             this.initAuth();
@@ -100,14 +100,14 @@ function define(template) {
         }
                 
         
-        /* get the primary background color, add transparency  
-         * and store it in a css variable  */
-        setTranslucentBackgroundColor() {
+        /* get the primary background and secondary accent color  
+         * add transparency and store it in a new css variable  */
+        setCssColorVarsOpacity() {
             const r = document.querySelector(':root');
-            const cssVar = getComputedStyle(r).getPropertyValue('--primary-bgr').trim();
-            if (cssVar) {
-                r.style.setProperty('--primary-bgr-translucent', cssVar.startsWith('#') ? cssVar + '80' : cssVar);
-            }
+            const cssVarBgr = getComputedStyle(r).getPropertyValue('--primary-bgr').trim();
+            const cssVarAcc = getComputedStyle(r).getPropertyValue('--secondary-accent').trim();
+            if (cssVarBgr) r.style.setProperty('--primary-bgr-translucent', cssVarBgr.startsWith('#') ? cssVarBgr + '80' : cssVarBgr);
+            if (cssVarAcc) r.style.setProperty('--secondary-accent-invisible', cssVarAcc.startsWith('#') ? cssVarAcc + '00' : cssVarAcc);
         }
 
         
