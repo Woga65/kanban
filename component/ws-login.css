@@ -145,8 +145,7 @@ section {
   margin-top: calc(var(--font-size) * 2);
   gap: calc(var(--font-size) * .5);
   font-size: calc(var(--font-size) * .9);
-  /*display: none;*/
-  /*opacity: 0;*/
+  flex-wrap: wrap;
   transition: opacity 250ms ease-in-out;
   -webkit-transition: opacity 250ms ease-in-out;
 }
@@ -154,6 +153,7 @@ section {
 
 .language-container span {
   color: var(--primary-color);
+  min-width: max-content;
 }
 
 
