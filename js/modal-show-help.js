@@ -6,6 +6,7 @@ import { openModal } from "./modal-settings-dialog.js";
 function showHelpModal() {
     renderHelpModal('help');
     openModal();
+    document.getElementById("modal-close").focus();
 }
 
 
