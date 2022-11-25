@@ -105,8 +105,10 @@ function define(template) {
         setCssColorVarsOpacity() {
             const r = document.querySelector(':root');
             const cssVarBgr = getComputedStyle(r).getPropertyValue('--primary-bgr').trim();
+            const cssVarSecBgr = getComputedStyle(r).getPropertyValue('--secondary-bgr').trim();
             const cssVarAcc = getComputedStyle(r).getPropertyValue('--secondary-accent').trim();
             if (cssVarBgr) r.style.setProperty('--primary-bgr-translucent', cssVarBgr.startsWith('#') ? cssVarBgr + '80' : cssVarBgr);
+            if (cssVarSecBgr) r.style.setProperty('--secondary-bgr-translucent', cssVarSecBgr.startsWith('#') ? cssVarSecBgr + '80' : cssVarSecBgr);
             if (cssVarAcc) r.style.setProperty('--secondary-accent-invisible', cssVarAcc.startsWith('#') ? cssVarAcc + '00' : cssVarAcc);
         }
 

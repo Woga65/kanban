@@ -284,6 +284,7 @@ section {
   outline-width: 1px;
   outline-color: var(--secondary-accent);
   border-radius: calc(var(--font-size) * .5);
+  background-color: var(--secondary-bgr-translucent);
 }
 
 .form .submit-button:focus,
