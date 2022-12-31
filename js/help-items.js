@@ -1,6 +1,6 @@
 export function helpItems_de() {
     return [
-        `<b>Bewegen Sie Aufgaben und Listen per Drag & drop.</b> Klicken Sie eine Aufgabe an, um sie zu editiern. Gelöschte Aufgaben 
+        `<b>Bewegen Sie Aufgaben und Listen per Drag & drop.</b> Klicken Sie eine Aufgabe an, um sie zu editieren. Gelöschte Aufgaben 
         werden zunächst in den Papierkorb verschoben und können von dort aus endgültig gelöscht werden.<br><br>
         <b>Ändern Sie Priorität, Fälligkeit</b> oder das zuständige <b>Team Mitglied</b>, indem Sie innerhalb der Aufgabe das jeweilige Feld anklicken.<br><br>
         <b>Blenden Sie eine Liste aus</b> durch Klicken auf das <span class='icon'>&#xeee1;</span> Icon oben rechts.<br>`,
