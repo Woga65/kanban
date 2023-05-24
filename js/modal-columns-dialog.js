@@ -101,11 +101,11 @@ function clickedOutside(e) {
 }
 
 
+/** hide all delete confirmation buttons */
 function hideDeleteButtons() {
     const delButtons = document.querySelectorAll('.modal-data .modal-data-delete-button');
     delButtons.forEach(db => db.style.display = 'none');
 }
-
 
 
 /** add event listeners for delete

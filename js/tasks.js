@@ -384,14 +384,13 @@ function nextPriority(taskId, te) {
  * @param { object } te - an object containing references to a task and it's children
  */
 function nextPersonInCharge(taskId, te) {
-    if (inCharge.length) {
-        const tasksIndex = findTasksIndex(taskId);
-        const personsIndex = inCharge.findIndex(person => person == te.inCharge.textContent.trim().slice(0, -1));
-        te.inCharge.textContent = (personsIndex < inCharge.length - 1) ? inCharge[personsIndex + 1] : inCharge[0];
-        tasks[tasksIndex].inCharge = te.inCharge.textContent;
-        te.inCharge.textContent += ":";
-        writeAllTasksToBackend();
-    }
+    const persons = [...inCharge].concat([localize().newTask.inCharge]);
+    const tasksIndex = findTasksIndex(taskId);
+    const personsIndex = persons.findIndex(person => person == te.inCharge.textContent.trim().slice(0, -1));
+    te.inCharge.textContent = (personsIndex < persons.length - 1) ? persons[personsIndex + 1] : persons[0];
+    tasks[tasksIndex].inCharge = te.inCharge.textContent;
+    te.inCharge.textContent += ":";
+    writeAllTasksToBackend();
 }
 
 
