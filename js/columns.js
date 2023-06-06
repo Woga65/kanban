@@ -6,19 +6,11 @@ import { findTasksByColumn, columnFooterClicked } from "./tasks.js";
 import { attachAddColumnListeners } from "./column-user-func.js";
 import { readColumns, writeColumns, writeCommit, readHiddenColumns, writeHiddenColumns } from "./backend.js";
 import { refreshIconsState } from "./menu-icon-bar.js";
+import { localize } from "./localize.js";
 
 
-const userAddedColumn = `
-<div id="add-column-link">Liste hinzufügen</div>
-<div id="enter-new-column" style="display: none;">
-    <div id="add-column-input-bg"></div>
-    <input id="add-column-input" name="add-column-input" type="text" maxlength="20" placeholder="click to change color">
-    <div id="add-column-buttons">
-        <button id="add-column-cancel">Abbrechen</button>
-        <button id="add-column-now">Hinzufügen</button>
-    </div>
-</div>
-`.trim();
+/** @todo Move handling of special columns out of column.class.js and handle it here*/
+const userAddedColumn = localize().addColumn;
 
 const defaultColumns = [
     { id: "todo", title: "to-do", color: { accent: "rgba(30, 30, 30, .2)", text: "var(--primary-color)", title: "var(--primary-color)" }, minimized: false, protected: true, hidden: false, board: "board" },

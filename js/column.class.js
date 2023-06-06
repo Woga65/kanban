@@ -3,6 +3,7 @@ import localize from "./localize.js";
 
 
 // fully functional on common desktops, iPad mini 4, newer i-devices
+// not supported on iPhone 5s and older
 
 class Column {
     id;
@@ -194,8 +195,9 @@ class Column {
         col.style.display = this.hidden ? "none" : "";
     }
 
-    // template function for 
-    // the column's title
+    // template for a regular 
+    // column's title + footer
+    /** @todo Move special handling of the footer out of the class */
     regularColumnsTemplate() {
         return `
         <h4 id="${this.id}-header" class="title title-regular" style="color: ${this.color.title}; background-color: ${this.color.accent};">
@@ -210,8 +212,9 @@ class Column {
         `.trim();
     }
 
-    // template function for 
-    // the column's footer
+    // template for a minimized 
+    // column's title
+    /** @todo Move special handling for special column out of the class */
     minimizedColumnsTemplate() {
         return `
         <h4 class="title title-minimized" style="color: ${this.color.title}; background-color: ${this.color.accent};">
@@ -223,7 +226,6 @@ class Column {
     // attach all the event listeners to the
     // newly created column's DOM element
     addEventListeners(col) {
-        //this.listeners.forEach(l => (col && 'evt' in l && 'callback' in l) ? col.addEventListener(l.evt, e => l.callback(e, col.id)) : false);
         this.listeners.forEach(l => {
             if (col && 'evt' in l && 'callback' in l) {
                 col.addEventListener(l.evt, l.callback.bind(null, col.id), { passive: false });
@@ -234,7 +236,6 @@ class Column {
     // remove event listeners from
     // the column's DOM element
     removeEventListeners(col) {
-        //this.listeners.forEach(l => (col && 'evt' in l && 'callback' in l) ? col.removeEventListener(l.evt, e => l.callback(e, col.id)) : false);
         this.listeners.forEach(l => {
             if (col && 'evt' in l && 'callback' in l) col.removeEventListener(l.evt, l.callback);
         });
