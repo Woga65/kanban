@@ -12,6 +12,12 @@ const touch = {
     x: 0,
     y: 0,
     active: false,
+    long: false,
+}
+
+const touchTimer = {
+    id: null,
+    duration: 500,
 }
 
 
@@ -23,8 +29,8 @@ const touch = {
  * @param { object } e - the event object
  */
 function touchStart(id, e) {
+    longTouchDetectionTimer('start');
     e.preventDefault();
-    //e.stopPropagation();
     currentlyDraggedTask.id = "";
     currentlyDraggedColumn.id = "";
     touch.x = parseInt(e.changedTouches[0].clientX);
@@ -40,6 +46,8 @@ function touchStart(id, e) {
  * @param { object } e - the event object
  */
 function touchMove(id, e) {
+    /** @todo Allow dragging on mobile devices after a long touch event only, otherwise allow for scrolling */
+    longTouchDetectionTimer('suspend');
     e.preventDefault();
     e.stopPropagation();
     touch.x = parseInt(e.changedTouches[0].clientX);
@@ -93,6 +101,7 @@ function touchMoveColumn(e, id) {
  * @param { object } e - the event object
  */
 function touchEnd(id, e) {
+    longTouchDetectionTimer('stop');
     e.stopPropagation();
     (currentlyDraggedTask.id) ? touchHandleDraggedTask() : false;
     (currentlyDraggedColumn.id) ? touchHandleDraggedColumn() : false;
@@ -156,6 +165,7 @@ function touchHandleMobileClick(e, id) {
  * @param { object } e - the event object
  */
 function touchCancel(id, e) {
+    longTouchDetectionTimer('stop');
     e.stopPropagation();
     removeTouchHighlighting();
     if (currentlyDraggedTask.id) {
@@ -356,13 +366,62 @@ function cloneDraggedColumnsTasks(colId) {
 
 
 /** remove the currently dragged   
- * column's placeholder DIV   */
+ *  column's placeholder DIV   */
 function removePlaceholderColumn() {
     if (touch.active) {
         touch.active = false;
         currentlyDraggedColumn.placeholder.removeFrom(currentlyDraggedColumn.placeholder.board);
         currentlyDraggedColumn.placeholder = {};
     }
+}
+
+
+/** manage timer for detection
+ *  of long touch events     */
+function longTouchDetectionTimer(command) {
+    switch (command) {
+        case 'start':
+            startTouchDetectionTimer();
+            break;
+        case 'stop':
+            stopTouchDetectionTimer();
+            break;
+        case 'suspend':
+            suspendTouchDetectionTimer();
+    }
+}
+
+
+/** start timer on touchstart */
+function startTouchDetectionTimer() {
+    if (!touchTimer.id) {
+        touchTimer.id = setTimeout(_ => {
+            touch.long = true;
+            console.log("long touch detected!");
+        }, touchTimer.duration);
+    }
+}
+
+
+/** stop timer and reset long-touch detection
+ *  data on touchend and touchcancel */
+function stopTouchDetectionTimer() {
+    if (touchTimer.id) {
+        clearTimeout(touchTimer.id);
+        touch.long = false;
+        touchTimer.id = null;
+        console.log("short touch detected!");
+    }
+}
+
+
+/** stop timer without affecting long-touch
+ *  detection data on touchmove */
+function suspendTouchDetectionTimer() {
+    if (touchTimer.id) {
+        clearTimeout(touchTimer.id);
+    }
+    (touch.long) ? console.log("touchmove: dragging") : console.log("touchmove: no dragging");
 }
 
 
