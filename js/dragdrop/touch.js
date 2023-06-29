@@ -151,7 +151,7 @@ function touchHandleMobileClick(e, id) {
     if (findTaskById(id) && !currentlyDraggedTask.id && !currentlyDraggedColumn.id) {
         e.target.click();
     }
-    if (findColumnById(id)) {
+    if (findColumnById(id) && !currentlyDraggedTask.id && !currentlyDraggedColumn.id) {
         e.target.click();
     }
 }
