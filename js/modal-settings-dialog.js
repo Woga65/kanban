@@ -143,7 +143,7 @@ function addData(heading, data, e) {
  * event listener - delete data
  * 
  * @param { string } heading - heading for modal dialog 
- * @param { string[]} data  - data to be shown / edited 
+ * @param { string[] } data  - data to be shown / edited 
  * @param { object } e - the event object 
  */
 function deleteData(heading, data, e) {
@@ -153,17 +153,30 @@ function deleteData(heading, data, e) {
         removeModalListeners();
         renderDataModal(heading, data);
     } else {
-        setTimeout(() => {
-            hideDeleteButtons();
-            e.target.nextElementSibling.style.display = 'inline';
-        }, 250);
+        showDeleteButton(e, 5000);
     }
 }
 
 
+/** hide all delete confirmation buttons */
 function hideDeleteButtons() {
     const delButtons = document.querySelectorAll('.modal-data .modal-data-delete-button');
     delButtons.forEach(db => db.style.display = 'none');
+}
+
+
+/**
+ * show delete confirmation button
+ * 
+ * @param { object } e - the event object 
+ * @param { number } timeout - maximum count of millis, the button will be shown
+ */
+function showDeleteButton(e, timeout) {
+    setTimeout(_ => {
+        hideDeleteButtons();
+        e.target.nextElementSibling.style.display = 'inline';
+    }, 250);
+    setTimeout(_ =>  e.target.nextElementSibling.style.display = 'none', timeout + 250);
 }
 
 
