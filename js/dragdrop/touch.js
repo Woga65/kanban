@@ -5,19 +5,20 @@ import { currentlyDraggedTask, taskTemplate } from "../tasks.js";
 import { findTaskById, moveTaskToColumn, removeTaskFromColumn, showTasks, findTasksByColumn } from "../tasks.js";
 import { highlightDraggedTask, removeDraggedTaskHighlighting, } from "./mouse.js";
 
+/** @todo remove console.log statements when debugging is finihed */
 
 // support for mobile touch devices
 
 const touch = {
     x: 0,
     y: 0,
-    active: false,
+    dragging: false,
     long: false,
 }
 
 const touchTimer = {
     id: null,
-    duration: 500,
+    duration: 150,
 }
 
 
@@ -30,7 +31,6 @@ const touchTimer = {
  */
 function touchStart(id, e) {
     longTouchDetectionTimer('start');
-    e.preventDefault();
     currentlyDraggedTask.id = "";
     currentlyDraggedColumn.id = "";
     touch.x = parseInt(e.changedTouches[0].clientX);
@@ -46,14 +46,16 @@ function touchStart(id, e) {
  * @param { object } e - the event object
  */
 function touchMove(id, e) {
-    /** @todo Allow dragging on mobile devices after a long touch event only, otherwise allow for scrolling */
     longTouchDetectionTimer('suspend');
-    e.preventDefault();
-    e.stopPropagation();
-    touch.x = parseInt(e.changedTouches[0].clientX);
-    touch.y = parseInt(e.changedTouches[0].clientY);
-    const touchedElement = document.getElementById(id);
-    (touchedElement.classList.contains("task")) ? touchMoveTask(e, id) : touchMoveColumn(e, id);
+    if (touch.long) {
+        e.preventDefault();
+        e.stopPropagation();
+        touch.x = parseInt(e.changedTouches[0].clientX);
+        touch.y = parseInt(e.changedTouches[0].clientY);
+        /** @todo move the highlighting of the dragged element to the timer function */
+        const touchedElement = document.getElementById(id);
+        (touchedElement.classList.contains("task")) ? touchMoveTask(e, id) : touchMoveColumn(e, id);
+    }
 }
 
 
@@ -105,7 +107,6 @@ function touchEnd(id, e) {
     e.stopPropagation();
     (currentlyDraggedTask.id) ? touchHandleDraggedTask() : false;
     (currentlyDraggedColumn.id) ? touchHandleDraggedColumn() : false;
-    touchHandleMobileClick(e, id);
 }
 
 
@@ -137,23 +138,6 @@ function touchHandleDraggedColumn() {
     moveColumn(currentlyDraggedColumn.id, getTouchTargetColumn());
     showTasks();
     getColumnsProperties();
-}
-
-
-/** task or column has been touched
- *  some iOS / iPadOS versions do not trigger click events
- *  on some elements so let's do it here
- * 
- * @param { object } e - the event object
- * @param { string } id - the ID of the touched task or column 
- */
-function touchHandleMobileClick(e, id) {
-    if (findTaskById(id) && !currentlyDraggedTask.id && !currentlyDraggedColumn.id) {
-        e.target.click();
-    }
-    if (findColumnById(id) && !currentlyDraggedTask.id && !currentlyDraggedColumn.id) {
-        e.target.click();
-    }
 }
 
 
@@ -291,8 +275,8 @@ function scrollIfNedded(item) {
 /** add a placeholder DIV for the currently
  * dragged task to the source column   */
 function addPlaceholderToColumn() {
-    if (!touch.active) {
-        touch.active = true;
+    if (!touch.dragging) {
+        touch.dragging = true;
         const task = findTaskById(currentlyDraggedTask.id);
         const taskItem = document.getElementById(task.id);
         const column = document.querySelector(`#${currentlyDraggedTask.sourceColumn} .column-body`);
@@ -310,8 +294,8 @@ function addPlaceholderToColumn() {
 /** remove the placeholder DIV for the currently
  * dragged task from the source column   */
 function removePlaceholderFromColumn() {
-    if (touch.active) {
-        touch.active = false;
+    if (touch.dragging) {
+        touch.dragging = false;
         const column = document.querySelector(`#${currentlyDraggedTask.sourceColumn} .column-body`);
         const placeholder = document.getElementById("touched");
         column.removeChild(placeholder);
@@ -322,8 +306,8 @@ function removePlaceholderFromColumn() {
 /** add a placeholder DIV in place of 
  * the currently dragged column   */
 function addPlaceholderColumn() {
-    if (!touch.active) {
-        touch.active = true;
+    if (!touch.dragging) {
+        touch.dragging = true;
         const column = findColumnById(currentlyDraggedColumn.id);
         currentlyDraggedColumn.placeholder = setupPlaceholderColumn(column);
         cloneDraggedColumnsTasks(column.id);
@@ -368,8 +352,8 @@ function cloneDraggedColumnsTasks(colId) {
 /** remove the currently dragged   
  *  column's placeholder DIV   */
 function removePlaceholderColumn() {
-    if (touch.active) {
-        touch.active = false;
+    if (touch.dragging) {
+        touch.dragging = false;
         currentlyDraggedColumn.placeholder.removeFrom(currentlyDraggedColumn.placeholder.board);
         currentlyDraggedColumn.placeholder = {};
     }
