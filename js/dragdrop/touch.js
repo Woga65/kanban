@@ -5,7 +5,6 @@ import { currentlyDraggedTask, taskTemplate } from "../tasks.js";
 import { findTaskById, moveTaskToColumn, removeTaskFromColumn, showTasks, findTasksByColumn } from "../tasks.js";
 import { highlightDraggedTask, removeDraggedTaskHighlighting, } from "./mouse.js";
 
-/** @todo remove console.log statements when debugging is finihed */
 
 // support for mobile touch devices
 
