@@ -35,6 +35,7 @@ function touchStart(id, e) {
     currentlyDraggedColumn.id = "";
     touch.x = parseInt(e.changedTouches[0].clientX);
     touch.y = parseInt(e.changedTouches[0].clientY);
+    document.getElementById(id).addEventListener('contextmenu', preventContextMenu);
 }
 
 
@@ -107,6 +108,7 @@ function touchEnd(id, e) {
     e.stopPropagation();
     (currentlyDraggedTask.id) ? touchHandleDraggedTask() : false;
     (currentlyDraggedColumn.id) ? touchHandleDraggedColumn() : false;
+    document.getElementById(id).removeEventListener('contextmenu', preventContextMenu);
 }
 
 
@@ -162,6 +164,7 @@ function touchCancel(id, e) {
         removePlaceholderColumn();
     }
     showTasks();
+    document.getElementById(id).removeEventListener('contextmenu', preventContextMenu);
 }
 
 
@@ -381,7 +384,6 @@ function startTouchDetectionTimer() {
     if (!touchTimer.id) {
         touchTimer.id = setTimeout(_ => {
             touch.long = true;
-            console.log("long touch detected!");
         }, touchTimer.duration);
     }
 }
@@ -394,7 +396,6 @@ function stopTouchDetectionTimer() {
         clearTimeout(touchTimer.id);
         touch.long = false;
         touchTimer.id = null;
-        console.log("short touch detected!");
     }
 }
 
@@ -405,7 +406,13 @@ function suspendTouchDetectionTimer() {
     if (touchTimer.id) {
         clearTimeout(touchTimer.id);
     }
-    (touch.long) ? console.log("touchmove: dragging") : console.log("touchmove: no dragging");
+}
+
+
+/** prevent context menu from showing up when
+ *  testing touch events on desktop browser */
+function preventContextMenu(e) {
+    e.preventDefault();
 }
 
 
