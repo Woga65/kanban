@@ -2,7 +2,6 @@
 
 A JavaScript based ticket management system with full drag & drop support for desktop and mobile devices.
 Recently I added a login system that I have programmed with JavaScript (custom HTML element), PHP and MySql/MariaDB.
-Also recently, I've done a major refactoring of the PHP code of the login component which is now object oriented.
 
 ## making of
 
@@ -38,16 +37,16 @@ To have a look at the group project, refer to the link given above.
 
 ## dependencies
 
-Vanilla JS, no libraries, no frameworks.
+Vanilla JS, object oriented PHP, SQL, no libraries, no frameworks.
 A PHP enabled web server is needed for the login system and the backend.
 
 ## installation
 
 - Change the line `setURL('https://your-domain.xyz/smallest_backend_ever');` in the file `js/backend.js` according to your needs
 - Create a database with phpmyadmin or the tools provided by your hosting company
-- Edit the file includes/dbh.inc.php (database credentials)
-- Edit lines 8-11 in the file classes/email-auth.class.php (verification email)
-- Edit lines 29, 34, 40 in the file verify.php (path to your index.html)
+- Edit the file `includes/dbh.inc.php` (database credentials)
+- Edit lines 8-11 in the file `classes/email-auth.class.php` (verification email)
+- Edit lines 29, 34, 40 in the file `verify.php` (path to your index.html)
 - If you want a guest account, sign up with `Username: Guest / Password: 123456` otherwise add `.guest-button { display: none; }` to the file `component/ws-login.css`
 - Make any changes you like. For example you might want to take measures that the user chooses a strong password
 - Upload the project files and folders to your PHP enabled web server
