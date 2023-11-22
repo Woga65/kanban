@@ -1,7 +1,7 @@
 # kanban
 
 A JavaScript based ticket management system with full drag & drop support for desktop and mobile devices.
-Recently I added a login system that I have programmed with JavaScript (custom HTML element), PHP and MySql/MariaDB.
+Recently I added a login system that I have programmed with JavaScript (custom HTML element), object oriented PHP and MySql/MariaDB.
 
 ## making of
 
@@ -37,7 +37,7 @@ To have a look at the group project, refer to the link given above.
 
 ## dependencies
 
-Vanilla JS, object oriented PHP, SQL, no libraries, no frameworks.
+Vanilla JS, PHP 8.x, MySQL, no libraries, no frameworks.
 A PHP enabled web server is needed for the login system and the backend.
 
 ## installation
