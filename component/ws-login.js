@@ -12,7 +12,7 @@ const endPoints = {
     loginState: 'includes/isloggedin.inc.php',
     verificationState: 'includes/isverified.inc.php',
     sessionExists: 'includes/sessionexists.inc.php',
-    createTable: 'includes/ifnotexistscreatetable.php',
+    initAuth: 'includes/initloginsystem.inc.php',
 }
 
 
@@ -22,7 +22,7 @@ init();
 
 
 async function init() {
-    await submitRequest(endPoints.createTable, {})
+    await submitRequest(endPoints.initAuth, {})
     .then(result => {
         if (result.ok) {
             window.wsLogin ? window.wsLogin.languages = result.langs : window.wsLogin = { languages: result.langs, state: result.data };

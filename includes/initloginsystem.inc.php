@@ -11,16 +11,23 @@ switch($_SERVER['REQUEST_METHOD']) {
         exit;
 
 
-    case("POST"):
+    case("POST"):                                           // Perform initialize
+        $langs = HttpMisc::getAcceptedLanguages();
+
+        $msg = (new CreateTables)->createUserTable()
+            ? "table created"
+            : "table exists";
+
         echo JsonHttp::okResp([
-            "data" => [
-                "loggedIn" => (new SessionController())->sessionExists(),
-            ]
+            "msg" => $msg,
+            "langs" => $langs,
+            "data" => ["loggedIn" => false],
         ]);
+
         exit();
 
 
     default:                                                // Reject any non POST or OPTIONS requests.
         header("Allow: POST", true, 405);
         exit;
-} 
+}

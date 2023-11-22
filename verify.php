@@ -17,50 +17,30 @@
 <body class="main" tabindex=0 >
 
     <?php
+        require_once "./classes/autoloader.class.php";
+        Autoloader::register();
+
         $vkey = isset($_GET['vkey']) ? $_GET['vkey'] : '';
         if (!empty($vkey)) {
-            require 'includes/dbh.inc.php';
-            $sql ="SELECT user_name, user_vkey, user_verified FROM kb_users WHERE user_verified = 0 AND user_vkey = ? LIMIT 1;";
-            $stmt = mysqli_stmt_init($conn);
-            if (!mysqli_stmt_prepare($stmt, $sql)) {
-                echo 'sqlerr';
-                exit();
+            $user = new User();
+            $userName = $user->verifyUser($vkey);
+            if ($userName === false) {
+                // not exactly one user found
+                echo '<p align="center">Invalid account or account already verified!</p>';
+                echo '<p align="center"><a href="https://wolfgang-siebert.de/projects/kanban/index.html"><br>Please click here, to return to the start page.</a></p>';
             }
             else {
-                mysqli_stmt_bind_param($stmt, "s", $vkey);
-                mysqli_stmt_execute($stmt);
-                $result = mysqli_stmt_get_result($stmt);
-
-                if (mysqli_num_rows($result) == 1) {     //exactly one user with the proper vkey exists
-                    $row = mysqli_fetch_assoc($result);
-                    $user = $row['user_name'];
-
-                    $sql ="UPDATE kb_users SET user_verified = 1 WHERE user_vkey = ? LIMIT 1;";
-                    $stmt = mysqli_stmt_init($conn);
-                    if (!mysqli_stmt_prepare($stmt, $sql)) {
-                        echo 'sqlerr';
-                        exit();
-                    }
-                    else {
-                        mysqli_stmt_bind_param($stmt, "s", $vkey);
-                        mysqli_stmt_execute($stmt);
-                        echo "<h2 align='center'>Congratulations <span>$user,</span> your account has been verified successfully!<br></h2>";
-                        echo '<p align="center"><a href="https://wolfgang-siebert.de/projects/kanban/index.html"><br>Please click here, go to the login page.</a></p>';
-                    }
-                }
-                else {
-                    echo '<p align="center">Invalid account or account already verified!</p>';
-                    echo '<p align="center"><a href="https://wolfgang-siebert.de/projects/kanban/index.html"><br>Please click here, to return to the start page.</a></p>';
-                }
+                // user successfully verified
+                echo "<h2 align='center'>Congratulations <span>$userName,</span> your account has been verified successfully!<br></h2>";
+                echo '<p align="center"><a href="https://wolfgang-siebert.de/projects/kanban/index.html"><br>Please click here, go to the login page.</a></p>';
             }
-            mysqli_stmt_close($stmt);
-            mysqli_close($conn);
-        } 
-        else {
-            echo '<h2 align="center">Nothing to do here!</h2>';     // reject request if $vkey is empty
-            echo '<p align="center"><a href="https://wolfgang-siebert.de/index.html"><br>Please click here, to check out my portfolio.</a></p>';
-            exit(); 
         }
+        // reject request if $vkey is empty
+        else {
+            echo '<h2 align="center">Nothing to do here!</h2>';
+            echo '<p align="center"><a href="https://wolfgang-siebert.de/index.html"><br>Please click here, to check out my portfolio.</a></p>'; 
+        }
+        exit();
     ?>
 
 </body>
