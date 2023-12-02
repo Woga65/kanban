@@ -6,13 +6,13 @@ const user = { timer: null, timerRunning: false, data: { loggedIn: null } };
 
 /* backend end points */
 const endPoints = { 
-    signup: 'includes/signup.inc.php',
-    login: 'includes/login.inc.php',
-    logout: 'includes/logout.inc.php',
-    loginState: 'includes/isloggedin.inc.php',
-    verificationState: 'includes/isverified.inc.php',
-    sessionExists: 'includes/sessionexists.inc.php',
-    initAuth: 'includes/initloginsystem.inc.php',
+    signup: 'public/signup',
+    login: 'public/login',
+    logout: 'public/logout',
+    loginState: 'public/isloggedin',
+    verificationState: 'public/isverified',
+    sessionExists: 'public/sessionexists',
+    initAuth: 'public/initloginsystem',
 }
 
 

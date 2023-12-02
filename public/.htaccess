@@ -1,0 +1,10 @@
+RewriteEngine On
+
+# if the index file lives in a
+# subdirectory, put it here
+RewriteBase /
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+
+rewriteRule ^(.+)$ index.php [QSA,L]

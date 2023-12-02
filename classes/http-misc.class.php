@@ -19,4 +19,21 @@ class HttpMisc {
 
         return array_keys($langs);
     }
+
+
+    public static function allowMethods($methods = ['GET'])
+    {
+        $methods = array_map('strtoupper',$methods);
+
+        if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+            header("Access-Control-Allow-Methods: " . implode(",", $methods));
+            header("Access-Control-Allow-Headers: content-type");
+            exit();
+        }
+
+        if (!in_array($_SERVER['REQUEST_METHOD'], $methods)) {
+            header("Allow: " . implode(",", $methods), true, 405);
+            exit();
+        }
+    }
 }
