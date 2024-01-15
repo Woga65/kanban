@@ -6,7 +6,7 @@ import { findTasksByColumn, columnFooterClicked } from "./tasks.js";
 import { attachAddColumnListeners } from "./column-user-func.js";
 import { readColumns, writeColumns, writeCommit, readHiddenColumns, writeHiddenColumns } from "./backend.js";
 import { refreshIconsState } from "./menu-icon-bar.js";
-import { localize } from "./localize.js";
+import localize from "./localize.js";
 
 
 /** @todo Move handling of special columns out of column.class.js and handle it here*/
