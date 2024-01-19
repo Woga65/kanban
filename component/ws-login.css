@@ -58,6 +58,12 @@ button {
   font-family: var(--secondary-font);
 }
 
+button:disabled {
+  font-style: italic;
+  opacity: .5;
+  cursor: default;
+}
+
 label, input, textarea, .hint {
   font-family: var(--primary-font);
 }
