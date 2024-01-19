@@ -435,13 +435,25 @@ function define(template) {
                 .then(result => this.logoutSuccess(result));
         }        
 
+
+        /* disable logout button */
+        disableLogoutButton() {
+            this.shadow.getElementById('logout-submit').setAttribute('disabled', '');
+        }
+
+
+        /* (re)enable logout button */
+        enableLogoutButton() {
+            this.shadow.getElementById('logout-submit').removeAttribute('disabled');
+        }
+        
     }
     customElements.define('ws-login', WsLogin);
 };
 
 
 /* send request to the endpoint */
-async function submitRequest(endPoint, dataObject) {
+export async function submitRequest(endPoint, dataObject) {
     try {
         const response = await fetch(endPoint, {
             method: 'POST',
