@@ -284,8 +284,8 @@ section {
   -webkit-transition: all 125ms ease-in-out;
 }
 
-.form .submit-button:hover,
-.form .non-submit-button:hover {
+.form .submit-button:hover:enabled,
+.form .non-submit-button:hover:enabled {
   outline-style: solid;
   outline-width: 1px;
   outline-color: var(--secondary-accent);
@@ -293,8 +293,8 @@ section {
   background-color: var(--secondary-bgr-translucent);
 }
 
-.form .submit-button:focus,
-.form .non-submit-button:focus {
+.form .submit-button:focus:enabled,
+.form .non-submit-button:focus:enabled {
   box-shadow: 0px 0px 0px 2px;
   border-radius: calc(var(--font-size) * .5);
 }
