@@ -453,13 +453,16 @@ function define(template) {
 
 
 /* send request to the endpoint */
-export async function submitRequest(endPoint, dataObject) {
+export async function submitRequest(endPoint, dataObject, config = { tokenHeader: {}, method: 'POST' }) {
+    const requestInit = {
+        method: config.method,
+        headers: { ...{'Content-Type': 'application/json'}, ...config.tokenHeader },
+    };
+    if (!['HEAD', 'GET'].includes(config.method)) {
+        requestInit.body = JSON.stringify(dataObject);
+    }
     try {
-        const response = await fetch(endPoint, {
-            method: 'POST',
-            body: JSON.stringify(dataObject),
-            headers: { 'Content-Type': 'application/json' }
-        });
+        const response = await fetch(endPoint, requestInit);
         return await response.json();
     } catch (err) {
         console.error(err);
