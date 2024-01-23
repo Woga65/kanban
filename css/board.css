@@ -222,7 +222,6 @@ body {
     flex-direction: column;
     -webkit-user-select: none;
     /*-webkit-overflow-scrolling: touch;*/
-    -webkit-user-drag: none;
 }
 
 .column .column-body {
@@ -360,13 +359,16 @@ body {
     cursor: pointer;
 }
 
+.ios-touch {
+    -webkit-user-drag: none;
+}
+
 .task {
     border-radius: calc(var(--font-size) * .2);
     margin: calc(var(--font-size) * .5);
     user-select: none;
     /*cursor:pointer;*/
     -webkit-user-select: none;
-    -webkit-user-drag: none;
 }
 
 .task input, .task textarea {

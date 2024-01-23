@@ -29,6 +29,7 @@ const touchTimer = {
  * @param { object } e - the event object
  */
 function touchStart(id, e) {
+    document.getElementById(id).classList.add('ios-touch');
     longTouchDetectionTimer('start');
     currentlyDraggedTask.id = "";
     currentlyDraggedColumn.id = "";
