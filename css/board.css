@@ -442,6 +442,7 @@ body {
 .task-body .task-title {
     font-size: calc(var(--font-size) * .95);
     margin: 0px calc(var(--font-size) * .3);
+    pointer-events: none;
 }
 
 .task-body .task-description {

@@ -352,10 +352,11 @@ function taskEditable(e, taskElement) {
     taskElement.taskMenu.style.display = "flex";    // and menue
     taskElement.inputDeadline.style.display = "block";  // show date input field
     taskElement.deadline.style.display = "none";        // hide date display field
-    taskElement.task.draggable = false;     // do not drag the task
-    taskElement.column.draggable = false;   // while in edit mode 
-    taskElement.category.removeAttribute('readonly');    // make the task's children
-    taskElement.title.removeAttribute('readonly');       // elements editable
+    taskElement.task.draggable = false;             // do not drag the task
+    taskElement.column.draggable = false;           // while in edit mode
+    taskElement.title.style.pointerEvents = "all";      //allow for field and text selection
+    taskElement.category.removeAttribute('readonly');   // make the task's children
+    taskElement.title.removeAttribute('readonly');      // elements editable
     taskElement.details.removeAttribute('readonly');
     (e.target.classList.contains("task-deadline")) ? taskElement.inputDeadline.focus() : e.target.focus(); // set focus to the clicked element
 }
@@ -427,6 +428,7 @@ function taskNonEditable(taskElement) {
     taskElement.task.draggable = true;
     taskElement.column.draggable = true;
     taskElement.task.style.cursor = "grab";
+    taskElement.title.style.pointerEvents = "none";             // prevent text selection on drag
     taskElement.deadline.textContent = new Date(taskElement.inputDeadline.value).toLocaleString().slice(0, -10);
     document.activeElement.blur();
 }
