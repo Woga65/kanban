@@ -1,4 +1,4 @@
 <?php
-require "./isloggedin.inc.php";
+require __DIR__ . "/isloggedin.inc.php";
 
 exit();
