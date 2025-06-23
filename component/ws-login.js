@@ -458,7 +458,7 @@ export async function submitRequest(endPoint, dataObject, config = { tokenHeader
         method: config.method,
         headers: { ...{'Content-Type': 'application/json'}, ...config.tokenHeader },
     };
-    if (!['HEAD', 'GET'].includes(config.method)) {
+    if (!['HEAD', 'GET', 'DELETE'].includes(config.method)) {
         requestInit.body = JSON.stringify(dataObject);
     }
     try {
