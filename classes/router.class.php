@@ -11,9 +11,27 @@ class Router {
     }
 
 
+    public function put(string $uri, $handler): void
+    {
+        $this->addHandler($uri, $handler, 'PUT');
+    }
+
+
+    public function patch(string $uri, $handler): void
+    {
+        $this->addHandler($uri, $handler, 'PATCH');
+    }
+
+
     public function get(string $uri, $handler): void
     {
         $this->addHandler($uri, $handler, 'GET');
+    }
+
+
+    public function delete(string $uri, $handler): void
+    {
+        $this->addHandler($uri, $handler, 'DELETE');
     }
 
 

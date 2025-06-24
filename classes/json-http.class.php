@@ -33,6 +33,9 @@ class JsonHttp {
 
 
     public static function requestData() {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET' || $_SERVER['REQUEST_METHOD'] === 'DELETE') {
+            return json_decode(json_encode($_GET, JSON_FORCE_OBJECT));
+        }
         $json = file_get_contents('php://input');
         $params = json_decode($json);
         if (!$params) {
